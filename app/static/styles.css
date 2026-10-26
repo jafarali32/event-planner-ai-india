@@ -1,0 +1,103 @@
+/* Custom UI Enhancements for CelebrateAI */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap');
+
+:root {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #0b0f19;
+  color: #f1f5f9;
+}
+
+.font-serif-title {
+  font-family: var(--font-serif);
+}
+
+/* Glassmorphism accents */
+.glass-panel {
+  background: rgba(17, 24, 39, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(30, 41, 59, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-card:hover {
+  border-color: rgba(244, 63, 94, 0.3);
+}
+
+/* Gradients */
+.gradient-text-celebrate {
+  background: linear-gradient(135deg, #f43f5e 0%, #fb923c 50%, #facc15 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-btn-celebrate {
+  background: linear-gradient(135deg, #e11d48 0%, #ea580c 100%);
+  transition: all 0.25s ease;
+}
+
+.gradient-btn-celebrate:hover {
+  background: linear-gradient(135deg, #be123c 0%, #c2410c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px -5px rgba(225, 29, 72, 0.4);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Animations */
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 3s infinite ease-in-out;
+}
+
+/* Print Styles for Event Brief PDF */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+  }
+  .no-print, header, nav, #chat-drawer, .btn-action, #api-key-banner {
+    display: none !important;
+  }
+  .glass-panel, .glass-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    color: #1e293b !important;
+  }
+  .print-page-break {
+    page-break-before: always;
+  }
+  h1, h2, h3, h4, p, span, td, th {
+    color: #0f172a !important;
+  }
+}

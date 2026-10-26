@@ -1,0 +1,25 @@
+# Python & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs & temp
+*.log
+.DS_Store
+Thumbs.db
+
+# Secrets & Environment variables
+.env
+.env.local
