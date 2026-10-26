@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CelebrateAI - An intelligent GenAI event planner for weddings, birthdays, and community festivals with automated budgets, countdown timelines, and vendor checklists.">
   <title>CelebrateAI - GenAI Event Planning Assistant</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -42,13 +44,18 @@
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-rose-500 selection:text-white">
 
+  <!-- Skip to Main Content for Accessibility Screen Readers -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-rose-600 text-white px-3 py-1.5 rounded-lg z-50 text-xs font-semibold">
+    Skip to main content
+  </a>
+
   <!-- Top Navigation Bar -->
-  <header class="glass-panel sticky top-0 z-40 border-b border-slate-800/80 px-4 lg:px-8 py-3">
+  <header role="banner" class="glass-panel sticky top-0 z-40 border-b border-slate-800/80 px-4 lg:px-8 py-3">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
       
       <!-- Brand Logo -->
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 via-orange-500 to-amber-400 flex items-center justify-center shadow-lg shadow-rose-900/40">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 via-orange-500 to-amber-400 flex items-center justify-center shadow-lg shadow-rose-900/40" aria-hidden="true">
           <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
         </div>
         <div>
@@ -61,33 +68,33 @@
       </div>
 
       <!-- Quick Preset Demo Buttons -->
-      <div class="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-slate-800">
+      <nav aria-label="Demo Presets Navigation" class="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-slate-800">
         <span class="text-xs text-slate-400 px-2 font-medium">Presets:</span>
-        <button onclick="loadSamplePreset('wedding')" class="text-xs px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition flex items-center gap-1">
-          <span>💍</span> Wedding
+        <button type="button" onclick="loadSamplePreset('wedding')" aria-label="Load Tuscan Wedding Preset" class="text-xs px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition flex items-center gap-1 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+          <span aria-hidden="true">💍</span> Wedding
         </button>
-        <button onclick="loadSamplePreset('birthday')" class="text-xs px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition flex items-center gap-1">
-          <span>🎂</span> 30th Birthday
+        <button type="button" onclick="loadSamplePreset('birthday')" aria-label="Load 30th Birthday Preset" class="text-xs px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition flex items-center gap-1 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+          <span aria-hidden="true">🎂</span> 30th Birthday
         </button>
-        <button onclick="loadSamplePreset('community')" class="text-xs px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition flex items-center gap-1">
-          <span>🎪</span> Harvest Fair
+        <button type="button" onclick="loadSamplePreset('community')" aria-label="Load Community Harvest Fair Preset" class="text-xs px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition flex items-center gap-1 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+          <span aria-hidden="true">🎪</span> Harvest Fair
         </button>
-      </div>
+      </nav>
 
       <!-- Action Buttons -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <button onclick="openApiKeyModal()" class="text-xs px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 hover:border-slate-600 text-slate-300 hover:text-white flex items-center gap-1.5 transition">
-          <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i>
+        <button type="button" onclick="openApiKeyModal()" aria-label="Configure Google Gemini API Key" class="text-xs px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 hover:border-slate-600 text-slate-300 hover:text-white flex items-center gap-1.5 transition focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400" aria-hidden="true"></i>
           <span id="api-key-label" class="hidden sm:inline">API Key</span>
         </button>
         
-        <button onclick="openExportModal()" class="text-xs px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 hover:border-slate-600 text-slate-300 hover:text-white flex items-center gap-1.5 transition">
-          <i data-lucide="download" class="w-3.5 h-3.5 text-blue-400"></i>
+        <button type="button" onclick="openExportModal()" aria-label="Open Export & Share Hub" class="text-xs px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 hover:border-slate-600 text-slate-300 hover:text-white flex items-center gap-1.5 transition focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <i data-lucide="download" class="w-3.5 h-3.5 text-blue-400" aria-hidden="true"></i>
           <span class="hidden sm:inline">Export Plan</span>
         </button>
 
-        <button onclick="openWizardModal()" class="gradient-btn-celebrate text-xs sm:text-sm font-medium px-4 py-2 rounded-lg text-white shadow-md flex items-center gap-2">
-          <i data-lucide="wand-2" class="w-4 h-4"></i>
+        <button type="button" onclick="openWizardModal()" aria-label="Open New Event Creation Wizard" class="gradient-btn-celebrate text-xs sm:text-sm font-medium px-4 py-2 rounded-lg text-white shadow-md flex items-center gap-2 focus:ring-2 focus:ring-rose-400 focus:outline-none">
+          <i data-lucide="wand-2" class="w-4 h-4" aria-hidden="true"></i>
           <span>Create New Event</span>
         </button>
       </div>
@@ -96,12 +103,12 @@
   </header>
 
   <!-- Main Content Layout -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-8 space-y-6">
+  <main id="main-content" role="main" class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-8 space-y-6">
 
     <!-- Active Event Banner & Key Stats -->
-    <div id="event-header-card" class="glass-panel rounded-2xl p-6 border border-slate-800 relative overflow-hidden shadow-2xl">
-      <div class="absolute -right-16 -top-16 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <section aria-label="Active Event Summary" id="event-header-card" class="glass-panel rounded-2xl p-6 border border-slate-800 relative overflow-hidden shadow-2xl">
+      <div class="absolute -right-16 -top-16 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+      <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
 
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
         
@@ -109,14 +116,14 @@
         <div class="space-y-2">
           <div class="flex flex-wrap items-center gap-2">
             <span id="badge-event-type" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 uppercase tracking-wider flex items-center gap-1">
-              <span id="badge-event-icon">💍</span> <span id="event-type-text">Wedding</span>
+              <span id="badge-event-icon" aria-hidden="true">💍</span> <span id="event-type-text">Wedding</span>
             </span>
             <span id="event-date-badge" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 flex items-center gap-1 border border-slate-700">
-              <i data-lucide="calendar" class="w-3.5 h-3.5 text-rose-400"></i>
+              <i data-lucide="calendar" class="w-3.5 h-3.5 text-rose-400" aria-hidden="true"></i>
               <span id="event-date-text">June 18, 2027</span>
             </span>
             <span id="event-location-badge" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 flex items-center gap-1 border border-slate-700">
-              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400"></i>
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400" aria-hidden="true"></i>
               <span id="event-location-text">Amalfi Coast / Coastal Villa</span>
             </span>
           </div>
@@ -130,7 +137,7 @@
         </div>
 
         <!-- Quick Numerical Gauges -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center" role="region" aria-label="Event Numerical Gauges">
           <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800/80">
             <span class="text-xs text-slate-400 block font-medium">Guest Count</span>
             <span id="stat-guests" class="text-xl font-bold text-white">110</span>
@@ -144,7 +151,7 @@
           </div>
 
           <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800/80">
-            <span class="text-xs text-slate-400 block font-medium">Timeline Milestones</span>
+            <span class="text-xs text-slate-400 block font-medium">Milestones</span>
             <span id="stat-timeline" class="text-xl font-bold text-amber-400">3/6</span>
             <span id="stat-timeline-pct" class="text-[10px] text-slate-500 block">50% Completed</span>
           </div>
@@ -157,38 +164,38 @@
         </div>
 
       </div>
-    </div>
+    </section>
 
     <!-- Main Navigation Tabs -->
-    <div class="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto no-scrollbar">
-      <button onclick="switchTab('ideas')" id="tab-btn-ideas" class="tab-btn active px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition bg-rose-500/10 text-rose-400 border border-rose-500/30">
-        <i data-lucide="palette" class="w-4 h-4"></i>
+    <nav role="tablist" aria-label="Event Planning Modules" class="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto no-scrollbar">
+      <button role="tab" aria-selected="true" aria-controls="tab-ideas" onclick="switchTab('ideas')" id="tab-btn-ideas" class="tab-btn active px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition bg-rose-500/10 text-rose-400 border border-rose-500/30 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+        <i data-lucide="palette" class="w-4 h-4" aria-hidden="true"></i>
         <span>AI Ideas & Concepts</span>
       </button>
 
-      <button onclick="switchTab('budget')" id="tab-btn-budget" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900">
-        <i data-lucide="wallet" class="w-4 h-4"></i>
+      <button role="tab" aria-selected="false" aria-controls="tab-budget" onclick="switchTab('budget')" id="tab-btn-budget" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+        <i data-lucide="wallet" class="w-4 h-4" aria-hidden="true"></i>
         <span>Budget Maestro</span>
       </button>
 
-      <button onclick="switchTab('timeline')" id="tab-btn-timeline" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900">
-        <i data-lucide="clock" class="w-4 h-4"></i>
+      <button role="tab" aria-selected="false" aria-controls="tab-timeline" onclick="switchTab('timeline')" id="tab-btn-timeline" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+        <i data-lucide="clock" class="w-4 h-4" aria-hidden="true"></i>
         <span>Timeline & Run of Show</span>
       </button>
 
-      <button onclick="switchTab('vendors')" id="tab-btn-vendors" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900">
-        <i data-lucide="check-square" class="w-4 h-4"></i>
+      <button role="tab" aria-selected="false" aria-controls="tab-vendors" onclick="switchTab('vendors')" id="tab-btn-vendors" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+        <i data-lucide="check-square" class="w-4 h-4" aria-hidden="true"></i>
         <span>Vendor Checklists & CRM</span>
       </button>
 
-      <button onclick="switchTab('chat')" id="tab-btn-chat" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 ml-auto bg-gradient-to-r from-rose-950/40 to-amber-950/40 border border-amber-500/20">
-        <i data-lucide="bot" class="w-4 h-4 text-amber-400"></i>
+      <button role="tab" aria-selected="false" aria-controls="tab-chat" onclick="switchTab('chat')" id="tab-btn-chat" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 ml-auto bg-gradient-to-r from-rose-950/40 to-amber-950/40 border border-amber-500/20 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+        <i data-lucide="bot" class="w-4 h-4 text-amber-400" aria-hidden="true"></i>
         <span class="text-amber-300 font-semibold">EventGenie AI</span>
       </button>
-    </div>
+    </nav>
 
     <!-- TAB 1: AI Ideas & Creative Concepts -->
-    <section id="tab-ideas" class="space-y-6">
+    <section role="tabpanel" id="tab-ideas" aria-labelledby="tab-btn-ideas" class="space-y-6">
       <!-- Theme Concept Banner -->
       <div class="glass-card rounded-2xl p-6 border border-slate-800">
         <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
@@ -201,8 +208,8 @@
           </div>
           <!-- Color Palette Swatches -->
           <div class="space-y-2 shrink-0">
-            <span class="text-xs text-slate-400 font-medium block">Curated Color Palette</span>
-            <div id="palette-container" class="flex items-center gap-2">
+            <span class="text-xs text-slate-400 font-medium block">Curated Color Palette (Click to copy)</span>
+            <div id="palette-container" class="flex items-center gap-2" role="group" aria-label="Curated Color Swatches">
               <!-- Swatches injected by JS -->
             </div>
           </div>
@@ -215,7 +222,7 @@
         <!-- Signature Food & Drinks -->
         <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
           <div class="flex items-center gap-2 text-rose-400 font-semibold text-base">
-            <i data-lucide="wine" class="w-5 h-5"></i>
+            <i data-lucide="wine" class="w-5 h-5" aria-hidden="true"></i>
             <h3>Signature Food & Drinks</h3>
           </div>
           <ul id="list-food-drinks" class="space-y-2.5 text-sm text-slate-300">
@@ -226,7 +233,7 @@
         <!-- Activities & Entertainment -->
         <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
           <div class="flex items-center gap-2 text-amber-400 font-semibold text-base">
-            <i data-lucide="music" class="w-5 h-5"></i>
+            <i data-lucide="music" class="w-5 h-5" aria-hidden="true"></i>
             <h3>Entertainment & Activities</h3>
           </div>
           <ul id="list-activities" class="space-y-2.5 text-sm text-slate-300">
@@ -237,7 +244,7 @@
         <!-- Surprise Elements -->
         <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
           <div class="flex items-center gap-2 text-emerald-400 font-semibold text-base">
-            <i data-lucide="sparkle" class="w-5 h-5"></i>
+            <i data-lucide="sparkle" class="w-5 h-5" aria-hidden="true"></i>
             <h3>Surprise WOW Moments</h3>
           </div>
           <ul id="list-surprises" class="space-y-2.5 text-sm text-slate-300">
@@ -251,7 +258,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-3">
           <div class="flex items-center gap-2 text-blue-400 font-semibold text-base">
-            <i data-lucide="flower-2" class="w-5 h-5"></i>
+            <i data-lucide="flower-2" class="w-5 h-5" aria-hidden="true"></i>
             <h3>Atmosphere & Decor Details</h3>
           </div>
           <ul id="list-decor" class="space-y-2 text-sm text-slate-300">
@@ -262,16 +269,16 @@
         <div class="glass-card rounded-2xl p-6 border border-slate-800 space-y-3">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2 text-purple-400 font-semibold text-base">
-              <i data-lucide="image" class="w-5 h-5"></i>
+              <i data-lucide="image" class="w-5 h-5" aria-hidden="true"></i>
               <h3>AI Moodboard Generation Prompt</h3>
             </div>
-            <button onclick="copyMoodboardPrompt()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center gap-1 transition">
-              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <button type="button" onclick="copyMoodboardPrompt()" aria-label="Copy Moodboard generation prompt to clipboard" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center gap-1 transition focus:ring-2 focus:ring-purple-500 focus:outline-none">
+              <i data-lucide="copy" class="w-3.5 h-3.5" aria-hidden="true"></i>
               <span>Copy</span>
             </button>
           </div>
-          <p class="text-xs text-slate-400">Use this prompt in Midjourney, DALL-E, or Gemini Imagen to visualize your event aesthetic:</p>
-          <div id="moodboard-prompt-box" class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-purple-200 select-all leading-relaxed">
+          <p class="text-xs text-slate-400">Copy this prompt into Midjourney, DALL-E, or Gemini Imagen to visualize your event aesthetic:</p>
+          <div id="moodboard-prompt-box" tabindex="0" role="region" aria-label="AI Moodboard Prompt Text" class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-purple-200 select-all leading-relaxed focus:ring-2 focus:ring-purple-500 focus:outline-none">
             <!-- Prompt injected by JS -->
           </div>
         </div>
@@ -279,19 +286,19 @@
     </section>
 
     <!-- TAB 2: Budget Maestro -->
-    <section id="tab-budget" class="hidden space-y-6">
+    <section role="tabpanel" id="tab-budget" aria-labelledby="tab-btn-budget" class="hidden space-y-6">
       <!-- Budget Summary Cards & Doughnut Chart -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- Chart Column -->
         <div class="glass-card rounded-2xl p-6 border border-slate-800 flex flex-col items-center justify-center">
           <h3 class="text-sm font-semibold text-slate-300 mb-2 self-start flex items-center gap-2">
-            <i data-lucide="pie-chart" class="w-4 h-4 text-rose-400"></i> Category Allocation
+            <i data-lucide="pie-chart" class="w-4 h-4 text-rose-400" aria-hidden="true"></i> Category Allocation
           </h3>
-          <div class="w-56 h-56 relative my-2">
+          <div class="w-56 h-56 relative my-2" role="img" aria-label="Budget Category Allocation Doughnut Chart">
             <canvas id="budgetChart"></canvas>
           </div>
-          <div id="budget-chart-legend" class="text-xs text-slate-400 flex flex-wrap gap-2 justify-center mt-2">
+          <div id="budget-chart-legend" class="text-xs text-slate-400 flex flex-wrap gap-2 justify-center mt-2" aria-label="Chart Legend">
             <!-- Legend tags -->
           </div>
         </div>
@@ -303,18 +310,18 @@
               <h3 class="text-lg font-bold text-white">Financial Health & Expense Tracking</h3>
               <p class="text-xs text-slate-400">Track planned vs. contracted costs, paid deposits, and remaining balance.</p>
             </div>
-            <button onclick="openAddBudgetModal()" class="gradient-btn-celebrate text-xs font-medium px-3.5 py-2 rounded-lg text-white flex items-center gap-1.5 shadow">
-              <i data-lucide="plus" class="w-4 h-4"></i> Add Expense
+            <button type="button" onclick="openAddBudgetModal()" aria-label="Add New Expense Item" class="gradient-btn-celebrate text-xs font-medium px-3.5 py-2 rounded-lg text-white flex items-center gap-1.5 shadow focus:ring-2 focus:ring-rose-400 focus:outline-none">
+              <i data-lucide="plus" class="w-4 h-4" aria-hidden="true"></i> Add Expense
             </button>
           </div>
 
           <!-- Progress Bar -->
-          <div class="space-y-2">
+          <div class="space-y-2" role="region" aria-label="Budget Progress Meters">
             <div class="flex justify-between text-xs">
               <span class="text-slate-400">Allocated Budget: <strong id="budget-allocated-label" class="text-white">$38,000</strong></span>
               <span class="text-slate-400">Spent / Contracted: <strong id="budget-contracted-label" class="text-amber-400">$36,900</strong></span>
             </div>
-            <div class="w-full bg-slate-900 rounded-full h-3 overflow-hidden p-0.5 border border-slate-800">
+            <div class="w-full bg-slate-900 rounded-full h-3 overflow-hidden p-0.5 border border-slate-800" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
               <div id="budget-progress-bar" class="bg-gradient-to-r from-rose-500 to-amber-400 h-full rounded-full transition-all duration-500" style="width: 85%;"></div>
             </div>
             <div class="flex justify-between text-[11px] text-slate-500">
@@ -324,7 +331,7 @@
           </div>
 
           <!-- Category Quick Breakdown Pills -->
-          <div id="budget-category-chips" class="flex flex-wrap gap-2 pt-2">
+          <div id="budget-category-chips" class="flex flex-wrap gap-2 pt-2" role="region" aria-label="Category Breakdown Pills">
             <!-- Chips injected by JS -->
           </div>
         </div>
@@ -335,21 +342,21 @@
       <div class="glass-card rounded-2xl border border-slate-800 overflow-hidden">
         <div class="p-4 bg-slate-900/60 border-b border-slate-800 flex items-center justify-between">
           <h3 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
-            <i data-lucide="receipt" class="w-4 h-4 text-emerald-400"></i> Itemized Expense Ledger
+            <i data-lucide="receipt" class="w-4 h-4 text-emerald-400" aria-hidden="true"></i> Itemized Expense Ledger
           </h3>
           <span id="expense-count-label" class="text-xs text-slate-400">9 items listed</span>
         </div>
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm text-slate-300">
+          <table class="w-full text-left text-sm text-slate-300" aria-label="Expense Ledger Table">
             <thead class="bg-slate-900/40 text-xs uppercase text-slate-400 border-b border-slate-800">
               <tr>
-                <th class="py-3 px-4">Category</th>
-                <th class="py-3 px-4">Item & Inclusions</th>
-                <th class="py-3 px-4 text-right">Estimated</th>
-                <th class="py-3 px-4 text-right">Actual</th>
-                <th class="py-3 px-4 text-right">Paid</th>
-                <th class="py-3 px-4 text-center">Status</th>
-                <th class="py-3 px-4 text-center">Action</th>
+                <th scope="col" class="py-3 px-4">Category</th>
+                <th scope="col" class="py-3 px-4">Item & Inclusions</th>
+                <th scope="col" class="py-3 px-4 text-right">Estimated</th>
+                <th scope="col" class="py-3 px-4 text-right">Actual</th>
+                <th scope="col" class="py-3 px-4 text-right">Paid</th>
+                <th scope="col" class="py-3 px-4 text-center">Status</th>
+                <th scope="col" class="py-3 px-4 text-center">Action</th>
               </tr>
             </thead>
             <tbody id="budget-table-body" class="divide-y divide-slate-800/60">
@@ -361,21 +368,21 @@
     </section>
 
     <!-- TAB 3: Timeline & Run-of-Show -->
-    <section id="tab-timeline" class="hidden space-y-6">
+    <section role="tabpanel" id="tab-timeline" aria-labelledby="tab-btn-timeline" class="hidden space-y-6">
       
       <!-- Sub-view switcher (Milestones vs Day-of) -->
       <div class="flex items-center justify-between flex-wrap gap-4">
-        <div class="flex items-center gap-2 p-1 rounded-xl bg-slate-900 border border-slate-800">
-          <button onclick="switchTimelineSubTab('milestones')" id="subtab-milestones-btn" class="px-4 py-2 rounded-lg text-xs font-semibold bg-rose-500 text-white transition">
+        <div class="flex items-center gap-2 p-1 rounded-xl bg-slate-900 border border-slate-800" role="tablist" aria-label="Timeline Views">
+          <button type="button" role="tab" aria-selected="true" onclick="switchTimelineSubTab('milestones')" id="subtab-milestones-btn" class="px-4 py-2 rounded-lg text-xs font-semibold bg-rose-500 text-white transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             🗓️ Milestone Roadmap
           </button>
-          <button onclick="switchTimelineSubTab('schedule')" id="subtab-schedule-btn" class="px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">
+          <button type="button" role="tab" aria-selected="false" onclick="switchTimelineSubTab('schedule')" id="subtab-schedule-btn" class="px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             🕒 Day-of Run of Show
           </button>
         </div>
 
-        <button onclick="openAddTimelineModal()" id="btn-add-timeline-item" class="gradient-btn-celebrate text-xs font-medium px-4 py-2 rounded-lg text-white flex items-center gap-1.5 shadow">
-          <i data-lucide="plus" class="w-4 h-4"></i> Add Milestone
+        <button type="button" onclick="openAddTimelineModal()" id="btn-add-timeline-item" class="gradient-btn-celebrate text-xs font-medium px-4 py-2 rounded-lg text-white flex items-center gap-1.5 shadow focus:ring-2 focus:ring-rose-400 focus:outline-none">
+          <i data-lucide="plus" class="w-4 h-4" aria-hidden="true"></i> Add Milestone
         </button>
       </div>
 
@@ -392,7 +399,7 @@
             </span>
           </div>
 
-          <div id="milestones-container" class="relative pl-6 space-y-6 border-l-2 border-slate-800 ml-2">
+          <div id="milestones-container" class="relative pl-6 space-y-6 border-l-2 border-slate-800 ml-2" role="region" aria-label="Milestones List">
             <!-- Timeline items injected by JS -->
           </div>
         </div>
@@ -406,12 +413,12 @@
               <h3 class="text-base font-bold text-white">Day-of Run of Show (Master Schedule)</h3>
               <p class="text-xs text-slate-400">Minute-by-minute schedule with assigned coordinators and vendor cues.</p>
             </div>
-            <button onclick="openAddScheduleModal()" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Cue
+            <button type="button" onclick="openAddScheduleModal()" aria-label="Add Schedule Cue" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1 focus:ring-2 focus:ring-slate-500 focus:outline-none">
+              <i data-lucide="plus" class="w-3.5 h-3.5" aria-hidden="true"></i> Add Cue
             </button>
           </div>
 
-          <div id="schedule-table-container" class="space-y-3">
+          <div id="schedule-table-container" class="space-y-3" role="region" aria-label="Day-of Schedule Cues">
             <!-- Schedule cards injected by JS -->
           </div>
         </div>
@@ -420,30 +427,30 @@
     </section>
 
     <!-- TAB 4: Vendor Checklists & CRM -->
-    <section id="tab-vendors" class="hidden space-y-6">
+    <section role="tabpanel" id="tab-vendors" aria-labelledby="tab-btn-vendors" class="hidden space-y-6">
       <div class="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h2 class="text-xl font-bold text-white">Vendor Checklists & Deliverables</h2>
           <p class="text-xs text-slate-400">Track contracts, contact sheets, payment status, and verification tasks.</p>
         </div>
-        <button onclick="openAddVendorModal()" class="gradient-btn-celebrate text-xs font-medium px-4 py-2 rounded-lg text-white flex items-center gap-1.5 shadow">
-          <i data-lucide="plus" class="w-4 h-4"></i> Add Vendor
+        <button type="button" onclick="openAddVendorModal()" aria-label="Add New Vendor Profile" class="gradient-btn-celebrate text-xs font-medium px-4 py-2 rounded-lg text-white flex items-center gap-1.5 shadow focus:ring-2 focus:ring-rose-400 focus:outline-none">
+          <i data-lucide="plus" class="w-4 h-4" aria-hidden="true"></i> Add Vendor
         </button>
       </div>
 
-      <div id="vendors-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div id="vendors-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6" role="region" aria-label="Vendor Pipeline Cards">
         <!-- Vendor cards injected by JS -->
       </div>
     </section>
 
     <!-- TAB 5: Interactive Chat Assistant (EventGenie AI) -->
-    <section id="tab-chat" class="hidden space-y-4">
+    <section role="tabpanel" id="tab-chat" aria-labelledby="tab-btn-chat" class="hidden space-y-4">
       <div class="glass-card rounded-2xl border border-slate-800 flex flex-col h-[650px] overflow-hidden">
         
         <!-- Chat Header -->
         <div class="p-4 bg-slate-900/80 border-b border-slate-800 flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center text-white shadow">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center text-white shadow" aria-hidden="true">
               <i data-lucide="bot" class="w-5 h-5"></i>
             </div>
             <div>
@@ -454,33 +461,33 @@
               <p class="text-xs text-slate-400">Context-aware advice on budget cuts, timeline tweaks, vendor vetting & ideas</p>
             </div>
           </div>
-          <button onclick="clearChat()" class="text-xs text-slate-400 hover:text-slate-200 px-2 py-1 rounded bg-slate-800/80">
+          <button type="button" onclick="clearChat()" aria-label="Clear chat conversation history" class="text-xs text-slate-400 hover:text-slate-200 px-2 py-1 rounded bg-slate-800/80 focus:ring-2 focus:ring-slate-500 focus:outline-none">
             Clear Chat
           </button>
         </div>
 
         <!-- Chat Suggested Prompt Chips -->
-        <div class="px-4 py-2 bg-slate-900/40 border-b border-slate-800/60 flex items-center gap-2 overflow-x-auto no-scrollbar">
+        <div class="px-4 py-2 bg-slate-900/40 border-b border-slate-800/60 flex items-center gap-2 overflow-x-auto no-scrollbar" role="group" aria-label="Quick Prompt Suggestions">
           <span class="text-[11px] text-slate-400 shrink-0 font-medium">Try asking:</span>
-          <button onclick="sendQuickPrompt('How can I reduce our catering and bar expenses by 15% without guests noticing?')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition">
+          <button type="button" onclick="sendQuickPrompt('How can I reduce our catering and bar expenses by 15% without guests noticing?')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             💡 Save 15% on Catering
           </button>
-          <button onclick="sendQuickPrompt('Draft a polite inquiry email to a wedding photographer asking about backup cameras, rights, and sneak peek turnaround.')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition">
+          <button type="button" onclick="sendQuickPrompt('Draft a polite inquiry email to a wedding photographer asking about backup cameras, rights, and sneak peek turnaround.')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             📸 Photographer Inquiry Email
           </button>
-          <button onclick="sendQuickPrompt('What is our rain / bad weather backup contingency plan for outdoor activities?')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition">
+          <button type="button" onclick="sendQuickPrompt('What is our rain / bad weather backup contingency plan for outdoor activities?')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             🌧️ Weather Contingency Plan
           </button>
-          <button onclick="sendQuickPrompt('Suggest 3 creative signature cocktails and 1 mocktail that match our theme.')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition">
+          <button type="button" onclick="sendQuickPrompt('Suggest 3 creative signature cocktails and 1 mocktail that match our theme.')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             🍸 Cocktail Concepts
           </button>
         </div>
 
         <!-- Chat Message Log -->
-        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-4">
+        <div id="chat-messages" role="log" aria-live="polite" class="flex-1 p-4 overflow-y-auto space-y-4">
           <!-- Assistant greeting -->
           <div class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/30">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/30" aria-hidden="true">
               <i data-lucide="sparkles" class="w-4 h-4"></i>
             </div>
             <div class="bg-slate-900/90 rounded-2xl p-4 max-w-2xl border border-slate-800 text-sm text-slate-200 leading-relaxed shadow-sm">
@@ -498,16 +505,17 @@
 
         <!-- Chat Input Form -->
         <form onsubmit="handleChatSubmit(event)" class="p-3 bg-slate-900/90 border-t border-slate-800 flex items-center gap-2">
+          <label for="chat-input" class="sr-only">Ask EventGenie AI</label>
           <input 
             type="text" 
             id="chat-input" 
             placeholder="Ask EventGenie AI anything about your event, budget, timeline, or vendors..."
-            class="flex-1 bg-slate-950 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition"
+            class="flex-1 bg-slate-950 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition focus:ring-2 focus:ring-rose-500"
             autocomplete="off"
           />
-          <button type="submit" id="chat-send-btn" class="gradient-btn-celebrate px-4 py-2.5 rounded-xl text-white font-medium text-sm flex items-center gap-1.5 shadow">
+          <button type="submit" id="chat-send-btn" aria-label="Send Message to EventGenie AI" class="gradient-btn-celebrate px-4 py-2.5 rounded-xl text-white font-medium text-sm flex items-center gap-1.5 shadow focus:ring-2 focus:ring-rose-400 focus:outline-none">
             <span>Send</span>
-            <i data-lucide="send" class="w-4 h-4"></i>
+            <i data-lucide="send" class="w-4 h-4" aria-hidden="true"></i>
           </button>
         </form>
 
@@ -517,67 +525,67 @@
   </main>
 
   <!-- MODAL: Create New Event Wizard -->
-  <div id="wizard-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <div id="wizard-modal" role="dialog" aria-modal="true" aria-labelledby="wizard-modal-title" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="glass-panel max-w-2xl w-full rounded-2xl border border-slate-700 p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
       
       <div class="flex items-center justify-between border-b border-slate-800 pb-4">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/30">
+          <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/30" aria-hidden="true">
             <i data-lucide="sparkles" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="text-lg font-bold text-white">GenAI Event Planning Wizard</h3>
+            <h3 id="wizard-modal-title" class="text-lg font-bold text-white">GenAI Event Planning Wizard</h3>
             <p class="text-xs text-slate-400">Describe your dream gathering and our AI will build an end-to-end plan.</p>
           </div>
         </div>
-        <button onclick="closeWizardModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
-          <i data-lucide="x" class="w-5 h-5"></i>
+        <button type="button" onclick="closeWizardModal()" aria-label="Close Wizard Modal" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 focus:ring-2 focus:ring-slate-500 focus:outline-none">
+          <i data-lucide="x" class="w-5 h-5" aria-hidden="true"></i>
         </button>
       </div>
 
       <form onsubmit="handleWizardSubmit(event)" class="space-y-4">
         
         <!-- Event Type Selector -->
-        <div>
-          <label class="block text-xs font-semibold uppercase text-slate-400 mb-2">Event Category</label>
+        <fieldset>
+          <legend class="block text-xs font-semibold uppercase text-slate-400 mb-2">Event Category</legend>
           <div class="grid grid-cols-3 gap-3">
             <label class="cursor-pointer border border-slate-800 bg-slate-900/60 has-[:checked]:border-rose-500 has-[:checked]:bg-rose-500/10 p-3 rounded-xl flex flex-col items-center gap-1 text-center transition">
               <input type="radio" name="eventType" value="wedding" class="hidden" checked onchange="updateWizardDefaults('wedding')">
-              <span class="text-2xl">💍</span>
+              <span class="text-2xl" aria-hidden="true">💍</span>
               <span class="text-xs font-semibold text-slate-200">Wedding</span>
             </label>
             <label class="cursor-pointer border border-slate-800 bg-slate-900/60 has-[:checked]:border-rose-500 has-[:checked]:bg-rose-500/10 p-3 rounded-xl flex flex-col items-center gap-1 text-center transition">
               <input type="radio" name="eventType" value="birthday" class="hidden" onchange="updateWizardDefaults('birthday')">
-              <span class="text-2xl">🎂</span>
+              <span class="text-2xl" aria-hidden="true">🎂</span>
               <span class="text-xs font-semibold text-slate-200">Birthday</span>
             </label>
             <label class="cursor-pointer border border-slate-800 bg-slate-900/60 has-[:checked]:border-rose-500 has-[:checked]:bg-rose-500/10 p-3 rounded-xl flex flex-col items-center gap-1 text-center transition">
               <input type="radio" name="eventType" value="community" class="hidden" onchange="updateWizardDefaults('community')">
-              <span class="text-2xl">🎪</span>
+              <span class="text-2xl" aria-hidden="true">🎪</span>
               <span class="text-xs font-semibold text-slate-200">Community</span>
             </label>
           </div>
-        </div>
+        </fieldset>
 
         <!-- Event Title -->
         <div>
-          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Event Title</label>
-          <input type="text" id="wiz-title" required placeholder="e.g. Maya & Alex's Boho Garden Wedding" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none">
+          <label for="wiz-title" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Event Title</label>
+          <input type="text" id="wiz-title" required placeholder="e.g. Maya & Alex's Boho Garden Wedding" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-rose-500">
         </div>
 
         <!-- Numbers Row -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
-            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Estimated Guests</label>
-            <input type="number" id="wiz-guests" min="5" max="5000" value="80" required class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none">
+            <label for="wiz-guests" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Estimated Guests</label>
+            <input type="number" id="wiz-guests" min="5" max="50000" value="80" required class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-rose-500">
           </div>
           <div>
-            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Total Budget</label>
-            <input type="number" id="wiz-budget" min="500" max="1000000" value="15000" required class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none">
+            <label for="wiz-budget" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Total Budget</label>
+            <input type="number" id="wiz-budget" min="100" max="10000000" value="15000" required class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-rose-500">
           </div>
           <div>
-            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Currency</label>
-            <select id="wiz-currency" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none">
+            <label for="wiz-currency" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Currency</label>
+            <select id="wiz-currency" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-rose-500">
               <option value="USD">USD ($)</option>
               <option value="EUR">EUR (€)</option>
               <option value="GBP">GBP (£)</option>
@@ -591,41 +599,41 @@
         <!-- Date & Location -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Target Date</label>
-            <input type="date" id="wiz-date" value="2027-04-18" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none">
+            <label for="wiz-date" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Target Date</label>
+            <input type="date" id="wiz-date" value="2027-04-18" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-rose-500">
           </div>
           <div>
-            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Location / Setting</label>
-            <input type="text" id="wiz-location" placeholder="e.g. Hilltop Botanical Gardens" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none">
+            <label for="wiz-location" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Location / Setting</label>
+            <input type="text" id="wiz-location" placeholder="e.g. Hilltop Botanical Gardens" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-rose-500">
           </div>
         </div>
 
         <!-- Vibe & Style -->
         <div>
-          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Aesthetic Vibe & Style</label>
-          <input type="text" id="wiz-vibe" value="Romantic organic boho, dried florals, fairy lights, acoustic vibes" placeholder="e.g. Modern minimalist, Neon disco party, Rustic harvest" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none">
-          <div class="flex flex-wrap gap-1.5 mt-2">
+          <label for="wiz-vibe" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Aesthetic Vibe & Style</label>
+          <input type="text" id="wiz-vibe" value="Romantic organic boho, dried florals, fairy lights, acoustic vibes" placeholder="e.g. Modern minimalist, Neon disco party, Rustic harvest" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-rose-500">
+          <div class="flex flex-wrap gap-1.5 mt-2" role="group" aria-label="Quick Style Preset Buttons">
             <span class="text-[11px] text-slate-500">Quick styles:</span>
-            <button type="button" onclick="setVibeQuick('Earthy Boho with Wildflowers & Acoustic Strings')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white">Boho Wildflower</button>
-            <button type="button" onclick="setVibeQuick('Black Tie Minimalist Glamour with Jazz Lounge')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white">Black Tie Jazz</button>
-            <button type="button" onclick="setVibeQuick('Vibrant Retro Neon Arcade & Street Food')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white">Neon Arcade</button>
-            <button type="button" onclick="setVibeQuick('Eco-Friendly Community Fair with Live Folk Band & Maker Stalls')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white">Eco Community</button>
+            <button type="button" onclick="setVibeQuick('Earthy Boho with Wildflowers & Acoustic Strings')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Boho Wildflower</button>
+            <button type="button" onclick="setVibeQuick('Black Tie Minimalist Glamour with Jazz Lounge')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Black Tie Jazz</button>
+            <button type="button" onclick="setVibeQuick('Vibrant Retro Neon Arcade & Street Food')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Neon Arcade</button>
+            <button type="button" onclick="setVibeQuick('Eco-Friendly Community Fair with Live Folk Band & Maker Stalls')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Eco Community</button>
           </div>
         </div>
 
         <!-- Special Wishes -->
         <div>
-          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Special Desires & Constraints</label>
-          <textarea id="wiz-special" rows="2" placeholder="e.g. Gluten-free dessert options, audio guestbook, pet-friendly venue" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl p-3 text-sm text-white outline-none"></textarea>
+          <label for="wiz-special" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Special Desires & Constraints</label>
+          <textarea id="wiz-special" rows="2" placeholder="e.g. Gluten-free dessert options, audio guestbook, pet-friendly venue" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl p-3 text-sm text-white outline-none focus:ring-2 focus:ring-rose-500"></textarea>
         </div>
 
         <!-- Submit Button -->
         <div class="pt-2 flex items-center justify-end gap-3">
-          <button type="button" onclick="closeWizardModal()" class="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition">
+          <button type="button" onclick="closeWizardModal()" class="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition focus:ring-2 focus:ring-slate-500 focus:outline-none">
             Cancel
           </button>
-          <button type="submit" id="wiz-submit-btn" class="gradient-btn-celebrate px-6 py-2.5 rounded-xl text-white font-medium text-sm flex items-center gap-2 shadow-lg">
-            <i data-lucide="wand-2" class="w-4 h-4"></i>
+          <button type="submit" id="wiz-submit-btn" aria-label="Generate Complete Event Plan with AI" class="gradient-btn-celebrate px-6 py-2.5 rounded-xl text-white font-medium text-sm flex items-center gap-2 shadow-lg focus:ring-2 focus:ring-rose-400 focus:outline-none">
+            <i data-lucide="wand-2" class="w-4 h-4" aria-hidden="true"></i>
             <span>Generate Full Plan with AI</span>
           </button>
         </div>
@@ -636,14 +644,14 @@
   </div>
 
   <!-- MODAL: Gemini API Key Config -->
-  <div id="apikey-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <div id="apikey-modal" role="dialog" aria-modal="true" aria-labelledby="apikey-modal-title" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="glass-panel max-w-md w-full rounded-2xl border border-slate-700 p-6 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <h3 class="text-base font-bold text-white flex items-center gap-2">
-          <i data-lucide="key" class="w-4 h-4 text-amber-400"></i> Google Gemini API Key
+        <h3 id="apikey-modal-title" class="text-base font-bold text-white flex items-center gap-2">
+          <i data-lucide="key" class="w-4 h-4 text-amber-400" aria-hidden="true"></i> Google Gemini API Key
         </h3>
-        <button onclick="closeApiKeyModal()" class="text-slate-400 hover:text-white">
-          <i data-lucide="x" class="w-5 h-5"></i>
+        <button type="button" onclick="closeApiKeyModal()" aria-label="Close API Key Modal" class="text-slate-400 hover:text-white focus:ring-2 focus:ring-slate-500 focus:outline-none">
+          <i data-lucide="x" class="w-5 h-5" aria-hidden="true"></i>
         </button>
       </div>
 
@@ -653,20 +661,20 @@
       </p>
 
       <div class="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[11px] text-amber-300 flex items-center gap-2">
-        <i data-lucide="info" class="w-4 h-4 shrink-0"></i>
+        <i data-lucide="info" class="w-4 h-4 shrink-0" aria-hidden="true"></i>
         <span>If you don't have an API key, don't worry! CelebrateAI includes a built-in smart generative engine that works offline automatically.</span>
       </div>
 
       <div>
-        <label class="block text-xs font-semibold text-slate-400 mb-1">Gemini API Key</label>
-        <input type="password" id="input-api-key" placeholder="AIzaSy..." class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white font-mono outline-none">
+        <label for="input-api-key" class="block text-xs font-semibold text-slate-400 mb-1">Gemini API Key</label>
+        <input type="password" id="input-api-key" placeholder="AIzaSy..." class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white font-mono outline-none focus:ring-2 focus:ring-rose-500">
       </div>
 
       <div class="flex items-center justify-between pt-2">
-        <button onclick="clearApiKey()" class="text-xs text-rose-400 hover:text-rose-300">
+        <button type="button" onclick="clearApiKey()" class="text-xs text-rose-400 hover:text-rose-300 focus:outline-none">
           Remove Stored Key
         </button>
-        <button onclick="saveApiKey()" class="gradient-btn-celebrate text-xs font-semibold px-4 py-2 rounded-lg text-white">
+        <button type="button" onclick="saveApiKey()" class="gradient-btn-celebrate text-xs font-semibold px-4 py-2 rounded-lg text-white focus:ring-2 focus:ring-rose-400 focus:outline-none">
           Save Key
         </button>
       </div>
@@ -674,12 +682,12 @@
   </div>
 
   <!-- MODAL: Add / Edit Item (Generic) -->
-  <div id="item-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <div id="item-modal" role="dialog" aria-modal="true" aria-labelledby="item-modal-title" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="glass-panel max-w-lg w-full rounded-2xl border border-slate-700 p-6 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 id="item-modal-title" class="text-base font-bold text-white">Add Item</h3>
-        <button onclick="closeItemModal()" class="text-slate-400 hover:text-white">
-          <i data-lucide="x" class="w-5 h-5"></i>
+        <button type="button" onclick="closeItemModal()" aria-label="Close Item Modal" class="text-slate-400 hover:text-white focus:ring-2 focus:ring-slate-500 focus:outline-none">
+          <i data-lucide="x" class="w-5 h-5" aria-hidden="true"></i>
         </button>
       </div>
       <div id="item-modal-form-container">
@@ -689,14 +697,14 @@
   </div>
 
   <!-- MODAL: Export Plan -->
-  <div id="export-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <div id="export-modal" role="dialog" aria-modal="true" aria-labelledby="export-modal-title" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="glass-panel max-w-2xl w-full rounded-2xl border border-slate-700 p-6 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <h3 class="text-base font-bold text-white flex items-center gap-2">
-          <i data-lucide="file-text" class="w-4 h-4 text-blue-400"></i> Export & Share Event Plan
+        <h3 id="export-modal-title" class="text-base font-bold text-white flex items-center gap-2">
+          <i data-lucide="file-text" class="w-4 h-4 text-blue-400" aria-hidden="true"></i> Export & Share Event Plan
         </h3>
-        <button onclick="closeExportModal()" class="text-slate-400 hover:text-white">
-          <i data-lucide="x" class="w-5 h-5"></i>
+        <button type="button" onclick="closeExportModal()" aria-label="Close Export Modal" class="text-slate-400 hover:text-white focus:ring-2 focus:ring-slate-500 focus:outline-none">
+          <i data-lucide="x" class="w-5 h-5" aria-hidden="true"></i>
         </button>
       </div>
 
@@ -705,35 +713,35 @@
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <button onclick="printEventBrief()" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60">
-          <i data-lucide="printer" class="w-5 h-5 text-amber-400 mb-2"></i>
+        <button type="button" onclick="printEventBrief()" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          <i data-lucide="printer" class="w-5 h-5 text-amber-400 mb-2" aria-hidden="true"></i>
           <span class="block text-sm font-semibold text-white">Print / PDF Brief</span>
           <span class="block text-[11px] text-slate-400">Clean print-ready formatted document</span>
         </button>
 
-        <button onclick="downloadJsonPlan()" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60">
-          <i data-lucide="file-json" class="w-5 h-5 text-emerald-400 mb-2"></i>
+        <button type="button" onclick="downloadJsonPlan()" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          <i data-lucide="file-json" class="w-5 h-5 text-emerald-400 mb-2" aria-hidden="true"></i>
           <span class="block text-sm font-semibold text-white">Download JSON</span>
           <span class="block text-[11px] text-slate-400">Complete raw project data backup</span>
         </button>
 
-        <button onclick="copyMarkdownSummary()" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60">
-          <i data-lucide="copy" class="w-5 h-5 text-purple-400 mb-2"></i>
+        <button type="button" onclick="copyMarkdownSummary()" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+          <i data-lucide="copy" class="w-5 h-5 text-purple-400 mb-2" aria-hidden="true"></i>
           <span class="block text-sm font-semibold text-white">Copy Markdown</span>
           <span class="block text-[11px] text-slate-400">Paste into Notion, Docs, or email</span>
         </button>
       </div>
 
       <div class="pt-2">
-        <span class="text-xs text-slate-400 block mb-1">Markdown Preview:</span>
-        <textarea id="export-preview-area" readonly rows="8" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-300 outline-none select-all"></textarea>
+        <label for="export-preview-area" class="text-xs text-slate-400 block mb-1">Markdown Preview:</label>
+        <textarea id="export-preview-area" readonly rows="8" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-300 outline-none select-all focus:ring-2 focus:ring-blue-500"></textarea>
       </div>
     </div>
   </div>
 
   <!-- Loading Overlay -->
-  <div id="loading-overlay" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex flex-col items-center justify-center p-6 text-center">
-    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-600 via-orange-500 to-amber-400 flex items-center justify-center animate-bounce shadow-2xl mb-4">
+  <div id="loading-overlay" role="status" aria-live="assertive" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex flex-col items-center justify-center p-6 text-center">
+    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-600 via-orange-500 to-amber-400 flex items-center justify-center animate-bounce shadow-2xl mb-4" aria-hidden="true">
       <i data-lucide="sparkles" class="w-8 h-8 text-white"></i>
     </div>
     <h3 id="loading-title" class="text-xl font-bold text-white mb-2 font-serif-title">EventGenie AI is orchestrating your event...</h3>
