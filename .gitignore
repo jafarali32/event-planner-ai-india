@@ -23,3 +23,9 @@ Thumbs.db
 # Secrets & Environment variables
 .env
 .env.local
+
+# Video recordings (must be excluded to keep repo < 10 MB)
+*.mp4
+*.webm
+video_recording/
+generate_demo_video.py
