@@ -10,7 +10,7 @@ from typing import Dict, Any
 
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.gzip import GZipMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -28,7 +28,7 @@ logger = logging.getLogger("celebrate_ai")
 
 app = FastAPI(
     title="CelebrateAI - GenAI Event Planning Assistant",
-    description="Production-grade AI planner for weddings, birthdays, and community festivals with budget allocation, timelines, and vendor checklists.",
+    description="Production-grade AI planner for weddings, birthdays, and community festivals.",
     version="1.1.0",
     docs_url="/api/docs",
     redoc_url="/api/redoc"
@@ -36,6 +36,7 @@ app = FastAPI(
 
 # 1. Performance: GZip Compression Middleware
 app.add_middleware(GZipMiddleware, minimum_size=500)
+
 
 # 2. Security: Custom HTTP Security Headers Middleware
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
@@ -47,6 +48,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
         return response
+
 
 app.add_middleware(SecurityHeadersMiddleware)
 
@@ -65,6 +67,7 @@ if not os.path.exists(static_dir):
 
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
+
 @app.get("/", response_class=HTMLResponse, tags=["Web"])
 async def serve_index():
     """Serves the main application single-page interface."""
@@ -78,6 +81,7 @@ async def serve_index():
             raise HTTPException(status_code=500, detail="Internal file error")
     return HTMLResponse("<h1>CelebrateAI is initializing...</h1>", status_code=200)
 
+
 @app.get("/api/health", tags=["System"])
 async def health_check():
     """Health check endpoint reporting API engine status and configuration."""
@@ -89,10 +93,12 @@ async def health_check():
         "version": "1.1.0"
     }
 
+
 @lru_cache(maxsize=16)
 def _get_cached_sample(event_type: str) -> Dict[str, Any]:
     """In-memory LRU cache for preset blueprints to guarantee O(1) response times."""
     return SAMPLE_EVENTS[event_type]
+
 
 @app.get("/api/samples/{event_type}", tags=["Blueprints"])
 async def get_sample_event(event_type: str):
@@ -105,6 +111,7 @@ async def get_sample_event(event_type: str):
         status_code=404,
         detail=f"Sample for event type '{event_type}' not found. Supported types: wedding, birthday, community"
     )
+
 
 @app.post("/api/generate", tags=["AI Engine"])
 async def generate_plan(request: GeneratePlanRequest):
@@ -119,6 +126,7 @@ async def generate_plan(request: GeneratePlanRequest):
         logger.exception(f"Unexpected generation failure: {e}")
         raise HTTPException(status_code=500, detail="An error occurred during event plan generation.")
 
+
 @app.post("/api/chat", tags=["AI Assistant"])
 async def chat_assistant(request: ChatRequest):
     """Context-aware conversational planning Q&A with EventGenie AI."""
@@ -129,13 +137,19 @@ async def chat_assistant(request: ChatRequest):
         logger.exception(f"Chat assistant exception: {e}")
         raise HTTPException(status_code=500, detail="Unable to process chat request at this time.")
 
+
 @app.post("/api/export/markdown", tags=["Export"])
 async def export_plan_markdown(plan: EventPlan):
     """Converts a structured event blueprint into formatted GitHub-flavored Markdown."""
     try:
         lines = []
         lines.append(f"# {plan.title}")
-        lines.append(f"**Type:** {plan.eventType.capitalize()} | **Date:** {plan.date or 'TBD'} | **Location:** {plan.location or 'TBD'}")
+        header_meta = (
+            f"**Type:** {plan.eventType.capitalize()} | "
+            f"**Date:** {plan.date or 'TBD'} | "
+            f"**Location:** {plan.location or 'TBD'}"
+        )
+        lines.append(header_meta)
         lines.append(f"**Guests:** {plan.guestCount} | **Budget:** {plan.currency} {plan.totalBudget:,.2f}")
         lines.append(f"**Vibe & Style:** {plan.vibeAndStyle}\n")
 
@@ -166,20 +180,29 @@ async def export_plan_markdown(plan: EventPlan):
         lines.append("| Category | Item | Estimated | Actual | Paid | Status |")
         lines.append("| :--- | :--- | :--- | :--- | :--- | :--- |")
         for b in plan.budgetBreakdown:
-            lines.append(f"| {b.category} | {b.item} | {plan.currency} {b.estimatedCost:,.2f} | {plan.currency} {b.actualCost:,.2f} | {plan.currency} {b.paidAmount:,.2f} | {b.status.capitalize()} |")
+            row = (
+                f"| {b.category} | {b.item} | {plan.currency} {b.estimatedCost:,.2f} | "
+                f"{plan.currency} {b.actualCost:,.2f} | {plan.currency} {b.paidAmount:,.2f} | "
+                f"{b.status.capitalize()} |"
+            )
+            lines.append(row)
         lines.append("")
 
         lines.append("## ⏱️ Milestone Timeline")
         for t in plan.timeline:
             status_box = "[x]" if t.completed else "[ ]"
-            lines.append(f"- {status_box} **{t.phase}** - {t.title}: {t.description} *(Due: {t.dueDate or 'Flexible'})*")
+            lines.append(
+                f"- {status_box} **{t.phase}** - {t.title}: {t.description} *(Due: {t.dueDate or 'Flexible'})*"
+            )
         lines.append("")
 
         lines.append("## 🕒 Day-of Schedule (Run of Show)")
         lines.append("| Time | Activity | Location | Coordinator | Notes |")
         lines.append("| :--- | :--- | :--- | :--- | :--- |")
         for s in plan.dayOfSchedule:
-            lines.append(f"| {s.time} | {s.activity} | {s.location or '-'} | {s.coordinator or '-'} | {s.notes or '-'} |")
+            lines.append(
+                f"| {s.time} | {s.activity} | {s.location or '-'} | {s.coordinator or '-'} | {s.notes or '-'} |"
+            )
         lines.append("")
 
         lines.append("## 📋 Vendor Checklist & CRM")

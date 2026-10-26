@@ -6,17 +6,12 @@ Validates API endpoints, security headers, input validation, edge cases, and AI 
 import pytest
 from fastapi.testclient import TestClient
 from app.main import app
-from app.models import (
-    GeneratePlanRequest, ChatRequest, EventPlan, ColorSwatch, BudgetItem
-)
-from app.ai_service import (
-    generate_event_plan, ask_event_assistant,
-    _synthesize_wedding, _synthesize_birthday, _synthesize_community,
-    _generate_heuristic_chat_reply
-)
+from app.models import GeneratePlanRequest
+from app.ai_service import generate_event_plan
 from app.sample_data import SAMPLE_EVENTS
 
 client = TestClient(app)
+
 
 # -------------------------------------------------------------
 # 1. System & Security Header Tests
@@ -29,6 +24,7 @@ def test_health_endpoint():
     assert "version" in data
     assert "engine" in data
 
+
 def test_security_headers():
     res = client.get("/api/health")
     assert res.headers.get("x-content-type-options") == "nosniff"
@@ -37,11 +33,13 @@ def test_security_headers():
     assert res.headers.get("referrer-policy") == "strict-origin-when-cross-origin"
     assert "geolocation=()" in res.headers.get("permissions-policy", "")
 
+
 def test_static_index_serving():
     res = client.get("/")
     assert res.status_code == 200
     assert "CelebrateAI" in res.text
     assert "skip to main content" in res.text.lower()
+
 
 # -------------------------------------------------------------
 # 2. Sample Blueprints & Caching Tests
@@ -58,10 +56,12 @@ def test_sample_events_retrieval(ev_type):
     assert len(data["dayOfSchedule"]) >= 5
     assert len(data["vendorChecklist"]) >= 2
 
+
 def test_sample_event_invalid_type_404():
     res = client.get("/api/samples/nonexistent_type")
     assert res.status_code == 404
     assert "not found" in res.json()["detail"].lower()
+
 
 # -------------------------------------------------------------
 # 3. Validation & Boundary Condition Tests
@@ -76,6 +76,7 @@ def test_generate_plan_negative_budget_rejected():
     })
     assert res.status_code == 422
 
+
 def test_generate_plan_zero_guests_rejected():
     res = client.post("/api/generate", json={
         "eventType": "wedding",
@@ -85,6 +86,7 @@ def test_generate_plan_zero_guests_rejected():
         "currency": "USD"
     })
     assert res.status_code == 422
+
 
 def test_generate_plan_invalid_currency_rejected():
     res = client.post("/api/generate", json={
@@ -96,6 +98,7 @@ def test_generate_plan_invalid_currency_rejected():
     })
     assert res.status_code == 422
 
+
 def test_string_sanitization_xss_protection():
     req = GeneratePlanRequest(
         eventType="wedding",
@@ -106,6 +109,7 @@ def test_string_sanitization_xss_protection():
     )
     assert "<script>" not in req.title
     assert "&lt;script&gt;" in req.title
+
 
 # -------------------------------------------------------------
 # 4. AI Synthesis Unit Tests
@@ -125,6 +129,7 @@ def test_synthesize_wedding():
     assert any(b.category.startswith("Venue") for b in plan.budgetBreakdown)
     assert len(plan.timeline) >= 5
 
+
 def test_synthesize_birthday():
     req = GeneratePlanRequest(
         eventType="birthday",
@@ -137,6 +142,7 @@ def test_synthesize_birthday():
     assert plan.eventType == "birthday"
     assert plan.guestCount == 40
     assert len(plan.ideas.signatureFoodAndDrinks) > 0
+
 
 def test_synthesize_community():
     req = GeneratePlanRequest(
@@ -151,6 +157,7 @@ def test_synthesize_community():
     assert plan.guestCount == 400
     assert any("Permits" in b.category for b in plan.budgetBreakdown)
 
+
 # -------------------------------------------------------------
 # 5. Chat Assistant Tests
 # -------------------------------------------------------------
@@ -164,6 +171,7 @@ def test_chat_budget_advice():
     reply = res.json()["reply"]
     assert "Budget Advice" in reply or "50/30/20" in reply
 
+
 def test_chat_timeline_advice():
     res = client.post("/api/chat", json={
         "message": "How should I structure the day-of schedule and avoid timeline delays?",
@@ -173,6 +181,7 @@ def test_chat_timeline_advice():
     assert res.status_code == 200
     reply = res.json()["reply"]
     assert "Timeline" in reply or "Run-of-Show" in reply
+
 
 def test_chat_vendor_advice():
     res = client.post("/api/chat", json={
@@ -184,6 +193,7 @@ def test_chat_vendor_advice():
     reply = res.json()["reply"]
     assert "Vendor" in reply or "Caterer" in reply
 
+
 def test_chat_empty_context():
     res = client.post("/api/chat", json={
         "message": "Hello! What can you help me with?",
@@ -193,6 +203,7 @@ def test_chat_empty_context():
     assert res.status_code == 200
     reply = res.json()["reply"]
     assert len(reply) > 20
+
 
 # -------------------------------------------------------------
 # 6. Export Markdown Endpoint Tests

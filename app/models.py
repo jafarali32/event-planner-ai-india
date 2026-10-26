@@ -3,14 +3,16 @@ CelebrateAI - Data Schemas & Validation Models
 Includes strict type checking, field constraints, and input sanitization rules.
 """
 
+import html
 from typing import List, Optional, Literal
 from pydantic import BaseModel, Field, field_validator
-import html
+
 
 class ColorSwatch(BaseModel):
     """Represents an aesthetic theme color swatch."""
     name: str = Field(..., min_length=1, max_length=50, description="Descriptive color name")
     hex: str = Field(..., pattern=r"^#[0-9a-fA-F]{6}$", description="Valid 6-digit hex code")
+
 
 class EventIdeas(BaseModel):
     """Personalized theme, culinary, and atmospheric ideas."""
@@ -23,6 +25,7 @@ class EventIdeas(BaseModel):
     surpriseElements: List[str] = Field(default_factory=list, max_length=10)
     moodboardPrompt: str = Field(..., max_length=1000)
 
+
 class BudgetItem(BaseModel):
     """Individual line-item in the event budget ledger."""
     id: str = Field(..., min_length=1, max_length=50)
@@ -34,6 +37,7 @@ class BudgetItem(BaseModel):
     status: Literal['planned', 'booked', 'paid'] = Field(default='planned')
     notes: Optional[str] = Field(default="", max_length=500)
 
+
 class TimelineMilestone(BaseModel):
     """Milestone checkpoint in the planning countdown roadmap."""
     id: str = Field(..., min_length=1, max_length=50)
@@ -43,6 +47,7 @@ class TimelineMilestone(BaseModel):
     dueDate: Optional[str] = Field(default="", max_length=30)
     completed: bool = Field(default=False)
     category: str = Field(default="General", max_length=50)
+
 
 class ScheduleItem(BaseModel):
     """Hour-by-hour cue in the day-of run of show."""
@@ -54,11 +59,13 @@ class ScheduleItem(BaseModel):
     notes: Optional[str] = Field(default="", max_length=500)
     status: Literal['upcoming', 'ongoing', 'done'] = Field(default='upcoming')
 
+
 class ChecklistTask(BaseModel):
     """Specific deliverable task assigned to a vendor."""
     id: str = Field(..., min_length=1, max_length=50)
     task: str = Field(..., min_length=1, max_length=200)
     completed: bool = Field(default=False)
+
 
 class VendorItem(BaseModel):
     """Vendor record and relationship tracking entry."""
@@ -71,6 +78,7 @@ class VendorItem(BaseModel):
     status: Literal['researching', 'contacted', 'quoted', 'booked', 'completed'] = Field(default='researching')
     checklist: List[ChecklistTask] = Field(default_factory=list, max_length=30)
     notes: Optional[str] = Field(default="", max_length=1000)
+
 
 class EventPlan(BaseModel):
     """Comprehensive event blueprint schema."""
@@ -89,6 +97,7 @@ class EventPlan(BaseModel):
     timeline: List[TimelineMilestone] = Field(default_factory=list)
     dayOfSchedule: List[ScheduleItem] = Field(default_factory=list)
     vendorChecklist: List[VendorItem] = Field(default_factory=list)
+
 
 class GeneratePlanRequest(BaseModel):
     """Validated request body for AI event plan synthesis."""
@@ -110,10 +119,12 @@ class GeneratePlanRequest(BaseModel):
             return html.escape(v.strip())
         return v
 
+
 class ChatMessage(BaseModel):
     """Chat message schema for conversation history."""
     role: Literal['user', 'assistant']
     content: str = Field(..., min_length=1, max_length=5000)
+
 
 class ChatRequest(BaseModel):
     """Interactive chat payload for EventGenie AI."""

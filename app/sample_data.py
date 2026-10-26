@@ -1,7 +1,11 @@
-from typing import Dict
-from .models import EventPlan, EventIdeas, ColorSwatch, BudgetItem, TimelineMilestone, ScheduleItem, VendorItem, ChecklistTask
+"""
+CelebrateAI - Predefined Sample Event Blueprints
+Curated presets for Weddings, Milestone Birthdays, and Community Events.
+"""
 
-SAMPLE_EVENTS: Dict[str, dict] = {
+from typing import Dict, Any
+
+SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
     "wedding": {
         "id": "sample-wedding-1",
         "title": "Elena & Lucas's Coastal Mediterranean Wedding",
