@@ -1,38 +1,58 @@
+"""
+CelebrateAI - Generative AI Service & Synthesis Engine
+Integrates Google Gemini 2.5/2.0 Flash SDK with an intelligent offline fallback engine.
+"""
+
 import os
 import json
 import re
 import uuid
+import logging
 from typing import Optional, Dict, Any, List
+
 from .models import (
     GeneratePlanRequest, EventPlan, EventIdeas, ColorSwatch,
     BudgetItem, TimelineMilestone, ScheduleItem, VendorItem, ChecklistTask,
     ChatRequest
 )
 
+logger = logging.getLogger("celebrate_ai.ai_service")
 GEMINI_API_KEY_ENV = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
 
 def extract_json_block(text: str) -> Optional[dict]:
-    """Helper to cleanly extract a JSON object from text or markdown code fence."""
+    """Helper to cleanly extract a JSON object from text or markdown code fence.
+
+    Args:
+        text (str): Raw string output from LLM.
+
+    Returns:
+        Optional[dict]: Parsed JSON dictionary if found, else None.
+    """
     try:
-        # Check for ```json ... ```
         pattern = r"```(?:json)?\s*(\{.*?\})\s*```"
         match = re.search(pattern, text, re.DOTALL)
         if match:
             return json.loads(match.group(1))
-        # Or check if entire text is json
         trimmed = text.strip()
         if trimmed.startswith("{") and trimmed.endswith("}"):
             return json.loads(trimmed)
-        # Search for first { to last }
         first = text.find("{")
         last = text.rfind("}")
         if first != -1 and last != -1 and last > first:
             return json.loads(text[first:last+1])
-    except Exception:
-        pass
+    except Exception as e:
+        logger.debug(f"JSON block extraction non-fatal parse failure: {e}")
     return None
 
-def build_gemini_client(api_key: Optional[str] = None):
+def build_gemini_client(api_key: Optional[str] = None) -> Optional[Any]:
+    """Initializes and returns the official Google Gemini SDK client.
+
+    Args:
+        api_key (Optional[str]): Explicit user-provided API key or falls back to env.
+
+    Returns:
+        Optional[Any]: Google GenAI Client instance if key exists, else None.
+    """
     key = api_key or GEMINI_API_KEY_ENV
     if not key:
         return None
@@ -40,13 +60,18 @@ def build_gemini_client(api_key: Optional[str] = None):
         from google import genai
         return genai.Client(api_key=key)
     except Exception as e:
-        print(f"Error initializing Gemini client: {e}")
+        logger.warning(f"Unable to initialize Gemini client: {e}")
         return None
 
 def generate_event_plan(request: GeneratePlanRequest) -> EventPlan:
-    """
-    Generates an end-to-end event plan with budgets, timeline, vendor checklist,
+    """Generates an end-to-end event plan with budgets, timeline, vendor checklist,
     and personalized creative ideas. Uses Gemini when available, or smart synthesis.
+
+    Args:
+        request (GeneratePlanRequest): Validated event request payload.
+
+    Returns:
+        EventPlan: Fully populated and validated event blueprint.
     """
     client = build_gemini_client(request.apiKey)
     if client:
@@ -144,9 +169,8 @@ Respond ONLY with a valid JSON object matching this schema exactly:
   ]
 }}
 
-Ensure realistic budget allocations that sum up near {request.totalBudget} {request.currency}. Provide at least 6 budget items, 5 milestone timeline items, 7-10 day-of schedule slots, and 4 vendor categories with actionable checklists.
+Ensure realistic budget allocations that sum up near {request.totalBudget} {request.currency}.
 """
-            # Try gemini models
             for model_name in ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]:
                 try:
                     response = client.models.generate_content(
@@ -155,20 +179,26 @@ Ensure realistic budget allocations that sum up near {request.totalBudget} {requ
                     )
                     parsed = extract_json_block(response.text)
                     if parsed:
+                        logger.info(f"Successfully generated event plan via {model_name}")
                         return EventPlan(**parsed)
                 except Exception as err:
-                    print(f"Gemini generation error with {model_name}: {err}")
+                    logger.warning(f"Gemini generation fallback with {model_name}: {err}")
                     continue
         except Exception as e:
-            print(f"Gemini API failure: {e}")
+            logger.error(f"Gemini API invocation failure: {e}")
 
-    # Fallback to high-fidelity heuristic generator
+    logger.info("Engaging intelligent heuristic fallback synthesis engine.")
     return synthesize_smart_event_plan(request)
 
 def synthesize_smart_event_plan(request: GeneratePlanRequest) -> EventPlan:
-    """
-    Intelligent heuristic generative synthesis engine that creates richly detailed,
+    """Intelligent heuristic generative synthesis engine that creates richly detailed,
     proportionally balanced plans according to event type, budget, and guest count.
+
+    Args:
+        request (GeneratePlanRequest): Validated event request.
+
+    Returns:
+        EventPlan: Deterministically structured event plan.
     """
     ev_type = request.eventType.lower()
     total_b = float(request.totalBudget)
@@ -190,8 +220,9 @@ def synthesize_smart_event_plan(request: GeneratePlanRequest) -> EventPlan:
         return _synthesize_custom(plan_id, title, request, total_b, guests, curr)
 
 def _synthesize_wedding(plan_id: str, title: str, req: GeneratePlanRequest, budget: float, guests: int, curr: str) -> EventPlan:
+    """Generates an authentic, luxury wedding celebration blueprint."""
     ideas = EventIdeas(
-        themeTitle=f"Opulent Botanicals & Golden Hour Radiance",
+        themeTitle="Opulent Botanicals & Golden Hour Radiance",
         themeConcept=f"An unforgettable wedding blending timeless romantic architecture with modern botanical splendor. Natural cascading florals, ambient candlelight, customized culinary storytelling, and an unforgettable celebration for {guests} cherished guests.",
         colorPalette=[
             ColorSwatch(name="Champagne Gold", hex="#E6CA65"),
@@ -309,8 +340,9 @@ def _synthesize_wedding(plan_id: str, title: str, req: GeneratePlanRequest, budg
     )
 
 def _synthesize_birthday(plan_id: str, title: str, req: GeneratePlanRequest, budget: float, guests: int, curr: str) -> EventPlan:
+    """Generates an energetic milestone birthday blueprint."""
     ideas = EventIdeas(
-        themeTitle=f"Electric Glow & Skyline Celebration",
+        themeTitle="Electric Glow & Skyline Celebration",
         themeConcept=f"An electrifying, interactive celebration curated for {guests} guests. Featuring elevated street-gourmet gastronomy, an immersive audio-visual ambiance, nostalgic custom games, and surprise high-impact reveals.",
         colorPalette=[
             ColorSwatch(name="Vibrant Coral", hex="#FF6F61"),
@@ -347,7 +379,7 @@ def _synthesize_birthday(plan_id: str, title: str, req: GeneratePlanRequest, bud
 
     budget_breakdown = [
         BudgetItem(id="b1", category="Venue & Lounge Space", item="Private Loft or Rooftop Space Rental (5 Hours)", estimatedCost=round(budget * 0.32, 2), notes="Includes seating, restrooms, sound hookup"),
-        BudgetItem(id="b2", category="Food & Bar Catering", item=f"Gourmet Finger Foods, Bites & Bartender ({guests} guests)", estimatedCost=round(budget * 0.36, 2), notes=f"Covers craft cocktail service and heavy appetizers"),
+        BudgetItem(id="b2", category="Food & Bar Catering", item=f"Gourmet Finger Foods, Bites & Bartender ({guests} guests)", estimatedCost=round(budget * 0.36, 2), notes="Covers craft cocktail service and heavy appetizers"),
         BudgetItem(id="b3", category="DJ & Audio/Lighting", item="Professional DJ, Sound System & Ambient Uplighting", estimatedCost=round(budget * 0.14, 2), notes="4 hours of live music set with wireless mic for toasts"),
         BudgetItem(id="b4", category="Decor, Neon & Backdrops", item="Custom Neon Sign, Balloon Garland & Photo Backdrop", estimatedCost=round(budget * 0.08, 2), notes="Client keeps the custom neon sign after the event!"),
         BudgetItem(id="b5", category="Custom Cake & Desserts", item="Designer Birthday Cake + Dessert Station", estimatedCost=round(budget * 0.05, 2), notes="Custom tiered cake matching party theme"),
@@ -412,8 +444,9 @@ def _synthesize_birthday(plan_id: str, title: str, req: GeneratePlanRequest, bud
     )
 
 def _synthesize_community(plan_id: str, title: str, req: GeneratePlanRequest, budget: float, guests: int, curr: str) -> EventPlan:
+    """Generates an inclusive community festival blueprint."""
     ideas = EventIdeas(
-        themeTitle=f"Neighborhood Harmony & Community Festival",
+        themeTitle="Neighborhood Harmony & Community Festival",
         themeConcept=f"An inclusive, vibrant community gathering uniting {guests} attendees. Focused on local culture, family-friendly fun, sustainability, neighborhood empowerment, and accessible live entertainment.",
         colorPalette=[
             ColorSwatch(name="Sunburst Orange", hex="#EA580C"),
@@ -517,13 +550,18 @@ def _synthesize_community(plan_id: str, title: str, req: GeneratePlanRequest, bu
     )
 
 def _synthesize_custom(plan_id: str, title: str, req: GeneratePlanRequest, budget: float, guests: int, curr: str) -> EventPlan:
-    # Generic fallback
+    """Fallback custom synthesizer routing to birthday generator."""
     return _synthesize_birthday(plan_id, title, req, budget, guests, curr)
 
 def ask_event_assistant(req: ChatRequest) -> str:
-    """
-    Interactive event planning assistant chat powered by Gemini when API key is available,
+    """Interactive event planning assistant chat powered by Gemini when API key is available,
     or smart contextual event planning expert knowledge.
+
+    Args:
+        req (ChatRequest): Validated chat request with context and history.
+
+    Returns:
+        str: Formatted Markdown response from assistant.
     """
     client = build_gemini_client(req.apiKey)
     if client:
@@ -549,22 +587,30 @@ Be inspiring, empathetic, structured, and practical. Offer concrete recommendati
                     if resp.text:
                         return resp.text
                 except Exception as err:
-                    print(f"Chat model error {model_name}: {err}")
+                    logger.warning(f"Chat generation error with {model_name}: {err}")
                     continue
         except Exception as e:
-            print(f"Chat gemini error: {e}")
+            logger.error(f"Chat Gemini model invocation error: {e}")
 
-    # Heuristic / Knowledge-based reply
     return _generate_heuristic_chat_reply(req.message, req.eventContext)
 
 def _generate_heuristic_chat_reply(message: str, context: Optional[dict]) -> str:
+    """Rule-based contextual planning knowledge generator for offline scenarios.
+
+    Args:
+        message (str): Incoming user query.
+        context (Optional[dict]): Serialized event plan dictionary.
+
+    Returns:
+        str: Domain-specific markdown guidance.
+    """
     msg = message.lower()
     event_title = context.get("title", "your event") if context else "your event"
     event_type = context.get("eventType", "event") if context else "event"
     budget = context.get("totalBudget", "the budget") if context else "the budget"
     currency = context.get("currency", "$") if context else "$"
 
-    if "budget" in msg or "cost" in msg or "expensive" in msg or "cut" in msg or "save" in msg:
+    if any(k in msg for k in ["budget", "cost", "expensive", "cut", "save"]):
         return f"""### 💡 Strategic Budget Advice for {event_title}
 
 When managing your budget ({currency}{budget}):
@@ -582,7 +628,7 @@ When managing your budget ({currency}{budget}):
 
 Would you like me to suggest specific adjustments to any item in your budget breakdown?
 """
-    elif "timeline" in msg or "schedule" in msg or "time" in msg or "delay" in msg or "hour" in msg:
+    elif any(k in msg for k in ["timeline", "schedule", "time", "delay", "hour"]):
         return f"""### ⏱️ Timeline & Run-of-Show Expert Tips
 
 For a smooth flow during {event_title}:
@@ -598,7 +644,7 @@ For a smooth flow during {event_title}:
 
 Do you want to adjust any specific milestone or time slot in your Day-of Schedule?
 """
-    elif "vendor" in msg or "contract" in msg or "hire" in msg or "caterer" in msg or "photographer" in msg:
+    elif any(k in msg for k in ["vendor", "contract", "hire", "caterer", "photographer"]):
         return f"""### 📋 Essential Vendor Vetting Checklist
 
 Key questions you must ask vendors before signing for {event_title}:
@@ -617,7 +663,7 @@ Key questions you must ask vendors before signing for {event_title}:
 
 Let me know which vendor you're vetting next, and I can generate custom interview questions for them!
 """
-    elif "idea" in msg or "theme" in msg or "decor" in msg or "game" in msg or "activity" in msg:
+    elif any(k in msg for k in ["idea", "theme", "decor", "game", "activity"]):
         return f"""### ✨ Personalized Creative Concepts for {event_title}
 
 Here are some fresh, memorable ideas to elevate the guest experience:

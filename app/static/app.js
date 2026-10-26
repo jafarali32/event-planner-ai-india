@@ -1,4 +1,8 @@
-// CelebrateAI - Frontend Controller & State Management
+/**
+ * CelebrateAI - Client Application Controller & State Manager
+ * Handles reactive calculations, Chart.js integrations, and DOM interactions.
+ */
+'use strict';
 
 let currentEvent = null;
 let activeTab = 'ideas';
