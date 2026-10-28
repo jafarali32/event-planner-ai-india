@@ -161,7 +161,7 @@ def _scale_vendor_items(raw_vendors: list, scale: float) -> list[VendorItem]:
     for v in raw_vendors:
         est = round(float(v.get("estimatedCost", 0)) * scale, 2)
         raw_con = v.get("contractedCost")
-        con = round(float(raw_con) * scale, 2) if raw_con is not None else None
+        con = round(float(raw_con) * scale, 2) if raw_con is not None else 0.0
         vendors.append(
             VendorItem(
                 id=v.get("id"),
@@ -224,7 +224,7 @@ def _build_plan_from_blueprint(
     return EventPlan(
         id=plan_id,
         title=effective_title,
-        eventType=req.eventType.lower(),
+        eventType=req.eventType,
         date=req.date or raw.get("date", "2027-11-24"),
         location=req.location or raw.get("location", "TBD"),
         guestCount=guests,
@@ -341,14 +341,10 @@ def ask_event_assistant(req: ChatRequest) -> str:
                 f"Context: {context_str}\n"
                 f"Be inspiring, empathetic, structured, and practical."
             )
-            messages = [
-                {
-                    "role": m.role if m.role == "user" else "model",
-                    "parts": [{"text": m.content}],
-                }
-                for m in req.chatHistory[-6:]
-            ]
-            messages.append({"role": "user", "parts": [{"text": req.message}]})
+            chat_contents = [system_instruction]
+            for m in req.chatHistory[-6:]:
+                chat_contents.append(f"{m.role}: {m.content}")
+            chat_contents.append(f"user: {req.message}")
 
             for model_name in [
                 "gemini-2.5-flash",
@@ -358,10 +354,7 @@ def ask_event_assistant(req: ChatRequest) -> str:
                 try:
                     resp = client.models.generate_content(
                         model=model_name,
-                        contents=[
-                            {"text": system_instruction},
-                            *[m["parts"][0]["text"] for m in messages],
-                        ],
+                        contents=chat_contents,
                     )
                     if resp.text:
                         return resp.text

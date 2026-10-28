@@ -168,27 +168,27 @@
 
     <!-- Main Navigation Tabs -->
     <nav role="tablist" aria-label="Event Planning Modules" class="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto no-scrollbar">
-      <button role="tab" aria-selected="true" aria-controls="tab-ideas" onclick="switchTab('ideas')" id="tab-btn-ideas" class="tab-btn active px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition bg-rose-500/10 text-rose-400 border border-rose-500/30 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+      <button role="tab" aria-selected="true" aria-controls="tab-ideas" aria-label="View AI Ideas and Creative Concepts tab" onclick="switchTab('ideas')" id="tab-btn-ideas" class="tab-btn active px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition bg-rose-500/10 text-rose-400 border border-rose-500/30 focus:ring-2 focus:ring-rose-500 focus:outline-none">
         <i data-lucide="palette" class="w-4 h-4" aria-hidden="true"></i>
         <span>AI Ideas & Concepts</span>
       </button>
 
-      <button role="tab" aria-selected="false" aria-controls="tab-budget" onclick="switchTab('budget')" id="tab-btn-budget" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+      <button role="tab" aria-selected="false" aria-controls="tab-budget" aria-label="View Budget Maestro tab" onclick="switchTab('budget')" id="tab-btn-budget" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 focus:ring-2 focus:ring-rose-500 focus:outline-none">
         <i data-lucide="wallet" class="w-4 h-4" aria-hidden="true"></i>
         <span>Budget Maestro</span>
       </button>
 
-      <button role="tab" aria-selected="false" aria-controls="tab-timeline" onclick="switchTab('timeline')" id="tab-btn-timeline" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+      <button role="tab" aria-selected="false" aria-controls="tab-timeline" aria-label="View Timeline and Run of Show tab" onclick="switchTab('timeline')" id="tab-btn-timeline" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 focus:ring-2 focus:ring-rose-500 focus:outline-none">
         <i data-lucide="clock" class="w-4 h-4" aria-hidden="true"></i>
         <span>Timeline & Run of Show</span>
       </button>
 
-      <button role="tab" aria-selected="false" aria-controls="tab-vendors" onclick="switchTab('vendors')" id="tab-btn-vendors" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+      <button role="tab" aria-selected="false" aria-controls="tab-vendors" aria-label="View Vendor Checklists and CRM tab" onclick="switchTab('vendors')" id="tab-btn-vendors" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 focus:ring-2 focus:ring-rose-500 focus:outline-none">
         <i data-lucide="check-square" class="w-4 h-4" aria-hidden="true"></i>
         <span>Vendor Checklists & CRM</span>
       </button>
 
-      <button role="tab" aria-selected="false" aria-controls="tab-chat" onclick="switchTab('chat')" id="tab-btn-chat" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 ml-auto bg-gradient-to-r from-rose-950/40 to-amber-950/40 border border-amber-500/20 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+      <button role="tab" aria-selected="false" aria-controls="tab-chat" aria-label="Open EventGenie AI interactive assistant chat" onclick="switchTab('chat')" id="tab-btn-chat" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm flex items-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 ml-auto bg-gradient-to-r from-rose-950/40 to-amber-950/40 border border-amber-500/20 focus:ring-2 focus:ring-amber-500 focus:outline-none">
         <i data-lucide="bot" class="w-4 h-4 text-amber-400" aria-hidden="true"></i>
         <span class="text-amber-300 font-semibold">EventGenie AI</span>
       </button>
@@ -373,15 +373,15 @@
       <!-- Sub-view switcher (Milestones vs Day-of) -->
       <div class="flex items-center justify-between flex-wrap gap-4">
         <div class="flex items-center gap-2 p-1 rounded-xl bg-slate-900 border border-slate-800" role="tablist" aria-label="Timeline Views">
-          <button type="button" role="tab" aria-selected="true" onclick="switchTimelineSubTab('milestones')" id="subtab-milestones-btn" class="px-4 py-2 rounded-lg text-xs font-semibold bg-rose-500 text-white transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
+          <button type="button" role="tab" aria-selected="true" aria-label="Switch to milestone roadmap view" onclick="switchTimelineSubTab('milestones')" id="subtab-milestones-btn" class="px-4 py-2 rounded-lg text-xs font-semibold bg-rose-500 text-white transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             🗓️ Milestone Roadmap
           </button>
-          <button type="button" role="tab" aria-selected="false" onclick="switchTimelineSubTab('schedule')" id="subtab-schedule-btn" class="px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
+          <button type="button" role="tab" aria-selected="false" aria-label="Switch to day-of run-of-show schedule view" onclick="switchTimelineSubTab('schedule')" id="subtab-schedule-btn" class="px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             🕒 Day-of Run of Show
           </button>
         </div>
 
-        <button type="button" onclick="openAddTimelineModal()" id="btn-add-timeline-item" class="gradient-btn-celebrate text-xs font-medium px-4 py-2 rounded-lg text-white flex items-center gap-1.5 shadow focus:ring-2 focus:ring-rose-400 focus:outline-none">
+        <button type="button" onclick="openAddTimelineModal()" id="btn-add-timeline-item" aria-label="Add planning milestone or schedule cue" class="gradient-btn-celebrate text-xs font-medium px-4 py-2 rounded-lg text-white flex items-center gap-1.5 shadow focus:ring-2 focus:ring-rose-400 focus:outline-none">
           <i data-lucide="plus" class="w-4 h-4" aria-hidden="true"></i> Add Milestone
         </button>
       </div>
@@ -469,16 +469,16 @@
         <!-- Chat Suggested Prompt Chips -->
         <div class="px-4 py-2 bg-slate-900/40 border-b border-slate-800/60 flex items-center gap-2 overflow-x-auto no-scrollbar" role="group" aria-label="Quick Prompt Suggestions">
           <span class="text-[11px] text-slate-400 shrink-0 font-medium">Try asking:</span>
-          <button type="button" onclick="sendQuickPrompt('How can I reduce our catering and bar expenses by 15% without guests noticing?')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
+          <button type="button" aria-label="Quick prompt: Save 15% on catering and bar expenses" onclick="sendQuickPrompt('How can I reduce our catering and bar expenses by 15% without guests noticing?')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             💡 Save 15% on Catering
           </button>
-          <button type="button" onclick="sendQuickPrompt('Draft a polite inquiry email to a wedding photographer asking about backup cameras, rights, and sneak peek turnaround.')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
+          <button type="button" aria-label="Quick prompt: Draft inquiry email to wedding photographer" onclick="sendQuickPrompt('Draft a polite inquiry email to a wedding photographer asking about backup cameras, rights, and sneak peek turnaround.')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             📸 Photographer Inquiry Email
           </button>
-          <button type="button" onclick="sendQuickPrompt('What is our rain / bad weather backup contingency plan for outdoor activities?')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
+          <button type="button" aria-label="Quick prompt: Weather contingency plan for outdoor activities" onclick="sendQuickPrompt('What is our rain / bad weather backup contingency plan for outdoor activities?')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             🌧️ Weather Contingency Plan
           </button>
-          <button type="button" onclick="sendQuickPrompt('Suggest 3 creative signature cocktails and 1 mocktail that match our theme.')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
+          <button type="button" aria-label="Quick prompt: Suggest signature cocktails and mocktails" onclick="sendQuickPrompt('Suggest 3 creative signature cocktails and 1 mocktail that match our theme.')" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0 transition focus:ring-2 focus:ring-rose-500 focus:outline-none">
             🍸 Cocktail Concepts
           </button>
         </div>
@@ -625,10 +625,10 @@
           <input type="text" id="wiz-vibe" value="Royal Rajasthani heritage, marigold cascades, brass diyas, vibrant Sangeet beats" placeholder="e.g. Royal Rajasthani, Bollywood Sangeet, Vedic Traditional" class="w-full bg-slate-900 border border-slate-800 focus:border-rose-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-rose-500">
           <div class="flex flex-wrap gap-1.5 mt-2" role="group" aria-label="Quick Style Preset Buttons">
             <span class="text-[11px] text-slate-400 font-medium">Quick styles:</span>
-            <button type="button" onclick="setVibeQuick('Royal Rajasthani heritage, marigold and rajnigandha floral cascades, brass diyas, live shehnai')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Royal Rajasthani</button>
-            <button type="button" onclick="setVibeQuick('Bollywood Sangeet, Punjabi dhol, cold-spark fireworks, cocktail lounge and celebrity DJ')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Bollywood Sangeet</button>
-            <button type="button" onclick="setVibeQuick('Traditional South Indian temple wedding, jasmine mogra strings, traditional nadhaswaram, banana leaf feast')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Temple Traditional</button>
-            <button type="button" onclick="setVibeQuick('Vibrant Dandiya Raas, traditional garba orchestra, rangoli competition, society mela food stalls')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Dandiya Mela</button>
+            <button type="button" aria-label="Select Royal Rajasthani style preset" onclick="setVibeQuick('Royal Rajasthani heritage, marigold and rajnigandha floral cascades, brass diyas, live shehnai')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Royal Rajasthani</button>
+            <button type="button" aria-label="Select Bollywood Sangeet style preset" onclick="setVibeQuick('Bollywood Sangeet, Punjabi dhol, cold-spark fireworks, cocktail lounge and celebrity DJ')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Bollywood Sangeet</button>
+            <button type="button" aria-label="Select Temple Traditional style preset" onclick="setVibeQuick('Traditional South Indian temple wedding, jasmine mogra strings, traditional nadhaswaram, banana leaf feast')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Temple Traditional</button>
+            <button type="button" aria-label="Select Dandiya Mela style preset" onclick="setVibeQuick('Vibrant Dandiya Raas, traditional garba orchestra, rangoli competition, society mela food stalls')" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white focus:ring-1 focus:ring-rose-500">Dandiya Mela</button>
           </div>
         </div>
 
@@ -640,7 +640,7 @@
 
         <!-- Submit Button -->
         <div class="pt-2 flex items-center justify-end gap-3">
-          <button type="button" onclick="closeWizardModal()" class="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition focus:ring-2 focus:ring-slate-500 focus:outline-none">
+          <button type="button" onclick="closeWizardModal()" aria-label="Cancel and close new event wizard" class="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition focus:ring-2 focus:ring-slate-500 focus:outline-none">
             Cancel
           </button>
           <button type="submit" id="wiz-submit-btn" aria-label="Generate Complete Event Plan with AI" class="gradient-btn-celebrate px-6 py-2.5 rounded-xl text-white font-medium text-sm flex items-center gap-2 shadow-lg focus:ring-2 focus:ring-rose-400 focus:outline-none">
@@ -682,10 +682,10 @@
       </div>
 
       <div class="flex items-center justify-between pt-2">
-        <button type="button" onclick="clearApiKey()" class="text-xs text-rose-400 hover:text-rose-300 focus:outline-none">
+        <button type="button" onclick="clearApiKey()" aria-label="Remove stored Gemini API key from browser" class="text-xs text-rose-400 hover:text-rose-300 focus:outline-none">
           Remove Stored Key
         </button>
-        <button type="button" onclick="saveApiKey()" class="gradient-btn-celebrate text-xs font-semibold px-4 py-2 rounded-lg text-white focus:ring-2 focus:ring-rose-400 focus:outline-none">
+        <button type="button" onclick="saveApiKey()" aria-label="Save Gemini API key to local storage" class="gradient-btn-celebrate text-xs font-semibold px-4 py-2 rounded-lg text-white focus:ring-2 focus:ring-rose-400 focus:outline-none">
           Save Key
         </button>
       </div>
@@ -724,19 +724,19 @@
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <button type="button" onclick="printEventBrief()" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+        <button type="button" onclick="printEventBrief()" aria-label="Print or export event master brief as PDF" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60 focus:ring-2 focus:ring-amber-500 focus:outline-none">
           <i data-lucide="printer" class="w-5 h-5 text-amber-400 mb-2" aria-hidden="true"></i>
           <span class="block text-sm font-semibold text-white">Print / PDF Brief</span>
           <span class="block text-[11px] text-slate-400">Clean print-ready formatted document</span>
         </button>
 
-        <button type="button" onclick="downloadJsonPlan()" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+        <button type="button" onclick="downloadJsonPlan()" aria-label="Download complete event plan as JSON backup file" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
           <i data-lucide="file-json" class="w-5 h-5 text-emerald-400 mb-2" aria-hidden="true"></i>
           <span class="block text-sm font-semibold text-white">Download JSON</span>
           <span class="block text-[11px] text-slate-400">Complete raw project data backup</span>
         </button>
 
-        <button type="button" onclick="copyMarkdownSummary()" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+        <button type="button" onclick="copyMarkdownSummary()" aria-label="Copy formatted Markdown summary to clipboard" class="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left space-y-1 transition hover:bg-slate-800/60 focus:ring-2 focus:ring-purple-500 focus:outline-none">
           <i data-lucide="copy" class="w-5 h-5 text-purple-400 mb-2" aria-hidden="true"></i>
           <span class="block text-sm font-semibold text-white">Copy Markdown</span>
           <span class="block text-[11px] text-slate-400">Paste into Notion, Docs, or email</span>

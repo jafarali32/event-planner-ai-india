@@ -18,7 +18,7 @@ logging.basicConfig(
 logger = logging.getLogger("celebrate_ai.server")
 
 # Ensure UTF-8 output encoding on Windows consoles
-if sys.platform == "win32":
+if sys.platform == "win32" and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 
