@@ -6,7 +6,7 @@ Provides secure REST endpoints, GZip compression, security headers, and caching.
 import os
 import logging
 from functools import lru_cache
-from typing import Dict, Any
+from typing import Any, Dict, List
 
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.staticfiles import StaticFiles
@@ -50,9 +50,12 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
         response.headers["Content-Security-Policy"] = (
-            "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;"
+            "default-src 'self' 'unsafe-inline' https: data: blob:; "
+            "frame-ancestors 'self'; object-src 'none';"
         )
-        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+        response.headers["Strict-Transport-Security"] = (
+            "max-age=31536000; includeSubDomains; preload"
+        )
         return response
 
 
@@ -64,8 +67,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:8080",
         "http://127.0.0.1:8080",
-        "https://event-planner-ai-india.onrender.com",
-        "*"
+        "https://event-planner-ai-india.onrender.com"
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
@@ -156,93 +158,121 @@ async def chat_assistant(request: ChatRequest):
         ) from e
 
 
+def _format_markdown_header(plan: EventPlan) -> List[str]:
+    """Formats markdown header with event title, dates, and metadata."""
+    return [
+        f"# {plan.title}",
+        (
+            f"**Type:** {plan.eventType.capitalize()} | "
+            f"**Date:** {plan.date or 'TBD'} | "
+            f"**Location:** {plan.location or 'TBD'}"
+        ),
+        (
+            f"**Guests:** {plan.guestCount} | "
+            f"**Budget:** {plan.currency} {plan.totalBudget:,.2f}"
+        ),
+        f"**Vibe & Style:** {plan.vibeAndStyle}\n",
+    ]
+
+
+def _format_markdown_ideas(plan: EventPlan) -> List[str]:
+    """Formats markdown creative concept, theme, culinary, and activities."""
+    lines = [
+        f"## 🌟 Theme & Concept: {plan.ideas.themeTitle}",
+        f"{plan.ideas.themeConcept}\n",
+        "### Color Palette",
+    ]
+    for color in plan.ideas.colorPalette:
+        lines.append(f"- **{color.name}** (`{color.hex}`)")
+    lines.append("\n### Signature Culinary & Beverages")
+    for item in plan.ideas.signatureFoodAndDrinks:
+        lines.append(f"- {item}")
+    lines.append("\n### Activities & Entertainment")
+    for item in plan.ideas.activitiesAndEntertainment:
+        lines.append(f"- {item}")
+    lines.append("\n### Surprise Elements")
+    for item in plan.ideas.surpriseElements:
+        lines.append(f"- ✨ {item}")
+    lines.append("")
+    return lines
+
+
+def _format_markdown_budget(plan: EventPlan) -> List[str]:
+    """Formats markdown table for budget line items."""
+    lines = [
+        "## 💰 Budget Breakdown",
+        "| Category | Item | Estimated | Actual | Paid | Status |",
+        "| :--- | :--- | :--- | :--- | :--- | :--- |",
+    ]
+    for b in plan.budgetBreakdown:
+        lines.append(
+            f"| {b.category} | {b.item} | {plan.currency} {b.estimatedCost:,.2f} | "
+            f"{plan.currency} {b.actualCost:,.2f} | {plan.currency} {b.paidAmount:,.2f} | "
+            f"{b.status.capitalize()} |"
+        )
+    lines.append("")
+    return lines
+
+
+def _format_markdown_timeline(plan: EventPlan) -> List[str]:
+    """Formats markdown milestone countdown roadmap."""
+    lines = ["## ⏱️ Milestone Timeline"]
+    for t in plan.timeline:
+        status_box = "[x]" if t.completed else "[ ]"
+        due_str = f" *(Due: {t.dueDate or 'Flexible'})*"
+        lines.append(
+            f"- {status_box} **{t.phase}** - {t.title}: {t.description}{due_str}"
+        )
+    lines.append("")
+    return lines
+
+
+def _format_markdown_schedule(plan: EventPlan) -> List[str]:
+    """Formats markdown run-of-show schedule."""
+    lines = [
+        "## 🕒 Day-of Schedule (Run of Show)",
+        "| Time | Activity | Location | Coordinator | Notes |",
+        "| :--- | :--- | :--- | :--- | :--- |",
+    ]
+    for s in plan.dayOfSchedule:
+        loc = s.location or "-"
+        coord = s.coordinator or "-"
+        notes = s.notes or "-"
+        lines.append(f"| {s.time} | {s.activity} | {loc} | {coord} | {notes} |")
+    lines.append("")
+    return lines
+
+
+def _format_markdown_vendors(plan: EventPlan) -> List[str]:
+    """Formats markdown vendor CRM checklist."""
+    lines = ["## 📋 Vendor Checklist & CRM"]
+    for v in plan.vendorChecklist:
+        lines.append(f"### {v.category}: {v.vendorName} ({v.status.capitalize()})")
+        lines.append(f"- **Contact:** {v.contact or 'Pending'}")
+        lines.append(f"- **Estimated Cost:** {plan.currency} {v.estimatedCost:,.2f}")
+        if v.notes:
+            lines.append(f"- **Notes:** {v.notes}")
+        lines.append("  **Tasks:**")
+        for task in v.checklist:
+            chk = "[x]" if task.completed else "[ ]"
+            lines.append(f"  - {chk} {task.task}")
+        lines.append("")
+    return lines
+
+
 @app.post("/api/export/markdown", tags=["Export"])
 async def export_plan_markdown(plan: EventPlan):
     """Converts a structured event blueprint into formatted GitHub-flavored Markdown."""
     try:
-        lines = []
-        lines.append(f"# {plan.title}")
-        header_meta = (
-            f"**Type:** {plan.eventType.capitalize()} | "
-            f"**Date:** {plan.date or 'TBD'} | "
-            f"**Location:** {plan.location or 'TBD'}"
-        )
-        lines.append(header_meta)
-        guest_info = (
-            f"**Guests:** {plan.guestCount} | "
-            f"**Budget:** {plan.currency} {plan.totalBudget:,.2f}"
-        )
-        lines.append(guest_info)
-        lines.append(f"**Vibe & Style:** {plan.vibeAndStyle}\n")
-
-        lines.append(f"## 🌟 Theme & Concept: {plan.ideas.themeTitle}")
-        lines.append(f"{plan.ideas.themeConcept}\n")
-
-        lines.append("### Color Palette")
-        for color in plan.ideas.colorPalette:
-            lines.append(f"- **{color.name}** (`{color.hex}`)")
-        lines.append("")
-
-        lines.append("### Signature Culinary & Beverages")
-        for item in plan.ideas.signatureFoodAndDrinks:
-            lines.append(f"- {item}")
-        lines.append("")
-
-        lines.append("### Activities & Entertainment")
-        for item in plan.ideas.activitiesAndEntertainment:
-            lines.append(f"- {item}")
-        lines.append("")
-
-        lines.append("### Surprise Elements")
-        for item in plan.ideas.surpriseElements:
-            lines.append(f"- ✨ {item}")
-        lines.append("")
-
-        lines.append("## 💰 Budget Breakdown")
-        lines.append("| Category | Item | Estimated | Actual | Paid | Status |")
-        lines.append("| :--- | :--- | :--- | :--- | :--- | :--- |")
-        for b in plan.budgetBreakdown:
-            row = (
-                f"| {b.category} | {b.item} | {plan.currency} {b.estimatedCost:,.2f} | "
-                f"{plan.currency} {b.actualCost:,.2f} | {plan.currency} {b.paidAmount:,.2f} | "
-                f"{b.status.capitalize()} |"
-            )
-            lines.append(row)
-        lines.append("")
-
-        lines.append("## ⏱️ Milestone Timeline")
-        for t in plan.timeline:
-            status_box = "[x]" if t.completed else "[ ]"
-            due_str = f" *(Due: {t.dueDate or 'Flexible'})*"
-            lines.append(
-                f"- {status_box} **{t.phase}** - {t.title}: {t.description}{due_str}"
-            )
-        lines.append("")
-
-        lines.append("## 🕒 Day-of Schedule (Run of Show)")
-        lines.append("| Time | Activity | Location | Coordinator | Notes |")
-        lines.append("| :--- | :--- | :--- | :--- | :--- |")
-        for s in plan.dayOfSchedule:
-            loc = s.location or "-"
-            coord = s.coordinator or "-"
-            notes = s.notes or "-"
-            lines.append(f"| {s.time} | {s.activity} | {loc} | {coord} | {notes} |")
-        lines.append("")
-
-        lines.append("## 📋 Vendor Checklist & CRM")
-        for v in plan.vendorChecklist:
-            lines.append(f"### {v.category}: {v.vendorName} ({v.status.capitalize()})")
-            lines.append(f"- **Contact:** {v.contact or 'Pending'}")
-            lines.append(f"- **Estimated Cost:** {plan.currency} {v.estimatedCost:,.2f}")
-            if v.notes:
-                lines.append(f"- **Notes:** {v.notes}")
-            lines.append("  **Tasks:**")
-            for task in v.checklist:
-                chk = "[x]" if task.completed else "[ ]"
-                lines.append(f"  - {chk} {task.task}")
-            lines.append("")
-
-        return {"markdown": "\n".join(lines)}
+        sections = [
+            *_format_markdown_header(plan),
+            *_format_markdown_ideas(plan),
+            *_format_markdown_budget(plan),
+            *_format_markdown_timeline(plan),
+            *_format_markdown_schedule(plan),
+            *_format_markdown_vendors(plan),
+        ]
+        return {"markdown": "\n".join(sections)}
     except Exception as e:
         logger.exception("Export markdown error: %s", e)
         raise HTTPException(

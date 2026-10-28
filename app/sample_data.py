@@ -4,7 +4,7 @@ Curated presets for Big Fat Indian Weddings, Milestone Birthdays,
 and Vibrant Community Festivals.
 """
 
-from typing import Dict, Any
+from typing import Any, Dict
 
 SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
     "wedding": {
@@ -17,14 +17,14 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
         "currency": "INR",
         "totalBudget": 2800000.0,
         "vibeAndStyle": (
-            "Royal Rajasthani heritage, marigold and rajnigandha floral "
-            "cascades, brass diyas, vibrant Sangeet beats, royal Baraat with "
-            "nagada, traditional Vedic pheras at twilight"
+            "Royal Rajasthani heritage, marigold and rajnigandha floral cascades, "
+            "brass diyas, vibrant Sangeet beats, royal Baraat with nagada, "
+            "traditional Vedic pheras at twilight"
         ),
         "specialRequests": (
-            "Include multi-station Live Chaat Gali, traditional Shehnai "
-            "welcoming, candid cinematic 4K drone cinematography, dedicated "
-            "Safa-tying station, and midnight Pheras snacks."
+            "Include multi-station Live Chaat Gali, traditional Shehnai welcoming, "
+            "candid cinematic 4K drone cinematography, dedicated Safa-tying "
+            "station, and midnight Pheras snacks."
         ),
         "ideas": {
             "themeTitle": "Shahi Virasat: Royal Marigold & Crimson Grandeur",
@@ -32,35 +32,19 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                 "A majestic three-day celebration rooted in timeless Indian "
                 "heritage. Featuring velvet canopies, hand-carved jharokhas, "
                 "traditional Mewari hospitality, live Sufi & Bollywood fusion "
-                "melodies, and curated royal Rajasthani and Pan-Indian "
-                "delicacies."
+                "melodies, and curated royal Rajasthani and Pan-Indian delicacies."
             ),
             "colorPalette": [
-                {
-                    "name": "Genda Marigold",
-                    "hex": "#F59E0B",
-                },
-                {
-                    "name": "Royal Rani Pink",
-                    "hex": "#E11D48",
-                },
-                {
-                    "name": "Peacock Royal Blue",
-                    "hex": "#1D4ED8",
-                },
-                {
-                    "name": "Haldi Turmeric Gold",
-                    "hex": "#FBBF24",
-                },
-                {
-                    "name": "Emerald Panna Green",
-                    "hex": "#059669",
-                },
+                {"name": "Genda Marigold", "hex": "#F59E0B"},
+                {"name": "Royal Rani Pink", "hex": "#E11D48"},
+                {"name": "Peacock Royal Blue", "hex": "#1D4ED8"},
+                {"name": "Haldi Turmeric Gold", "hex": "#FBBF24"},
+                {"name": "Emerald Panna Green", "hex": "#059669"},
             ],
             "signatureFoodAndDrinks": [
                 (
-                    "Kesariya Kesar Thandai & Aam Panna welcome coolers with "
-                    "rose petal garnish"
+                    "Kesariya Kesar Thandai & Aam Panna welcome coolers with rose "
+                    "petal garnish"
                 ),
                 (
                     "Live Purani Dilli Chaat Gali: Banarasi Tamatar Chaat, "
@@ -93,8 +77,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                     "from Palace balconies"
                 ),
                 (
-                    "Live Sufi Fusion Ensemble & Bollywood Celebrity DJ set "
-                    "after the Varmala"
+                    "Live Sufi Fusion Ensemble & Bollywood Celebrity DJ set after "
+                    "the Varmala"
                 ),
                 (
                     "Traditional Joota Chupai negotiation and playful post- "
@@ -111,12 +95,12 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                     "scented mogra candles"
                 ),
                 (
-                    "Handcrafted puppet and Lac bangle maker live stall for "
-                    "guest souvenirs"
+                    "Handcrafted puppet and Lac bangle maker live stall for guest "
+                    "souvenirs"
                 ),
                 (
-                    "Fairytale tree canopies wrapped with warm fairy string "
-                    "lights and hanging glass lamps"
+                    "Fairytale tree canopies wrapped with warm fairy string lights "
+                    "and hanging glass lamps"
                 ),
             ],
             "surpriseElements": [
@@ -129,15 +113,15 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                     "gifted in brocade silk pouches"
                 ),
                 (
-                    "Surprise flash-mob entrance by the bride's cousins to "
-                    "classic 90s Bollywood anthems"
+                    "Surprise flash-mob entrance by the bride's cousins to classic "
+                    "90s Bollywood anthems"
                 ),
             ],
             "moodboardPrompt": (
-                "Grand Indian royal destination wedding in Jaipur palace "
-                "courtyard at sunset, royal mandap with orange and yellow "
-                "marigold flowers, brass diyas, bride in crimson red lehenga, "
-                "groom in ivory sherwani, fairy lights, cinematic 8k"
+                "Grand Indian royal destination wedding in Jaipur palace courtyard "
+                "at sunset, royal mandap with orange and yellow marigold flowers, "
+                "brass diyas, bride in crimson red lehenga, groom in ivory "
+                "sherwani, fairy lights, cinematic 8k"
             ),
         },
         "budgetBreakdown": [
@@ -418,8 +402,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                     {
                         "id": "c3",
                         "task": (
-                            "Confirm sound curfew rules (10:00 PM on lawn, "
-                            "indoor banquet after)"
+                            "Confirm sound curfew rules (10:00 PM on lawn, indoor "
+                            "banquet after)"
                         ),
                         "completed": True,
                     },
@@ -453,8 +437,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                     {
                         "id": "c7",
                         "task": (
-                            "Arrange copper service chafing dishes and royal "
-                            "turbans for staff"
+                            "Arrange copper service chafing dishes and royal turbans "
+                            "for staff"
                         ),
                         "completed": False,
                     },
@@ -517,8 +501,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                     },
                 ],
                 "notes": (
-                    "Floral arrangements repurposed from Sangeet stage to "
-                    "morning breakfast."
+                    "Floral arrangements repurposed from Sangeet stage to morning "
+                    "breakfast."
                 ),
             },
         ],
@@ -534,8 +518,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
         "totalBudget": 200000.0,
         "vibeAndStyle": (
             "Vibrant Indian cultural blend with modern playful Jungle Safari, "
-            "morning Vedic Annaprashan puja, evening celebration with live "
-            "music, caricature artist, and traditional South/North Indian feast"
+            "morning Vedic Annaprashan puja, evening celebration with live music, "
+            "caricature artist, and traditional South/North Indian feast"
         ),
         "specialRequests": (
             "Include traditional gold coin kheer feeding ceremony, customized "
@@ -545,33 +529,18 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
         "ideas": {
             "themeTitle": "Nanhi Jaan: Royal Prince & Jungle Safari Utsav",
             "themeConcept": (
-                "A joyful celebration celebrating baby Kabir's 1st year "
-                "milestone. Starting with a serene morning Annaprashan (first "
-                "rice eating ceremony) attended by elders, transitioning into an "
-                "energetic evening party filled with balloon arches, interactive "
-                "toddler games, and sweet culinary nostalgia."
+                "A joyful celebration celebrating baby Kabir's 1st year milestone. "
+                "Starting with a serene morning Annaprashan (first rice eating "
+                "ceremony) attended by elders, transitioning into an energetic "
+                "evening party filled with balloon arches, interactive toddler "
+                "games, and sweet culinary nostalgia."
             ),
             "colorPalette": [
-                {
-                    "name": "Royal Turquoise",
-                    "hex": "#0284C7",
-                },
-                {
-                    "name": "Warm Haldi Yellow",
-                    "hex": "#F59E0B",
-                },
-                {
-                    "name": "Soft Sage Leaf",
-                    "hex": "#10B981",
-                },
-                {
-                    "name": "Festive Gold",
-                    "hex": "#EAB308",
-                },
-                {
-                    "name": "Pearly Cream",
-                    "hex": "#FDFBF7",
-                },
+                {"name": "Royal Turquoise", "hex": "#0284C7"},
+                {"name": "Warm Haldi Yellow", "hex": "#F59E0B"},
+                {"name": "Soft Sage Leaf", "hex": "#10B981"},
+                {"name": "Festive Gold", "hex": "#EAB308"},
+                {"name": "Pearly Cream", "hex": "#FDFBF7"},
             ],
             "signatureFoodAndDrinks": [
                 "Shahi Kesar Badam Milk & Fresh Tender Coconut Water welcome drinks",
@@ -599,16 +568,16 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                     "for 45 minutes"
                 ),
                 (
-                    "Live Caricature Artist sketching personalized family "
-                    "portrait keepsakes on branded cardstock"
+                    "Live Caricature Artist sketching personalized family portrait "
+                    "keepsakes on branded cardstock"
                 ),
                 "Toddler Soft Play Zone with ball pit and balloon twisting station",
                 "High-Energy Bollywood Dance Set featuring child-friendly party hits",
             ],
             "decorAndAtmosphere": [
                 (
-                    "10-foot organic balloon garland in shades of turquoise, "
-                    "gold, and jungle sage"
+                    "10-foot organic balloon garland in shades of turquoise, gold, "
+                    "and jungle sage"
                 ),
                 "Custom illuminated LED cutout sign reading 'Kabir Turns 1'",
                 (
@@ -636,8 +605,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
             ],
             "moodboardPrompt": (
                 "First birthday Indian celebration in luxury banquet hall, gold "
-                "and turquoise balloon arch, cute baby boy in silk kurta, "
-                "parents smiling, marigold flower details, live chaat stalls in "
+                "and turquoise balloon arch, cute baby boy in silk kurta, parents "
+                "smiling, marigold flower details, live chaat stalls in "
                 "background, warm festive lighting"
             ),
         },
@@ -737,8 +706,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                 "phase": "2 Weeks Out",
                 "title": "Book Magician, Decorator & Order Cake",
                 "description": (
-                    "Approve jungle safari balloon mockup and finalize 2-tier "
-                    "cake sketch."
+                    "Approve jungle safari balloon mockup and finalize 2-tier cake "
+                    "sketch."
                 ),
                 "dueDate": "2026-11-06",
                 "completed": True,
@@ -941,33 +910,17 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
         "ideas": {
             "themeTitle": "Roshni & Raas: Diwali Milan & Dandiya Utsav",
             "themeConcept": (
-                "An exhilarating community festival uniting 600 society "
-                "residents and families. Celebrating Diwali lights and Navratri "
-                "festive joy with traditional Garba beats, artisanal home-chef "
-                "food bazaars, rangoli contests, and an unforgettable evening of "
-                "cultural unity."
+                "An exhilarating community festival uniting 600 society residents "
+                "and families. Celebrating Diwali lights and Navratri festive joy "
+                "with traditional Garba beats, artisanal home-chef food bazaars, "
+                "rangoli contests, and an unforgettable evening of cultural unity."
             ),
             "colorPalette": [
-                {
-                    "name": "Deep Sindoor Red",
-                    "hex": "#DC2626",
-                },
-                {
-                    "name": "Bright Festive Orange",
-                    "hex": "#EA580C",
-                },
-                {
-                    "name": "Shimmering Diya Gold",
-                    "hex": "#CA8A04",
-                },
-                {
-                    "name": "Peacock Teal",
-                    "hex": "#0D9488",
-                },
-                {
-                    "name": "Festive Purple",
-                    "hex": "#7C3AED",
-                },
+                {"name": "Deep Sindoor Red", "hex": "#DC2626"},
+                {"name": "Bright Festive Orange", "hex": "#EA580C"},
+                {"name": "Shimmering Diya Gold", "hex": "#CA8A04"},
+                {"name": "Peacock Teal", "hex": "#0D9488"},
+                {"name": "Festive Purple", "hex": "#7C3AED"},
             ],
             "signatureFoodAndDrinks": [
                 "Warm Masala Doodh & Fresh Badam Halwa welcome counters",
@@ -977,8 +930,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                 ),
                 "Live Hot Jalebi & Fafda station with tangy raw papaya sambharo",
                 (
-                    "Street-Style Mumbai Vada Pav, Dahi Sev Puri, and Masala "
-                    "Sweet Corn cups"
+                    "Street-Style Mumbai Vada Pav, Dahi Sev Puri, and Masala Sweet "
+                    "Corn cups"
                 ),
                 (
                     "Complimentary Kesar Kheer and Dry Fruit Modak boxes for all "
@@ -995,8 +948,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                     "trophies"
                 ),
                 (
-                    "Best Traditional Dressed Resident (Best Chaniya Choli & "
-                    "Best Kurta Pajama)"
+                    "Best Traditional Dressed Resident (Best Chaniya Choli & Best "
+                    "Kurta Pajama)"
                 ),
                 "Kids DIY Diya Painting & Lantern Craft Workshop",
                 "Eco-Friendly Green Fireworks and Cold-Spark Light Show at 09:30 PM",
@@ -1015,8 +968,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                     "crafted with fresh marigold petals"
                 ),
                 (
-                    "Colorful traditional Rajasthani umbrellas and bandhani "
-                    "drapes adorning stall booths"
+                    "Colorful traditional Rajasthani umbrellas and bandhani drapes "
+                    "adorning stall booths"
                 ),
             ],
             "surpriseElements": [
@@ -1130,8 +1083,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                 "phase": "4 Weeks Out",
                 "title": "Stall Allotment for Society Home-Chefs & Sponsor Drive",
                 "description": (
-                    "Host lottery for 15 food stalls and secure local branch "
-                    "bank co-sponsorship."
+                    "Host lottery for 15 food stalls and secure local branch bank "
+                    "co-sponsorship."
                 ),
                 "dueDate": "2026-10-04",
                 "completed": True,
@@ -1142,8 +1095,8 @@ SAMPLE_EVENTS: Dict[str, Dict[str, Any]] = {
                 "phase": "2 Weeks Out",
                 "title": "Book Live Folk Band, Sound Operator & Genset",
                 "description": (
-                    "Lock in live Garba singers and test society electrical "
-                    "feeder lines."
+                    "Lock in live Garba singers and test society electrical feeder "
+                    "lines."
                 ),
                 "dueDate": "2026-10-18",
                 "completed": True,

@@ -127,6 +127,75 @@ def generate_event_plan(request: GeneratePlanRequest) -> EventPlan:
     return synthesize_smart_event_plan(request)
 
 
+def _scale_budget_items(
+    raw_items: list, scale: float, guests: int
+) -> list[BudgetItem]:
+    """Scales budget items proportionally and updates per-guest calculations."""
+    budget_items = []
+    for b in raw_items:
+        est = round(float(b.get("estimatedCost", 0)) * scale, 2)
+        act = round(float(b.get("actualCost", 0)) * scale, 2)
+        paid = round(float(b.get("paidAmount", 0)) * scale, 2)
+        notes = b.get("notes", "")
+        if "Catering" in b.get("category", ""):
+            per_guest = round(est / max(guests, 1), 2)
+            notes = f"Allocated ~{per_guest} per guest across functions"
+        budget_items.append(
+            BudgetItem(
+                id=b.get("id"),
+                category=b.get("category"),
+                item=b.get("item"),
+                estimatedCost=est,
+                actualCost=act,
+                paidAmount=paid,
+                status=b.get("status", "planned"),
+                notes=notes,
+            )
+        )
+    return budget_items
+
+
+def _scale_vendor_items(raw_vendors: list, scale: float) -> list[VendorItem]:
+    """Scales vendor costs proportionally and creates typed VendorItem instances."""
+    vendors = []
+    for v in raw_vendors:
+        est = round(float(v.get("estimatedCost", 0)) * scale, 2)
+        raw_con = v.get("contractedCost")
+        con = round(float(raw_con) * scale, 2) if raw_con is not None else None
+        vendors.append(
+            VendorItem(
+                id=v.get("id"),
+                category=v.get("category"),
+                vendorName=v.get("vendorName"),
+                contact=v.get("contact", ""),
+                estimatedCost=est,
+                contractedCost=con,
+                status=v.get("status", "contacted"),
+                notes=v.get("notes", ""),
+                checklist=v.get("checklist", []),
+            )
+        )
+    return vendors
+
+
+def _build_ideas(raw_ideas: dict, title: str) -> EventIdeas:
+    """Constructs typed EventIdeas schema."""
+    palette = [
+        ColorSwatch(name=c.get("name"), hex=c.get("hex"))
+        for c in raw_ideas.get("colorPalette", [])
+    ]
+    return EventIdeas(
+        themeTitle=raw_ideas.get("themeTitle", f"{title} Theme"),
+        themeConcept=raw_ideas.get("themeConcept", ""),
+        colorPalette=palette,
+        signatureFoodAndDrinks=raw_ideas.get("signatureFoodAndDrinks", []),
+        activitiesAndEntertainment=raw_ideas.get("activitiesAndEntertainment", []),
+        decorAndAtmosphere=raw_ideas.get("decorAndAtmosphere", []),
+        surpriseElements=raw_ideas.get("surpriseElements", []),
+        moodboardPrompt=raw_ideas.get("moodboardPrompt", ""),
+    )
+
+
 def _build_plan_from_blueprint(
     raw: Dict[str, Any],
     plan_id: str,
@@ -140,61 +209,9 @@ def _build_plan_from_blueprint(
     base_budget = float(raw.get("totalBudget", target_budget or 1.0))
     scale = (target_budget / base_budget) if base_budget > 0 else 1.0
 
-    # Scale budget items proportionally
-    budget_items = []
-    for b in raw.get("budgetBreakdown", []):
-        est = round(float(b.get("estimatedCost", 0)) * scale, 2)
-        budget_items.append(
-            BudgetItem(
-                id=b.get("id"),
-                category=b.get("category"),
-                item=b.get("item"),
-                estimatedCost=est,
-                actualCost=0.0,
-                paidAmount=0.0,
-                status="planned",
-                notes=b.get("notes", ""),
-            )
-        )
-
-    # Scale vendor items proportionally
-    vendors = []
-    for v in raw.get("vendorChecklist", []):
-        est = round(float(v.get("estimatedCost", 0)) * scale, 2)
-        contracted = (
-            round(float(v.get("contractedCost", 0)) * scale, 2)
-            if v.get("contractedCost") is not None
-            else None
-        )
-        vendors.append(
-            VendorItem(
-                id=v.get("id"),
-                category=v.get("category"),
-                vendorName=v.get("vendorName"),
-                contact=v.get("contact", ""),
-                estimatedCost=est,
-                contractedCost=contracted,
-                status=v.get("status", "contacted"),
-                notes=v.get("notes", ""),
-                checklist=v.get("checklist", []),
-            )
-        )
-
-    ideas_raw = raw.get("ideas", {})
-    color_palette = [
-        ColorSwatch(name=c.get("name"), hex=c.get("hex"))
-        for c in ideas_raw.get("colorPalette", [])
-    ]
-    ideas = EventIdeas(
-        themeTitle=ideas_raw.get("themeTitle", f"{title} Theme"),
-        themeConcept=ideas_raw.get("themeConcept", ""),
-        colorPalette=color_palette,
-        signatureFoodAndDrinks=ideas_raw.get("signatureFoodAndDrinks", []),
-        activitiesAndEntertainment=ideas_raw.get("activitiesAndEntertainment", []),
-        decorAndAtmosphere=ideas_raw.get("decorAndAtmosphere", []),
-        surpriseElements=ideas_raw.get("surpriseElements", []),
-        moodboardPrompt=ideas_raw.get("moodboardPrompt", ""),
-    )
+    budget_items = _scale_budget_items(raw.get("budgetBreakdown", []), scale, guests)
+    vendors = _scale_vendor_items(raw.get("vendorChecklist", []), scale)
+    ideas = _build_ideas(raw.get("ideas", {}), title)
 
     timeline = [TimelineMilestone(**t) for t in raw.get("timeline", [])]
     schedule = [ScheduleItem(**s) for s in raw.get("dayOfSchedule", [])]
@@ -357,6 +374,78 @@ def ask_event_assistant(req: ChatRequest) -> str:
     return _generate_heuristic_chat_reply(req.message, req.eventContext)
 
 
+def _reply_budget(event_title: str, currency: str, budget: Any) -> str:
+    """Generates strategic budget allocation markdown guidance."""
+    return (
+        f"### 💡 Strategic Budget Advice for {event_title}\n\n"
+        f"Here is a balanced framework based on your total budget "
+        f"of **{currency} {budget}**:\n\n"
+        f"1. **The 50/30/20 Rule for Indian Celebrations**:\n"
+        f"   - **50% Experience Core**: Venue & Heritage Catering.\n"
+        f"   - **30% Aesthetics**: Decor, Lotus Mandap/Stage, Sound.\n"
+        f"   - **20% Memories & Buffer**: 4K Cinema, Shagun buffer.\n\n"
+        f"2. **3 High-Impact Savings Tactics**:\n"
+        f"   - **Seasonal Floral Mix**: Blend marigolds with local foliage.\n"
+        f"   - **Curated Multi-Station Stalls**: Focus on interactive Chaat.\n"
+        f"   - **Off-Peak Timings**: Morning or Sunday afternoon slots.\n"
+    )
+
+
+def _reply_timeline(event_title: str) -> str:
+    """Generates timeline and curfew guidance."""
+    return (
+        f"### ⏱️ Timeline & Schedule Optimization for {event_title}\n\n"
+        f"Indian celebrations thrive on punctuality paired with warmth:\n\n"
+        f"1. **Buffer Blocks (The 'Desi Time' Cushion)**: Add 30-min buffers.\n"
+        f"2. **Curfew Compliance**: Outdoor loudspeakers curfew at 10:00 PM.\n"
+        f"3. **Dual-Track Logistics**: Vendor arrivals 3 hours prior.\n"
+    )
+
+
+def _reply_vendor(event_title: str) -> str:
+    """Generates vendor contract and management guidance."""
+    return (
+        f"### 🤝 Vendor Management & CRM Guidance for {event_title}\n\n"
+        f"Ensure seamless execution with these vendor vetting tips:\n\n"
+        f"1. **Tasting & Demo**: Conduct live food tastings.\n"
+        f"2. **Deliverables in Writing**: Drone 4K deliverables within 48h.\n"
+        f"3. **Payment Tranches**: 40% advance, 40% on arrival, 20% post.\n"
+    )
+
+
+def _reply_creative(event_title: str) -> str:
+    """Generates creative thematic and decor suggestions."""
+    return (
+        f"### ✨ Personalized Creative Concepts for {event_title}\n\n"
+        f"Fresh, culturally vibrant ideas to elevate the guest experience:\n\n"
+        f"1. **Interactive Purani Dilli Chaat Gali**: Live Banarasi Chaat.\n"
+        f"2. **Personalized Shahi Ittar Bar**: Sandalwood ittars in flacons.\n"
+        f"3. **Family Sangeet Face-Off**: Dance face-off with cold sparks.\n"
+        f"4. **Royal Lotus Floating Mandap**: Vedic twilight pheras.\n"
+    )
+
+
+def _reply_general(event_title: str, event_type: str, currency: str) -> str:
+    """Generates general greeting and capabilities overview."""
+    return (
+        f"### 🌟 EventGenie AI at your service!\n\n"
+        f"I am here to help you coordinate every detail of **{event_title}**.\n\n"
+        f"- **Refine your Budget**: Reallocate funds in {currency}.\n"
+        f"- **Perfect your Timeline**: Build a seamless day-of schedule.\n"
+        f"- **Vendor CRM & Checklists**: Track caterers, decorators, and photo.\n"
+        f"- **Creative Ideation**: Suggest royal themes and return gifts.\n\n"
+        f"What specific aspect of your {event_type} would you like to explore next?\n"
+    )
+
+
+def _matches_topic(msg: str, keywords: tuple) -> bool:
+    """Checks whether any keyword exists in the message."""
+    for k in keywords:
+        if k in msg:
+            return True
+    return False
+
+
 def _generate_heuristic_chat_reply(message: str, context: Optional[dict]) -> str:
     """Rule-based contextual planning knowledge generator for offline scenarios.
 
@@ -373,51 +462,12 @@ def _generate_heuristic_chat_reply(message: str, context: Optional[dict]) -> str
     budget = context.get("totalBudget", "the budget") if context else "the budget"
     currency = context.get("currency", "INR") if context else "INR"
 
-    if any(k in msg for k in ["budget", "cost", "expensive", "cut", "save"]):
-        return (
-            f"### 💡 Strategic Budget Advice for {event_title}\n\n"
-            f"Here is a balanced framework based on your total budget "
-            f"of **{currency} {budget}**:\n\n"
-            f"1. **The 50/30/20 Rule for Indian Celebrations**:\n"
-            f"   - **50% Experience Core**: Venue & Heritage Catering.\n"
-            f"   - **30% Aesthetics**: Decor, Lotus Mandap/Stage, Sound.\n"
-            f"   - **20% Memories & Buffer**: 4K Cinema, Shagun buffer.\n\n"
-            f"2. **3 High-Impact Savings Tactics**:\n"
-            f"   - **Seasonal Floral Mix**: Blend marigolds with local foliage.\n"
-            f"   - **Curated Multi-Station Stalls**: Focus on interactive Chaat.\n"
-            f"   - **Off-Peak Timings**: Morning or Sunday afternoon slots.\n"
-        )
-    if any(k in msg for k in ["timeline", "schedule", "delay", "curfew", "muhurat"]):
-        return (
-            f"### ⏱️ Timeline & Schedule Optimization for {event_title}\n\n"
-            f"Indian celebrations thrive on punctuality paired with warmth:\n\n"
-            f"1. **Buffer Blocks (The 'Desi Time' Cushion)**: Add 30-min buffers.\n"
-            f"2. **Curfew Compliance**: Outdoor loudspeakers curfew at 10:00 PM.\n"
-            f"3. **Dual-Track Logistics**: Vendor arrivals 3 hours prior.\n"
-        )
-    if any(k in msg for k in ["vendor", "contract", "caterer", "photographer", "dj"]):
-        return (
-            f"### 🤝 Vendor Management & CRM Guidance for {event_title}\n\n"
-            f"Ensure seamless execution with these vendor vetting tips:\n\n"
-            f"1. **Tasting & Demo**: Conduct live food tastings.\n"
-            f"2. **Deliverables in Writing**: Drone 4K deliverables within 48h.\n"
-            f"3. **Payment Tranches**: 40% advance, 40% on arrival, 20% post.\n"
-        )
-    if any(k in msg for k in ["idea", "theme", "decor", "game", "activity", "chaat"]):
-        return (
-            f"### ✨ Personalized Creative Concepts for {event_title}\n\n"
-            f"Fresh, culturally vibrant ideas to elevate the guest experience:\n\n"
-            f"1. **Interactive Purani Dilli Chaat Gali**: Live Banarasi Chaat.\n"
-            f"2. **Personalized Shahi Ittar Bar**: Sandalwood ittars in flacons.\n"
-            f"3. **Family Sangeet Face-Off**: Dance face-off with cold sparks.\n"
-            f"4. **Royal Lotus Floating Mandap**: Vedic twilight pheras.\n"
-        )
-    return (
-        f"### 🌟 EventGenie AI at your service!\n\n"
-        f"I am here to help you coordinate every detail of **{event_title}**.\n\n"
-        f"- **Refine your Budget**: Reallocate funds in {currency}.\n"
-        f"- **Perfect your Timeline**: Build a seamless day-of schedule.\n"
-        f"- **Vendor CRM & Checklists**: Track caterers, decorators, and photo.\n"
-        f"- **Creative Ideation**: Suggest royal themes and return gifts.\n\n"
-        f"What specific aspect of your {event_type} would you like to explore next?\n"
-    )
+    if _matches_topic(msg, ("budget", "cost", "expensive", "cut", "save")):
+        return _reply_budget(event_title, currency, budget)
+    if _matches_topic(msg, ("timeline", "schedule", "delay", "curfew", "muhurat")):
+        return _reply_timeline(event_title)
+    if _matches_topic(msg, ("vendor", "contract", "caterer", "photographer", "dj")):
+        return _reply_vendor(event_title)
+    if _matches_topic(msg, ("idea", "theme", "decor", "game", "activity", "chaat")):
+        return _reply_creative(event_title)
+    return _reply_general(event_title, event_type, currency)

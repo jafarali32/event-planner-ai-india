@@ -914,25 +914,25 @@ function openAddBudgetModal() {
   const html = `
     <form onsubmit="submitAddBudget(event)" class="space-y-3">
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Category</label>
+        <label for="add-b-cat" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Category</label>
         <input type="text" id="add-b-cat" placeholder="e.g. Venue, Catering, Music, Decor" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Item Description</label>
+        <label for="add-b-item" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Item Description</label>
         <input type="text" id="add-b-item" placeholder="e.g. Acoustic Guitar Duo for Cocktail Hour" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Estimated Cost</label>
+          <label for="add-b-est" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Estimated Cost</label>
           <input type="number" id="add-b-est" min="0" step="10" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
         </div>
         <div>
-          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Actual / Contracted</label>
+          <label for="add-b-act" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Actual / Contracted</label>
           <input type="number" id="add-b-act" min="0" step="10" value="0" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
         </div>
       </div>
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Notes</label>
+        <label for="add-b-notes" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Notes</label>
         <input type="text" id="add-b-notes" placeholder="e.g. Deposit required by next Friday" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div class="flex justify-end gap-2 pt-2">
@@ -966,19 +966,19 @@ function openAddTimelineModal() {
   const html = `
     <form onsubmit="submitAddMilestone(event)" class="space-y-3">
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Phase</label>
+        <label for="add-t-phase" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Phase</label>
         <input type="text" id="add-t-phase" placeholder="e.g. 6 Months Out, 1 Month Out, Week Of" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Milestone Title</label>
+        <label for="add-t-title" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Milestone Title</label>
         <input type="text" id="add-t-title" placeholder="e.g. Finalize Dinner Menu & Tasting" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Description / Action Steps</label>
+        <label for="add-t-desc" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Description / Action Steps</label>
         <textarea id="add-t-desc" rows="2" placeholder="Specific steps and details" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-sm text-white outline-none"></textarea>
       </div>
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Target Due Date</label>
+        <label for="add-t-date" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Target Due Date</label>
         <input type="date" id="add-t-date" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div class="flex justify-end gap-2 pt-2">
@@ -1012,24 +1012,24 @@ function openAddScheduleModal() {
     <form onsubmit="submitAddSchedule(event)" class="space-y-3">
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Time</label>
+          <label for="add-s-time" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Time</label>
           <input type="text" id="add-s-time" placeholder="e.g. 05:30 PM" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
         </div>
         <div>
-          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Location</label>
+          <label for="add-s-loc" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Location</label>
           <input type="text" id="add-s-loc" placeholder="e.g. Main Courtyard" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
         </div>
       </div>
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Activity / Cue</label>
+        <label for="add-s-act" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Activity / Cue</label>
         <input type="text" id="add-s-act" placeholder="e.g. First Dance & Sparkler Cold Fountains" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Assigned Coordinator / Role</label>
+        <label for="add-s-coord" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Assigned Coordinator / Role</label>
         <input type="text" id="add-s-coord" placeholder="e.g. DJ Sammy & Wedding Planner" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Key Notes / Instructions</label>
+        <label for="add-s-notes" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Key Notes / Instructions</label>
         <input type="text" id="add-s-notes" placeholder="e.g. Dim chandeliers to 30%" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div class="flex justify-end gap-2 pt-2">
@@ -1062,24 +1062,24 @@ function openAddVendorModal() {
   const html = `
     <form onsubmit="submitAddVendor(event)" class="space-y-3">
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Category</label>
+        <label for="add-v-cat" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Category</label>
         <input type="text" id="add-v-cat" placeholder="e.g. Catering, Photography, Florist, DJ" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Vendor / Company Name</label>
+        <label for="add-v-name" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Vendor / Company Name</label>
         <input type="text" id="add-v-name" placeholder="e.g. Bella Luna Photography" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Contact Info</label>
+        <label for="add-v-contact" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Contact Info</label>
         <input type="text" id="add-v-contact" placeholder="e.g. email@domain.com | (555) 000-1122" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Estimated Budget</label>
+          <label for="add-v-est" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Estimated Budget</label>
           <input type="number" id="add-v-est" min="0" value="0" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
         </div>
         <div>
-          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Status</label>
+          <label for="add-v-status" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Status</label>
           <select id="add-v-status" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
             <option value="researching">Researching</option>
             <option value="contacted">Contacted</option>
@@ -1123,7 +1123,7 @@ function openAddTaskToVendorModal(vIndex) {
     <form onsubmit="submitAddTaskToVendor(event, ${vIndex})" class="space-y-3">
       <p class="text-xs text-slate-300">Adding task to <strong class="text-white">${vendor.vendorName}</strong></p>
       <div>
-        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Task Description</label>
+        <label for="add-vt-desc" class="block text-xs font-semibold uppercase text-slate-400 mb-1">Task Description</label>
         <input type="text" id="add-vt-desc" placeholder="e.g. Schedule final tasting, sign insurance waiver" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div class="flex justify-end gap-2 pt-2">

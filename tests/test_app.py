@@ -263,9 +263,12 @@ def test_build_gemini_client():
 
 def test_gemini_generation_mock_success():
     """Validates successful end-to-end plan generation via Gemini LLM response."""
-    sample_plan = SAMPLE_EVENTS["wedding"]
+    import copy
+    import json
+    sample_plan = copy.deepcopy(SAMPLE_EVENTS["wedding"])
+    sample_plan["title"] = "Royal Rajasthan Wedding"
     mock_response = MagicMock()
-    mock_response.text = f"```json\n{sample_plan}\n```".replace("'", '"').replace("True", "true").replace("False", "false")
+    mock_response.text = f"```json\n{json.dumps(sample_plan)}\n```"
 
     mock_client = MagicMock()
     mock_client.models.generate_content.return_value = mock_response
@@ -282,6 +285,7 @@ def test_gemini_generation_mock_success():
     with patch("app.ai_service.build_gemini_client", return_value=mock_client):
         plan = generate_event_plan(req)
         assert plan.eventType == "wedding"
+        assert plan.title == "Royal Rajasthan Wedding"
 
 
 def test_gemini_generation_fallback_on_error():
@@ -302,6 +306,23 @@ def test_gemini_generation_fallback_on_error():
         plan = generate_event_plan(req)
         assert plan.eventType == "wedding"
         assert plan.totalBudget == 2000000.0
+
+
+def test_gemini_chat_error_fallback():
+    """Validates chat fallback to heuristic generator when Gemini API errors."""
+    mock_client = MagicMock()
+    mock_client.models.generate_content.side_effect = RuntimeError("Model timeout")
+
+    req = ChatRequest(
+        message="Help with catering budget",
+        eventContext=SAMPLE_EVENTS["wedding"],
+        chatHistory=[],
+        apiKey="mock-key"
+    )
+
+    with patch("app.ai_service.build_gemini_client", return_value=mock_client):
+        reply = ask_event_assistant(req)
+        assert "Budget Advice" in reply
 
 
 # -------------------------------------------------------------
