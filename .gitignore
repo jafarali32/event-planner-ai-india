@@ -31,3 +31,8 @@ video_recording/
 generate_demo_video.py
 
 reel_assets/
+
+cinematic_assets/
+*.wav
+*.mp3
+tall_assets/
