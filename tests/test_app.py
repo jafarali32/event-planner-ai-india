@@ -325,6 +325,36 @@ def test_gemini_chat_error_fallback():
         assert "Budget Advice" in reply
 
 
+def test_gemini_generation_outer_exception():
+    """Validates outer exception handling in generate_event_plan."""
+    mock_client = MagicMock()
+    mock_client.models = None
+    req = GeneratePlanRequest(
+        eventType="wedding",
+        title="Exception Wedding",
+        guestCount=100,
+        totalBudget=1000000.0,
+        currency="INR",
+        apiKey="key"
+    )
+    with patch("app.ai_service.build_gemini_client", return_value=mock_client):
+        plan = generate_event_plan(req)
+        assert plan.eventType == "wedding"
+
+
+def test_gemini_chat_outer_exception():
+    """Validates outer exception handling in ask_event_assistant."""
+    mock_client = MagicMock()
+    mock_client.models = None
+    req = ChatRequest(
+        message="Hello",
+        apiKey="key"
+    )
+    with patch("app.ai_service.build_gemini_client", return_value=mock_client):
+        reply = ask_event_assistant(req)
+        assert "EventGenie AI at your service" in reply
+
+
 # -------------------------------------------------------------
 # 6. Chat Assistant Tests & Heuristics
 # -------------------------------------------------------------
@@ -470,6 +500,13 @@ def test_port_discovery_helpers():
     with patch.dict("os.environ", {"PORT": "invalid_port"}):
         port = run.find_available_port(8080)
         assert port in [8080, 8050, 8000, 8888, 5000]
+
+
+def test_port_discovery_all_busy():
+    """Validates fallback to preferred port when all ports are in use."""
+    with patch("run.is_port_in_use", return_value=True):
+        port = run.find_available_port(8080, fallbacks=[8081])
+        assert port == 8080
 
 
 def test_run_main():
