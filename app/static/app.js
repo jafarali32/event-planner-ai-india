@@ -34,7 +34,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // Format currency
-function formatCurrency(amount, currency = 'USD') {
+function formatCurrency(amount, currency = 'INR') {
+  if (currency === 'INR') {
+    return '₹' + Number(amount || 0).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+  }
   const symbols = {
     'USD': '$',
     'EUR': '€',
@@ -813,20 +816,20 @@ function updateWizardDefaults(type) {
   const guests = document.getElementById('wiz-guests');
 
   if (type === 'wedding') {
-    title.value = "Sophia & Julian's Romantic Garden Wedding";
-    vibe.value = "Lush botanical florals, champagne tones, candlelit farm tables, acoustic guitar";
-    budget.value = "28000";
-    guests.value = "90";
+    title.value = "Aarav & Ananya's Royal Jaipur Heritage Wedding";
+    vibe.value = "Royal Rajasthani heritage, marigold cascades, brass diyas, vibrant Sangeet beats";
+    budget.value = "2800000";
+    guests.value = "250";
   } else if (type === 'birthday') {
-    title.value = "Jordan's 30th Rooftop Sunset Social";
-    vibe.value = "Retro neon chic, craft cocktails, vinyl DJ, taco bar, polaroid wall";
-    budget.value = "4500";
-    guests.value = "40";
+    title.value = "Kabir's Royal 1st Birthday & Annaprashan Utsav";
+    vibe.value = "Vedic Annaprashan puja, jungle safari backdrop, return gifts, live chaat and kulfi counters";
+    budget.value = "200000";
+    guests.value = "80";
   } else if (type === 'community') {
-    title.value = "Riverside Summer Block Party & Art Fair";
-    vibe.value = "Family-friendly, local food trucks, community makers, acoustic stage, eco recycling";
-    budget.value = "10000";
-    guests.value = "300";
+    title.value = "Gokuldham Grand Diwali Mela & Dandiya Raas Utsav";
+    vibe.value = "Dandiya Raas, Rangoli competition, 10 PM sound curfew compliance, home-chef stalls";
+    budget.value = "450000";
+    guests.value = "600";
   }
 }
 

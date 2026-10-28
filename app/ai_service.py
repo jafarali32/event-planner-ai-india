@@ -141,226 +141,241 @@ def synthesize_smart_event_plan(request: GeneratePlanRequest) -> EventPlan:
 def _synthesize_wedding(
     plan_id: str, title: str, req: GeneratePlanRequest, budget: float, guests: int, curr: str
 ) -> EventPlan:
-    """Generates an authentic, luxury wedding celebration blueprint."""
+    """Generates an authentic, luxury Indian wedding (Shaadi) celebration blueprint."""
+    fallback_title = "Aarav & Ananya's Royal Jaipur Heritage Wedding"
+    effective_title = title if title and title != "Enchanted Wedding Celebration" else fallback_title
     ideas = EventIdeas(
-        themeTitle="Opulent Botanicals & Golden Hour Radiance",
+        themeTitle="Shahi Virasat: Royal Marigold & Crimson Grandeur",
         themeConcept=(
-            f"An unforgettable wedding blending timeless romantic architecture with modern botanical "
-            f"splendor. Natural cascading florals, ambient candlelight, customized culinary storytelling, "
-            f"and an unforgettable celebration for {guests} cherished guests."
+            f"A majestic Indian celebration rooted in timeless heritage for {guests} cherished guests. "
+            f"Featuring fragrant marigold and rajnigandha floral cascades, authentic Shehnai and Punjabi "
+            f"Dhol melodies, live Chaat Gali and Shahi Feast counters, and sacred Vedic twilight pheras."
         ),
         colorPalette=[
-            ColorSwatch(name="Champagne Gold", hex="#E6CA65"),
-            ColorSwatch(name="Sage & Eucalyptus", hex="#607D67"),
-            ColorSwatch(name="Dusty Rose", hex="#C98986"),
-            ColorSwatch(name="Warm Alabaster", hex="#F7F5F0"),
-            ColorSwatch(name="Deep Slate Charcoal", hex="#2C3539")
+            ColorSwatch(name="Genda Marigold", hex="#F59E0B"),
+            ColorSwatch(name="Royal Rani Pink", hex="#E11D48"),
+            ColorSwatch(name="Peacock Royal Blue", hex="#1D4ED8"),
+            ColorSwatch(name="Haldi Turmeric Gold", hex="#FBBF24"),
+            ColorSwatch(name="Emerald Panna Green", hex="#059669")
         ],
         signatureFoodAndDrinks=[
-            "The Vow & Tonic: Botanical gin, elderflower liqueur, fresh clarified grapefruit, and thyme sprig",
-            "Golden Hour Bourbon Smash: Bourbon, peach puree, mint, honey-ginger drizzle",
-            f"Artisanal Farm-to-Table Plated Dinner for {guests} guests with vegan and gluten-free pairings",
-            "Midnight Truffle Fry & Gourmet Brioche Slider Station"
+            "Kesariya Kesar Thandai & Aam Panna welcome coolers with rose petal garnish",
+            "Live Purani Dilli Chaat Gali: Banarasi Tamatar Chaat, Golgappe with 5 flavoured waters, Palak Patta Chaat",
+            f"Royal Shahi Feast for {guests} guests: Dal Baati Churma, Paneer Lababdar, Dum Biryani, and Amritsari Kulcha",
+            "Live Mithai Kadhai: Garma-garam Malpua with Rabri, Jalebi counter, and artisanal Kulfi Falooda",
+            "Midnight Masala Chai Bar with assorted Mathris during late-night Vedic Pheras"
         ],
         activitiesAndEntertainment=[
-            "Live String Trio for Ceremony & Cocktail Hour transitioning into high-energy live band",
-            "Audio Guestbook in a restored vintage phone for heartfelt audio voicemail keepsakes",
-            "Custom 360-degree slow motion video lounge with instant phone airdrop",
-            "Sparkler and cold-spark fountain arch for the newlyweds grand farewell"
+            "High-voltage Sangeet Dance Competition choreographed for Groom vs Bride families",
+            "Grand Royal Baraat with authentic Punjabi Dhol, vintage convertible car, and brass band",
+            "Royal Welcome with Shehnai maestro and flower petal shower from Palace balconies",
+            "Live Sufi Fusion Ensemble & Bollywood Celebrity DJ set after the Varmala",
+            "Traditional Joota Chupai negotiation and playful post-wedding family games"
         ],
         decorAndAtmosphere=[
-            "Suspended floral chandeliers with warm Edison bulb filament glow",
-            "Custom calligraphed linen seating charts and acrylic table identifiers",
-            "Lush ceremony arch draped with ivory chiffon, garden roses, and olive foliage",
-            "Floor-standing mirror photo moments with custom monogram decal"
+            "Mandap floating on Lotus water pond adorned with 50,000 marigolds and fresh rajnigandha stems",
+            "Traditional brass urli bowls with floating marigolds and scented mogra candles",
+            "Handcrafted puppet and Lac bangle maker live stall for guest souvenirs",
+            "Fairytale tree canopies wrapped with warm fairy string lights and hanging glass lamps"
         ],
         surpriseElements=[
-            "Surprise choreographed first dance dip with low-lying dry ice fog cloud effect",
-            "Personalized handwritten thank-you notes waiting under each guest dinner napkin",
-            "Surprise espresso martini cart rolling out during the 10:00 PM dance peak"
+            "Surprise cold-spark pyrotechnic display firing 360-degrees during the Varmala garland exchange",
+            "Personalized Shahi Ittar (organic Indian perfume) flacons gifted in brocade silk pouches",
+            "Surprise flash-mob entrance by the bride's cousins to classic 90s Bollywood anthems"
         ],
         moodboardPrompt=(
-            f"Romantic luxury wedding reception ballroom, golden hour candlelight, lush greenery "
-            f"and white rose centerpieces, farm tables, ambient fairy lights, {guests} guests enjoying "
-            f"celebration, 8k cinematic photography"
+            f"Grand Indian royal destination wedding in Jaipur palace courtyard at sunset, royal mandap "
+            f"with orange and yellow marigold flowers, brass diyas, bride in crimson red lehenga, groom in "
+            f"ivory sherwani, fairy lights, {guests} guests enjoying celebration, 8k cinematic photography"
         )
     )
 
     budget_breakdown = [
         BudgetItem(
-            id="b1", category="Venue & Rentals",
-            item="Ceremony & Reception Venue Hire with Tables/Chairs",
-            estimatedCost=round(budget * 0.28, 2),
-            notes="Includes 10-hour access and bridal preparation suite"
+            id="b1", category="Venue & Hospitality",
+            item="Heritage Palace Resort (2 Days & Guest Rooms)",
+            estimatedCost=round(budget * 0.34, 2),
+            notes="Includes lawn, poolside for Haldi, and banquet hall for Sangeet"
         ),
         BudgetItem(
-            id="b2", category="Catering & Bar",
-            item=f"Gourmet Meal & Open Bar Service ({guests} guests)",
-            estimatedCost=round(budget * 0.35, 2),
-            notes=f"Approx {round((budget * 0.35) / max(guests, 1), 2)} per guest for food, drinks, and staff"
+            id="b2", category="Catering & Live Stalls",
+            item=f"Royal Multi-Cuisine Feast & Live Chaat Gali ({guests} guests)",
+            estimatedCost=round(budget * 0.30, 2),
+            notes=f"Approx {round((budget * 0.30) / max(guests, 1), 2)} per guest across 4 functions"
         ),
         BudgetItem(
-            id="b3", category="Photography & Video",
-            item="Full Day 2-Shooter Photo & Cinematic Drone Video",
+            id="b3", category="Decor & Mandap",
+            item="Vedic Lotus Mandap, Sangeet Stage, Haldi Theme & Lighting",
             estimatedCost=round(budget * 0.12, 2),
-            notes="8 hours coverage, online gallery, and teaser film"
+            notes="Fresh marigolds, rajnigandha, royal drapes, and ambient palace uplighting"
         ),
         BudgetItem(
-            id="b4", category="Floral & Decor",
-            item="Ceremony Arch, Centerpieces, Bouquets & Mood Lighting",
-            estimatedCost=round(budget * 0.10, 2),
-            notes="Repurposes ceremony floral arrangements to the bridal table"
+            id="b4", category="Photography & Video",
+            item="Cinematic Candid Photo, Drone & 4K Wedding Film (3 Days)",
+            estimatedCost=round(budget * 0.08, 2),
+            notes="Team of 4 shooters, drone coverage, teaser reel in 48 hours"
         ),
         BudgetItem(
             id="b5", category="Entertainment & DJ",
-            item="Ceremony Acoustic Strings + Reception Live Band/DJ",
-            estimatedCost=round(budget * 0.07, 2),
-            notes="Includes wireless microphones, sound PA system and dancefloor lighting"
+            item="Sangeet Bollywood DJ, Punjabi Dhol Troupe & Shehnai Artist",
+            estimatedCost=round(budget * 0.05, 2),
+            notes="Includes state-of-the-art Line Array sound setup and wireless mics"
         ),
         BudgetItem(
-            id="b6", category="Attire, Hair & Makeup",
-            item="Hair & Makeup Glam Team for Bride and Party",
-            estimatedCost=round(budget * 0.04, 2),
-            notes="Includes prior hair/makeup trial session"
+            id="b6", category="Makeup & Mehndi",
+            item="Bridal HD Makeup (3 Functions) + Professional Mehndi Team",
+            estimatedCost=round(budget * 0.035, 2),
+            notes="Lead artist for bride + assistant artists for female guests"
         ),
         BudgetItem(
-            id="b7", category="Contingency & Emergency Buffer",
-            item="Weather backup, last-minute additions and vendor tips",
+            id="b7", category="Safas, Favors & Gifts",
+            item="Rajasthani Pagdis/Safas + Custom Mithai Gift Hampers",
+            estimatedCost=round(budget * 0.035, 2),
+            notes="Delivered to packaging room; includes Shahi Ittar flacons"
+        ),
+        BudgetItem(
+            id="b8", category="Contingency & Shagun Buffer",
+            item="Cash Envelopes for Service Staff, Drivers & Shagun Reserve",
             estimatedCost=round(budget * 0.04, 2),
-            notes="Kept strictly reserved for unforeseen day-of expenses"
+            notes="Kept strictly reserved for unforeseen day-of expenses and dakshina"
         )
     ]
 
     timeline = [
         TimelineMilestone(
             id="t1", phase="9-12 Months Out",
-            title="Establish Budget & Book Ceremony/Reception Venue",
-            description="Lock in wedding date, pay deposit, and secure venue contract.",
+            title="Book Heritage Venue & Block Shubh Muhurat Date",
+            description="Consult family astrologer for auspicious Muhurat and lock in Palace resort contract.",
             completed=True, category="Venue"
         ),
         TimelineMilestone(
             id="t2", phase="6-8 Months Out",
-            title="Select Photographer, Videographer & Caterer",
-            description="Conduct menu tasting, review vendor portfolios, and execute contracts.",
+            title="Hire Master Caterer, Photographer & Decorator",
+            description="Conduct food tasting session, select live counters, and approve Lotus Mandap design.",
             completed=True, category="Vendors"
         ),
         TimelineMilestone(
-            id="t3", phase="4-5 Months Out",
-            title="Launch Wedding Website & Send Formal Invitations",
-            description="Collect guest RSVPs, dietary needs, and hotel block bookings.",
-            completed=False, category="Stationery"
+            id="t3", phase="3-5 Months Out",
+            title="Bridal Couture Trials & Sangeet Choreographer",
+            description="Finalize bridal lehengas, sherwanis, and initiate weekend dance rehearsals with family.",
+            completed=True, category="Attire"
         ),
         TimelineMilestone(
-            id="t4", phase="2-3 Months Out",
-            title="Finalize Attire, Florals & Music Playlists",
-            description="Submit must-play and do-not-play track lists, review floral centerpiece mockups.",
-            completed=False, category="Design"
+            id="t4", phase="2 Months Out",
+            title="Send Digital WhatsApp Invites & Royal Box Cards",
+            description="Dispatch mithai invitation boxes and collect guest arrival flight/train details.",
+            completed=False, category="Guests"
         ),
         TimelineMilestone(
-            id="t5", phase="1 Month Out",
-            title="Final RSVP Count & Seating Plan Submission",
-            description="Deliver final meal counts to caterer and create physical seating chart.",
+            id="t5", phase="3 Weeks Out",
+            title="Final Room Allocation & Safa Headcounts",
+            description="Assign room keys, coordinate airport pickup shuttle, and deliver vendor badges.",
             completed=False, category="Logistics"
         ),
         TimelineMilestone(
-            id="t6", phase="Week Of",
-            title="Wedding Rehearsal & Emergency Kit Pack",
-            description="Run through ceremony processional, prepare vendor gratuity envelopes.",
-            completed=False, category="Rehearsal"
+            id="t6", phase="Wedding Week",
+            title="Pack Shagun Envelopes, Havan Samagri & Haldi Gear",
+            description="Distribute timeline cards to immediate family; coordinate with Panditji.",
+            completed=False, category="Final Prep"
         )
     ]
 
     schedule = [
         ScheduleItem(
-            id="s1", time="08:30 AM", activity="Bridal Suite Hair & Makeup Glam Session",
-            location="Bridal Suite", coordinator="Lead Stylist", notes="Light breakfast served"
+            id="s1", time="09:00 AM", activity="Peeli Haldi & Phoolon ki Holi",
+            location="Palace Poolside Lawn", coordinator="Bride & Groom Cousins",
+            notes="Yellow dress code; organic herbal turmeric and marigold petals"
         ),
         ScheduleItem(
-            id="s2", time="11:30 AM", activity="Vendor Rentals & Florist Load-In",
-            location="Main Hall & Garden", coordinator="Day-of Coordinator", notes="Inspect table layout"
+            id="s2", time="12:30 PM", activity="Traditional Rajasthani High Tea & Lunch",
+            location="Courtyard Dining", coordinator="Catering Lead",
+            notes="Live Dal Baati and Kachori counters open"
         ),
         ScheduleItem(
-            id="s3", time="01:30 PM", activity="Groom & Groomsmen Getting Ready",
-            location="Groom Lounge", coordinator="Best Man", notes="Boutonnieres pinned"
+            id="s3", time="03:30 PM", activity="Bridal & Groom Royal Dressing & Safa Bandhai",
+            location="Royal Suites", coordinator="Stylist & Pagdi Master",
+            notes="Candid photos of jewelry, sehra, and kaleeras"
         ),
         ScheduleItem(
-            id="s4", time="03:00 PM", activity="First Look & Private Couple Portraits",
-            location="Garden Terrace", coordinator="Photographer", notes="Intimate portrait session"
+            id="s4", time="05:00 PM", activity="Royal Baraat Assembly & Swagat",
+            location="Palace Main Gate", coordinator="Dhol Master & Groom Team",
+            notes="Vintage car lead, Punjabi Dhol beat, rosewater spray"
         ),
         ScheduleItem(
-            id="s5", time="04:30 PM", activity="Guest Arrival & Pre-Ceremony Refreshments",
-            location="Courtyard Foyer", coordinator="Venue Greeters", notes="Infused water and soft music"
+            id="s5", time="06:15 PM", activity="Milni Ceremony & Royal Gateway Welcome",
+            location="Inner Palace Courtyard", coordinator="Family Elders",
+            notes="Garland exchange by fathers, Shehnai welcoming notes"
         ),
         ScheduleItem(
-            id="s6", time="05:00 PM", activity="Wedding Ceremony Processional",
-            location="Outdoor Lawn / Altar", coordinator="Officiant & Coordinator", notes="Cue music"
+            id="s6", time="07:00 PM", activity="Grand Varmala Ceremony under Cold Sparks",
+            location="Grand Palace Stage", coordinator="Event Coordinator",
+            notes="Dramatic smoke curtain and 360-degree cold fire fountains"
         ),
         ScheduleItem(
-            id="s7", time="05:45 PM", activity="Cocktail Hour & Passed Hors d'oeuvres",
-            location="Terrace Lounge", coordinator="Catering Lead", notes="Family photos"
+            id="s7", time="07:45 PM", activity="Royal Wedding Reception Feast & Live Sufi Set",
+            location="Main Lawn & Banquet", coordinator="Catering Manager",
+            notes="All live food stations active; photo ops with couple"
         ),
         ScheduleItem(
-            id="s8", time="07:00 PM", activity="Grand Entrance & Plated Dinner Service",
-            location="Reception Hall", coordinator="MC / DJ", notes="Welcome toasts, champagne pours"
+            id="s8", time="10:30 PM", activity="Vedic Pheras & Kanyadaan at the Lotus Mandap",
+            location="Lakeside Lotus Mandap", coordinator="Panditji & Siblings",
+            notes="Sacred Agni havan, 7 vows recitation, Sindoor & Mangalsutra"
         ),
         ScheduleItem(
-            id="s9", time="08:30 PM", activity="First Dance & Cake Cutting Ceremony",
-            location="Dance Floor", coordinator="DJ", notes="Cue special lighting effect"
-        ),
-        ScheduleItem(
-            id="s10", time="09:00 PM", activity="High-Energy Dance Party & Espresso Bar",
-            location="Main Hall", coordinator="Band / DJ", notes="Late night slider snacks"
-        ),
-        ScheduleItem(
-            id="s11", time="11:30 PM", activity="Sparkler Grand Send-Off & Departure",
-            location="Front Portico", coordinator="Coordinator", notes="Safety sparklers lit"
+            id="s9", time="12:30 AM", activity="Emotional Vidaai Ceremony",
+            location="Palace Gateway", coordinator="Parents & Coordinator",
+            notes="Floral coin toss, vintage car departure"
         )
     ]
 
     vendors = [
         VendorItem(
-            id="v1", category="Venue & Logistics", vendorName="Grand Estate & Garden Pavilion",
-            contact="events@grandestatevenue.com", estimatedCost=round(budget * 0.28, 2), status="contacted",
+            id="v1", category="Heritage Venue", vendorName="Chomu Palace Heritage Resort",
+            contact="weddings@chomupalace.com | +91 98290 12345",
+            estimatedCost=round(budget * 0.34, 2), status="booked",
             checklist=[
-                ChecklistTask(id="c1", task="Confirm 10-hour rental window and curfew", completed=True),
-                ChecklistTask(id="c2", task="Review sound decibel regulations", completed=False),
-                ChecklistTask(id="c3", task="Submit third-party event insurance binder", completed=False)
+                ChecklistTask(id="c1", task="Confirm 2-day booking and 40 guest rooms", completed=True),
+                ChecklistTask(id="c2", task="Review outdoor lawn sound curfew rules (10:00 PM)", completed=True),
+                ChecklistTask(id="c3", task="Inspect Mandap power connection and backup generator", completed=False)
             ]
         ),
         VendorItem(
-            id="v2", category="Catering & Bar", vendorName="Epicurean Celebrations Co.",
-            contact="catering@epicureancelebrations.com", estimatedCost=round(budget * 0.35, 2), status="researching",
+            id="v2", category="Catering & Live Stalls", vendorName="Shahi Dawat Caterers & Chaat Co.",
+            contact="catering@shahidawat.in | +91 98110 54321",
+            estimatedCost=round(budget * 0.30, 2), status="booked",
             checklist=[
-                ChecklistTask(id="c4", task="Schedule private tasting for 4 guests", completed=False),
-                ChecklistTask(id="c5", task="Finalize cocktail menu and alcohol ordering model", completed=False),
-                ChecklistTask(id="c6", task="Confirm dietary and allergy protocol", completed=False)
+                ChecklistTask(id="c4", task="Conduct tasting for 5-flavor Golgappe & Banarasi Chaat", completed=True),
+                ChecklistTask(id="c5", task="Confirm dedicated Pure Veg & Jain counters", completed=False),
+                ChecklistTask(id="c6", task="Ensure midnight Masala Chai and Garma-garam Jalebi service", completed=False)
             ]
         ),
         VendorItem(
-            id="v3", category="Photography & Video", vendorName="Prism Light Media Arts",
-            contact="booking@prismlightmedia.com", estimatedCost=round(budget * 0.12, 2), status="researching",
+            id="v3", category="Photography & Video", vendorName="Drishti Films & Candid Arts",
+            contact="contact@drishtifilms.in | +91 99201 67890",
+            estimatedCost=round(budget * 0.08, 2), status="booked",
             checklist=[
-                ChecklistTask(id="c7", task="Review complete full-day wedding gallery samples", completed=False),
-                ChecklistTask(id="c8", task="Confirm dual-photographer coverage & timeline", completed=False),
-                ChecklistTask(id="c9", task="Deliver specific VIP family photo shot list", completed=False)
+                ChecklistTask(id="c7", task="Confirm 4-member camera crew + 4K drone operator", completed=True),
+                ChecklistTask(id="c8", task="Deliver 60-second Instagram teaser reel in 48 hours", completed=False),
+                ChecklistTask(id="c9", task="Capture complete family VIP portraits before Baraat", completed=False)
             ]
         ),
         VendorItem(
-            id="v4", category="Floral & Styling", vendorName="Botanica Bloom Studio",
-            contact="designer@botanicablooms.com", estimatedCost=round(budget * 0.10, 2), status="researching",
+            id="v4", category="Decor & Mandap", vendorName="Utsav Mandap & Floral Designers",
+            contact="design@utsavmandap.in | +91 97170 98765",
+            estimatedCost=round(budget * 0.12, 2), status="booked",
             checklist=[
-                ChecklistTask(id="c10", task="Approve color palette and seasonal stem selections", completed=False),
-                ChecklistTask(id="c11", task="Plan ceremony arch repurposing to reception stage", completed=False),
-                ChecklistTask(id="c12", task="Confirm midnight teardown and cleanup logistics", completed=False)
+                ChecklistTask(id="c10", task="Approve floating Lotus Mandap and marigold motifs", completed=True),
+                ChecklistTask(id="c11", task="Order 100 kg fresh orange & yellow marigolds", completed=True),
+                ChecklistTask(id="c12", task="Ensure teardown protocol clean by 03:00 AM", completed=False)
             ]
         )
     ]
 
     return EventPlan(
-        id=plan_id, title=title, eventType="wedding",
-        date=req.date or "2027-06-20", location=req.location or "Scenic Country Club / Garden Estate",
+        id=plan_id, title=effective_title, eventType="wedding",
+        date=req.date or "2027-11-24", location=req.location or "Chomu Palace Heritage Resort, Jaipur, Rajasthan",
         guestCount=guests, currency=curr, totalBudget=budget,
-        vibeAndStyle=req.vibeAndStyle or "Timeless, romantic, and breathtaking",
+        vibeAndStyle=req.vibeAndStyle or "Royal Rajasthani heritage, marigold cascades, brass diyas, vibrant Sangeet beats",
         specialRequests=req.specialRequests or "",
         ideas=ideas, budgetBreakdown=budget_breakdown,
         timeline=timeline, dayOfSchedule=schedule, vendorChecklist=vendors
@@ -370,188 +385,195 @@ def _synthesize_wedding(
 def _synthesize_birthday(
     plan_id: str, title: str, req: GeneratePlanRequest, budget: float, guests: int, curr: str
 ) -> EventPlan:
-    """Generates an energetic milestone birthday blueprint."""
+    """Generates an authentic milestone Indian birthday (Janamdin / Annaprashan) blueprint."""
+    fallback_title = "Kabir's Royal 1st Birthday & Annaprashan Utsav"
+    effective_title = title if title and title != "Enchanted Birthday Celebration" else fallback_title
     ideas = EventIdeas(
-        themeTitle="Electric Glow & Skyline Celebration",
+        themeTitle="Bal Gopal Jungle Safari & Annaprashan Utsav",
         themeConcept=(
-            f"An electrifying, interactive celebration curated for {guests} guests. Featuring elevated "
-            f"street-gourmet gastronomy, an immersive audio-visual ambiance, nostalgic custom games, "
-            f"and surprise high-impact reveals."
+            f"A heartwarming milestone celebration uniting {guests} loved ones. Featuring traditional "
+            f"Vedic Annaprashan blessings, an immersive pastel jungle safari backdrop, live South Indian "
+            f"and chaat gastronomy, interactive children's entertainers, and bespoke family return gifts."
         ),
         colorPalette=[
-            ColorSwatch(name="Vibrant Coral", hex="#FF6F61"),
-            ColorSwatch(name="Neon Teal", hex="#00E5FF"),
-            ColorSwatch(name="Electric Violet", hex="#8B5CF6"),
-            ColorSwatch(name="Midnight Onyx", hex="#0F172A"),
-            ColorSwatch(name="Warm Golden Amber", hex="#F59E0B")
+            ColorSwatch(name="Haldi Gold", hex="#F59E0B"),
+            ColorSwatch(name="Sage Jungle Green", hex="#10B981"),
+            ColorSwatch(name="Baby Sky Blue", hex="#38BDF8"),
+            ColorSwatch(name="Warm Amber Ochre", hex="#D97706"),
+            ColorSwatch(name="Pure Pearl White", hex="#F8FAFC")
         ],
         signatureFoodAndDrinks=[
-            "The Birthday Spark: Sparkling prosecco, guava nectar, lime juice, and edible golden stars",
-            "Smoked Citrus Margarita with chili-lime sea salt rim",
-            "Interactive Bao Bun & Gourmet Taco Slider Station with plant-based options",
-            "Mini Churro Bites with Mexican chocolate dip & Warm Salted Caramel Pretzel Skewers"
+            "Mango Lassi & Fresh Sugarcane Juice welcome coolers with mint sprigs",
+            "Live South Indian Live Dosa & Crispy Vada Cart with 4 homemade chutneys",
+            "Live Purani Dilli Chaat Counter: Sev Puri, Dahi Papdi Chaat, and Pani Puri",
+            "Custom 2-tier Jungle Safari eggless Vanilla Mango fresh cream cake",
+            "Artisanal Matka Kulfi & Garam Gulab Jamun live dessert station"
         ],
         activitiesAndEntertainment=[
-            "Custom-curated Birthday Trivia game loaded with embarrassing throwback photos",
-            "Retro Polaroid Photo Booth with customized instant printed photo strip sleeves",
-            "Live vinyl DJ blending crowd favorites, throwback anthems, and modern remixes",
-            "Signature giant Jenga and illuminated cornhole competition lounge"
+            "Vedic Annaprashan Ceremony: First rice feeding blessing by maternal uncle with engraved silver spoon",
+            "Traditional Thali Choice ritual (Baby selects between pen, coin, book, and clay)",
+            "Interactive Rajasthani Puppet Show & live balloon twister artist for kids",
+            "Custom Baby Milestone Trivia game and childhood photo memory wall",
+            "High-energy family musical chairs and baby dance floor set"
         ],
         decorAndAtmosphere=[
-            "Custom glowing LED neon name sign mounted over an organic balloon and foliage wall",
-            "Warm wireless uplighting creating a stylish lounge club vibe",
-            "Metallic foil fringe dramatic entryway for VIP photo arrivals",
-            "Cocktail high-tops illuminated with geometric amber hurricane lanterns"
+            "Pastel balloon arch and safari animal cutout backdrop with warm custom neon baby name",
+            "Fresh marigold and mango leaf toran entrance archway",
+            "Custom illuminated photo booth with baby monthly milestone photo cards",
+            "Low brass tables with comfortable floor gaddas and silk bolsters for elders"
         ],
         surpriseElements=[
-            "Surprise birthday video montage with heartfelt messages from far-away friends",
-            "Champagne bottle parade with cold-spark fountains during the cake reveal",
-            "Late-night hot gourmet pizza delivery right when the dance floor hits its peak"
+            "Surprise emotional first-year retrospective video montage projected on LED wall",
+            "Baby's royal grand entry in a flower-decorated wooden chariot pushed by cousins",
+            "Bespoke return gift hampers with personalized brass diyas and artisanal dry fruits"
         ],
         moodboardPrompt=(
-            "Trendy milestone birthday party at night, stylish loft lounge, neon lighting, "
-            "fashionable friends laughing and dancing, gourmet appetizers, polaroid photos, cinematic lighting"
+            f"Joyful Indian 1st birthday and Annaprashan celebration, pastel jungle safari and marigold "
+            f"floral decor, brass urlis, warm fairy lights, happy Indian family and baby in traditional "
+            f"kurta, live food stalls, {guests} guests, cinematic 8k"
         )
     )
 
     budget_breakdown = [
         BudgetItem(
-            id="b1", category="Venue & Lounge Space",
-            item="Private Loft or Rooftop Space Rental (5 Hours)",
-            estimatedCost=round(budget * 0.32, 2),
-            notes="Includes seating, restrooms, sound hookup"
+            id="b1", category="Venue & Hall",
+            item="Boutique Banquet Lawn & Indoor AC Hall (6 Hours)",
+            estimatedCost=round(budget * 0.30, 2),
+            notes="Includes stage, kid-friendly play area, dining hall, and generator backup"
         ),
         BudgetItem(
-            id="b2", category="Food & Bar Catering",
-            item=f"Gourmet Finger Foods, Bites & Bartender ({guests} guests)",
-            estimatedCost=round(budget * 0.36, 2),
-            notes="Covers craft cocktail service and heavy appetizers"
+            id="b2", category="Food & Beverage Catering",
+            item=f"Pure Veg Multi-Cuisine Feast & Live Counters ({guests} guests)",
+            estimatedCost=round(budget * 0.35, 2),
+            notes="Includes Live Dosa, Chaat counter, mocktails, lunch buffet, and high tea"
         ),
         BudgetItem(
-            id="b3", category="DJ & Audio/Lighting",
-            item="Professional DJ, Sound System & Ambient Uplighting",
+            id="b3", category="Decor, Safari Theme & Balloons",
+            item="Jungle Safari Backdrop, Balloon Garland & Neon Name Sign",
             estimatedCost=round(budget * 0.14, 2),
-            notes="4 hours of live music set with wireless mic for toasts"
+            notes="Includes entrance arch, stage setup, and custom acrylic cutouts"
         ),
         BudgetItem(
-            id="b4", category="Decor, Neon & Backdrops",
-            item="Custom Neon Sign, Balloon Garland & Photo Backdrop",
+            id="b4", category="Photography & Video",
+            item="Candid Baby & Family Photography + Highlight Video Reel",
             estimatedCost=round(budget * 0.08, 2),
-            notes="Client keeps the custom neon sign after the event"
+            notes="Includes dedicated pre-event cake smash photoshoot and edited album"
         ),
         BudgetItem(
-            id="b5", category="Custom Cake & Desserts",
-            item="Designer Birthday Cake + Dessert Station",
+            id="b5", category="Kids Entertainment & Magic Show",
+            item="Emcee, Puppet Show, Balloon Twister & Tattoo Artist",
             estimatedCost=round(budget * 0.05, 2),
-            notes="Custom tiered cake matching party theme"
+            notes="2.5 hours of high-engagement children entertainment and party games"
         ),
         BudgetItem(
-            id="b6", category="Contingency & Favors",
-            item="Polaroid Film, Party Favors & Last-Minute Buffer",
-            estimatedCost=round(budget * 0.05, 2),
-            notes="Guest souvenirs and emergency supply kit"
+            id="b6", category="Cake & Desserts",
+            item="Designer 2-Tier Eggless Cake + Live Matka Kulfi",
+            estimatedCost=round(budget * 0.04, 2),
+            notes="Custom jungle safari modeling chocolate toppers"
+        ),
+        BudgetItem(
+            id="b7", category="Return Gifts & Favors",
+            item="Personalized Return Gift Hampers for Kids and Elders",
+            estimatedCost=round(budget * 0.04, 2),
+            notes="Customized educational activity kits for kids; brass diyas for family"
         )
     ]
 
     timeline = [
         TimelineMilestone(
-            id="t1", phase="6-8 Weeks Out", title="Select Venue & Lock in Date",
-            description="Sign rental agreement and pay venue holding deposit.",
+            id="t1", phase="6-8 Weeks Out", title="Consult Astrologer & Book Banquet Hall",
+            description="Fix auspicious Annaprashan Muhurat time and secure family venue contract.",
             completed=True, category="Venue"
         ),
         TimelineMilestone(
-            id="t2", phase="4 Weeks Out", title="Send Digital Invitations & Collect RSVPs",
-            description="Send invites via Partiful/Paperless Post; track dietary allergies.",
+            id="t2", phase="4 Weeks Out", title="Send Digital WhatsApp Video Invitations",
+            description="Design personalized cartoon video invite and collect guest confirmations.",
             completed=False, category="Guestlist"
         ),
         TimelineMilestone(
-            id="t3", phase="3 Weeks Out", title="Book DJ, Catering & Order Custom Cake",
-            description="Approve catering menu and send cake inspiration sketch.",
-            completed=False, category="Vendors"
+            id="t3", phase="3 Weeks Out", title="Finalize Live Counters & Order Theme Cake",
+            description="Approve Live Dosa and Chaat menu; finalize eggless fruit cake flavor.",
+            completed=False, category="Catering"
         ),
         TimelineMilestone(
-            id="t4", phase="1 Week Out", title="Gather Photo Slideshow & Finalize Playlist",
-            description="Compile childhood photos for surprise video and finalize playlist.",
-            completed=False, category="Entertainment"
+            id="t4", phase="1 Week Out", title="Compile 12-Month Photo Montage & Playlist",
+            description="Gather monthly baby photos for projector screening; finalize kids nursery dance tracks.",
+            completed=False, category="Media"
         ),
         TimelineMilestone(
-            id="t5", phase="Day Before", title="Stock Drinks, Charge Gear & Assemble Favors",
-            description="Verify ice, cups, chargers, props, and cash envelopes.",
+            id="t5", phase="Day Before", title="Pack Silver Thali, Puja Samagri & Return Gifts",
+            description="Engrave silver bowl and spoon, prepare baby extra outfits and favor bags.",
             completed=False, category="Prep"
         )
     ]
 
     schedule = [
         ScheduleItem(
-            id="s1", time="05:00 PM", activity="Host Arrival & Venue Access",
-            location="Venue Loft", coordinator="Event Host", notes="Verify air conditioning and sound"
+            id="s1", time="10:00 AM", activity="Host Arrival & Stage/Balloon Decor Inspection",
+            location="Main Hall", coordinator="Parents", notes="Verify AC cooling and baby changing lounge"
         ),
         ScheduleItem(
-            id="s2", time="05:45 PM", activity="Catering & Bartender Load-In",
-            location="Bar Area", coordinator="Catering Lead", notes="Chill champagne, prep garnishes"
+            id="s2", time="11:00 AM", activity="Guest Welcoming & Fresh Mango Lassi Coolers",
+            location="Entrance Foyer", coordinator="Family Greeters", notes="Distribute welcome badges and wristbands"
         ),
         ScheduleItem(
-            id="s3", time="06:30 PM", activity="DJ Arrival & Soundcheck",
-            location="DJ Booth", coordinator="DJ", notes="Test wireless mic"
+            id="s3", time="11:30 AM", activity="Vedic Annaprashan Puja & First Rice Feeding",
+            location="Puja Mandap Stage", coordinator="Panditji & Mama", notes="Sacred kheer feeding with silver spoon"
         ),
         ScheduleItem(
-            id="s4", time="07:30 PM", activity="Guest Doors Open & Welcome Cocktail Hour",
-            location="Lounge & Terrace", coordinator="Bartender & Host", notes="Pass out signature cocktail"
+            id="s4", time="12:15 PM", activity="Traditional Thali Selection Ritual & Photos",
+            location="Stage", coordinator="Grandparents", notes="Baby chooses item; family blessing"
         ),
         ScheduleItem(
-            id="s5", time="08:30 PM", activity="Food Stations Open & Polaroid Photo Lounge",
-            location="Dining Station", coordinator="Co-Host", notes="Guests snap polaroid photos"
+            id="s5", time="12:45 PM", activity="Kids Magic Show, Puppet Act & Balloon Twisting",
+            location="Kids Play Zone", coordinator="Emcee Artist", notes="High crowd engagement for children"
         ),
         ScheduleItem(
-            id="s6", time="09:30 PM", activity="Surprise Tribute Video & Birthday Toast",
-            location="Main Screen", coordinator="Best Friend", notes="Display secret video reel"
+            id="s6", time="01:15 PM", activity="Grand Birthday Cake Cutting & Confetti Blast",
+            location="Main Stage", coordinator="All Family", notes="Singing birthday song; light sparkler candles"
         ),
         ScheduleItem(
-            id="s7", time="09:45 PM", activity="Cake Cutting & Sparkling Champagne Toast",
-            location="Center Table", coordinator="Host Team", notes="Light celebratory candles"
+            id="s7", time="01:30 PM", activity="Grand Feast & Live Dosa/Chaat Counters Open",
+            location="Dining Pavilion", coordinator="Catering Lead", notes="All 4 live food stations operational"
         ),
         ScheduleItem(
-            id="s8", time="10:00 PM", activity="Full Dance Floor Mode & DJ Set",
-            location="Dance Floor", coordinator="DJ", notes="High energy dance tracks"
-        ),
-        ScheduleItem(
-            id="s9", time="12:00 AM", activity="Party Wrap-Up & Departure",
-            location="Lobby", coordinator="Host Team", notes="Distribute party favors"
+            id="s8", time="03:00 PM", activity="Return Gift Distribution & Farewell",
+            location="Lobby Exit", coordinator="Host Team", notes="Hand over customized return hampers"
         )
     ]
 
     vendors = [
         VendorItem(
-            id="v1", category="Venue", vendorName="Skyline Urban Loft",
-            contact="manager@skylineloft.com", estimatedCost=round(budget * 0.32, 2), status="contacted",
+            id="v1", category="Banquet Venue", vendorName="Royal Greens Banquet & Lawns",
+            contact="events@royalgreens.in | +91 98765 43210", estimatedCost=round(budget * 0.30, 2), status="booked",
             checklist=[
-                ChecklistTask(id="c1", task="Confirm load-in door elevator access", completed=True),
-                ChecklistTask(id="c2", task="Review cleanup guidelines and trash removal rules", completed=False)
+                ChecklistTask(id="c1", task="Confirm 6-hour hall access and AC setup", completed=True),
+                ChecklistTask(id="c2", task="Verify kid play zone safety mats", completed=False)
             ]
         ),
         VendorItem(
-            id="v2", category="Catering & Bar", vendorName="Twist & Bite Pop-Up Catering",
-            contact="chef@twistandbite.com", estimatedCost=round(budget * 0.36, 2), status="researching",
+            id="v2", category="Pure Veg Catering", vendorName="Annapurna Celebrations Caterers",
+            contact="chefavinash@annapurna.in | +91 99887 76655", estimatedCost=round(budget * 0.35, 2), status="booked",
             checklist=[
-                ChecklistTask(id="c3", task="Confirm 2 signature cocktail batch recipes", completed=False),
-                ChecklistTask(id="c4", task="Confirm glassware vs compostable drinkware", completed=False)
+                ChecklistTask(id="c3", task="Confirm 4 varieties of live dosas and crispy vadas", completed=False),
+                ChecklistTask(id="c4", task="Ensure pure cow milk kheer for Annaprashan ritual", completed=True)
             ]
         ),
         VendorItem(
-            id="v3", category="Music & DJ", vendorName="SoundVibe Entertainment",
-            contact="dj@soundvibe.io", estimatedCost=round(budget * 0.14, 2), status="researching",
+            id="v3", category="Theme Decorator", vendorName="Balloon Magic & Kids Decor",
+            contact="info@balloonmagic.in | +91 91234 56789", estimatedCost=round(budget * 0.14, 2), status="researching",
             checklist=[
-                ChecklistTask(id="c5", task="Submit top 20 requested songs", completed=False),
-                ChecklistTask(id="c6", task="Confirm projector audio connection", completed=False)
+                ChecklistTask(id="c5", task="Approve pastel balloon garland color shade", completed=False),
+                ChecklistTask(id="c6", task="Confirm custom neon baby name signage", completed=False)
             ]
         )
     ]
 
     return EventPlan(
-        id=plan_id, title=title, eventType="birthday",
-        date=req.date or "2026-11-20", location=req.location or "Downtown Rooftop / Private Loft",
+        id=plan_id, title=effective_title, eventType="birthday",
+        date=req.date or "2026-11-20", location=req.location or "Royal Greens Banquet & Lawns, New Delhi",
         guestCount=guests, currency=curr, totalBudget=budget,
-        vibeAndStyle=req.vibeAndStyle or "Festive, energetic, stylish, and unforgettable",
+        vibeAndStyle=req.vibeAndStyle or "Vedic Annaprashan puja, jungle safari backdrop, return gifts, live chaat and kulfi",
         specialRequests=req.specialRequests or "",
         ideas=ideas, budgetBreakdown=budget_breakdown,
         timeline=timeline, dayOfSchedule=schedule, vendorChecklist=vendors
@@ -561,197 +583,198 @@ def _synthesize_birthday(
 def _synthesize_community(
     plan_id: str, title: str, req: GeneratePlanRequest, budget: float, guests: int, curr: str
 ) -> EventPlan:
-    """Generates an inclusive community festival blueprint."""
+    """Generates an inclusive Indian community festival (Diwali Mela / Dandiya Raas) blueprint."""
+    fallback_title = "Gokuldham Grand Diwali Mela & Dandiya Raas Utsav"
+    effective_title = title if title and title != "Enchanted Community Celebration" else fallback_title
     ideas = EventIdeas(
-        themeTitle="Neighborhood Harmony & Community Festival",
+        themeTitle="Deepavali Mahotsav & Dandiya Raas Milan",
         themeConcept=(
-            f"An inclusive, vibrant community gathering uniting {guests} attendees. Focused on local "
-            f"culture, family-friendly fun, sustainability, and accessible live entertainment."
+            f"A vibrant, grand cultural festival uniting {guests} community residents and families. "
+            f"Featuring authentic Gujarati Dandiya Raas, live Garba orchestra, multi-regional Indian "
+            f"street food stalls, traditional Rangoli contests, and a grand 108-diya Maha Aarti."
         ),
         colorPalette=[
-            ColorSwatch(name="Sunburst Orange", hex="#EA580C"),
-            ColorSwatch(name="Forest Meadow Green", hex="#16A34A"),
-            ColorSwatch(name="Sky Blue", hex="#0284C7"),
-            ColorSwatch(name="Warm Earth Ochre", hex="#CA8A04"),
-            ColorSwatch(name="Clean Canvas White", hex="#FFFFFF")
+            ColorSwatch(name="Genda Marigold Orange", hex="#EA580C"),
+            ColorSwatch(name="Peacock Green", hex="#16A34A"),
+            ColorSwatch(name="Deep Royal Indigo", hex="#312E81"),
+            ColorSwatch(name="Kesar Yellow", hex="#EAB308"),
+            ColorSwatch(name="Gulal Crimson Red", hex="#DC2626")
         ],
         signatureFoodAndDrinks=[
-            "Local Farmers Market Fresh Lemonade & Mint Coolers",
-            "Neighborhood Food Truck Row (Artisanal Tacos, Woodfired Pizza, Veggie Bowls)",
-            "Community Potluck & Bake-Off Pavilion with allergen labeling",
-            "Complimentary Fresh Popcorn & Organic Cotton Candy for kids"
+            "Garma-garam Masala Chai & Kesar Badam Milk stalls in authentic clay kulhads",
+            "Live Street Food Bazaar: Mumbai Pav Bhaji, Delhi Chole Bhature, and Banarasi Chaat",
+            "Community Mithai Mela: Hot Kaju Katli, Motichoor Ladoos, and Garma-garam Jalebi-Fafda",
+            "Complimentary Roasted Bhutta (Sweet Corn), Cotton Candy, and Popcorn for children"
         ],
         activitiesAndEntertainment=[
-            "Main Stage Community Showcase: Local high school bands and acoustic acts",
-            "Interactive Kids Creative Zone: Chalk art festival, giant bubbles, and face painting",
-            "Community Collaborative Canvas: A giant mural painted together by attendees",
-            "Neighborhood Raffle & Charity Fundraiser Auction"
+            "Grand Dandiya Raas & Traditional Garba with Live Gujarati Folk & Bollywood Fusion Band",
+            "Inter-Society Rangoli Making Championship with cash prizes and trophies",
+            "Grand Deepotsav Maha Aarti with 108 brass lamps and conch blowing",
+            "Children's Ramayana Character Fancy Dress Competition & Talent Showcase",
+            "Grand Bumper Diwali Lucky Draw Raffle sponsored by local community merchants"
         ],
         decorAndAtmosphere=[
-            "Colorful weatherproof fabric pennant bunting across trees and pathways",
-            "Clear, high-contrast multilingual directional signposts",
-            "Shaded picnic benches and reusable lawn seating mats",
-            "Dedicated zero-waste green recycling and compost stations"
+            "10,000 warm glowing fairy lights and traditional Marigold torans across society perimeter",
+            "Grand entrance floral Rangoli with brass urlis and floating scented diyas",
+            "Dedicated Dandiya stick distribution booth and colorful selfie photo pavilion",
+            "Eco-friendly zero-waste dry/wet trash segregation points with volunteer marshals"
         ],
         surpriseElements=[
-            "Surprise flash-mob musical performance by local youth choir",
-            "Golden Ticket Scavenger Hunt with prizes donated by neighborhood merchants",
-            "Evening twilight lantern stroll around the park perimeter"
+            "Grand synchronized cold-pyrotechnic sparkle shower during peak Dandiya round at 09:30 PM",
+            "Surprise Bumper Diwali Gift Hamper draw announced by Community Association President",
+            "Free distribution of handcrafted eco-friendly clay diyas to every attending family"
         ],
         moodboardPrompt=(
-            "Sunny outdoor community festival in a green park, diverse crowd of families and "
-            "neighbors, colorful artisan tents, food trucks, children playing, live acoustic stage"
+            f"Vibrant Indian Diwali community festival and Dandiya Raas at night, open society grounds, "
+            f"colorful traditional lehengas and kurtas, thousands of fairy lights and diyas, live music stage, "
+            f"food stalls, {guests} attendees, cinematic 8k"
         )
     )
 
     budget_breakdown = [
         BudgetItem(
-            id="b1", category="Permits, Safety & City Fees",
-            item="Park Rental, Sound Permit, Police/EMS Staging",
-            estimatedCost=round(budget * 0.18, 2),
-            notes="Mandatory city compliance and insurance binder"
+            id="b1", category="Permits, Security & Police NOC",
+            item="Police Permission, Fire Safety NOC, Security Guards & Ambulance",
+            estimatedCost=round(budget * 0.15, 2),
+            notes="Mandatory compliance for public gathering and sound curfew at 10:00 PM"
         ),
         BudgetItem(
-            id="b2", category="Stage, Audio & Electrical",
-            item="Sound System, Microphones, Tech Operator & Quiet Generator",
+            id="b2", category="Sound, Stage & Lighting",
+            item="Professional Line Array Sound, Garba Stage & 10,000 Fairy Lights",
+            estimatedCost=round(budget * 0.25, 2),
+            notes="Includes silent diesel generator backup and audio mixing console"
+        ),
+        BudgetItem(
+            id="b3", category="Tents, Seating & Sanitation",
+            item="Waterproof Canopies, 300 Chairs, Mobile Toilets & Dustbins",
             estimatedCost=round(budget * 0.22, 2),
-            notes="Handles all live performances and announcements"
+            notes="Ensures senior-friendly seating and clean sanitization"
         ),
         BudgetItem(
-            id="b3", category="Rentals & Sanitation",
-            item="Canopy Tents, 150 Folding Chairs, Restrooms & Trash Bins",
-            estimatedCost=round(budget * 0.24, 2),
-            notes="Ensures sufficient shade and ADA accessibility"
+            id="b4", category="Live Garba Band & Singers",
+            item="Traditional Gujarati Folk Ensemble & Celebrity Emcee",
+            estimatedCost=round(budget * 0.18, 2),
+            notes="4 hours of high-energy live Dandiya Raas and Garba music"
         ),
         BudgetItem(
-            id="b4", category="Entertainment & Performers",
-            item="Honorariums for Local Bands & Children's Entertainers",
-            estimatedCost=round(budget * 0.14, 2),
-            notes="Supports local performers and sound techs"
-        ),
-        BudgetItem(
-            id="b5", category="Kids Zone & Craft Supplies",
-            item="Paints, Canvases, Carnival Games & Prizes",
+            id="b5", category="Kids Zone & Competitions",
+            item="Trophies, Rangoli Colors, Bumper Raffle Prizes & Games",
             estimatedCost=round(budget * 0.10, 2),
-            notes="Materials for hands-on activities"
+            notes="Prizes for best dressed, best dancers, and Rangoli winners"
         ),
         BudgetItem(
-            id="b6", category="Signage & Marketing",
-            item="Park Banners, Directional Signs & Volunteer T-Shirts",
-            estimatedCost=round(budget * 0.06, 2),
-            notes="Ensures smooth crowd navigation and safety"
+            id="b6", category="Decor & Diyas",
+            item="Fresh Marigolds, 500 Clay Diyas, Urlis & Signage Banners",
+            estimatedCost=round(budget * 0.05, 2),
+            notes="Traditional cultural ambiance and directional entry signs"
         ),
         BudgetItem(
-            id="b7", category="Contingency & First Aid",
-            item="First aid supplies, hydration stations and weather buffer",
-            estimatedCost=round(budget * 0.06, 2),
-            notes="Emergency management reserve"
+            id="b7", category="First Aid & Emergency Buffer",
+            item="First Aid Post, Free Hydration Dispensers & Contingency Reserve",
+            estimatedCost=round(budget * 0.05, 2),
+            notes="Safety marshals reserve"
         )
     ]
 
     timeline = [
         TimelineMilestone(
-            id="t1", phase="4-6 Months Out", title="Submit City Park & Sound Permits",
-            description="Submit permit applications to city parks department.",
+            id="t1", phase="6-8 Weeks Out", title="Apply for Police Permission & Fire NOC",
+            description="Submit festival blueprint to local police station and municipal corporation.",
             completed=True, category="Permits"
         ),
         TimelineMilestone(
-            id="t2", phase="3 Months Out", title="Recruit Food Trucks, Artisans & Sponsors",
-            description="Finalize merchant agreements and local sponsorship support.",
-            completed=True, category="Partnerships"
+            id="t2", phase="4 Weeks Out", title="Book Live Garba Orchestra & Sound Vendor",
+            description="Sign contracts with live folk singers, dhol troupe, and lighting contractor.",
+            completed=True, category="Vendors"
         ),
         TimelineMilestone(
-            id="t3", phase="6 Weeks Out", title="Call for Volunteers & Stage Lineup Confirmation",
-            description="Organize 25 volunteer marshals and finalize performance times.",
+            id="t3", phase="3 Weeks Out", title="Allot Society Food Stalls & Announce Contests",
+            description="Invite home-chefs for stalls; open registrations for Rangoli & Fancy Dress.",
             completed=False, category="Community"
         ),
         TimelineMilestone(
-            id="t4", phase="2 Weeks Out", title="Print Maps, Banners & Emergency Protocol",
-            description="Create printed safety maps and assign volunteer shifts.",
-            completed=False, category="Operations"
+            id="t4", phase="1 Week Out", title="Order 500 Pairs of Dandiya Sticks & Diyas",
+            description="Procure wooden dandiya sticks, clay diyas, and printed winner trophies.",
+            completed=False, category="Supplies"
         ),
         TimelineMilestone(
-            id="t5", phase="Week Of", title="Site Walkthrough with Parks Ranger",
-            description="Inspect power drops, water access, and parking flow.",
-            completed=False, category="Logistics"
+            id="t5", phase="Day of Event", title="Electrical Audit & Volunteer Safety Briefing",
+            description="Inspect all wire insulation, fire extinguishers, and assign volunteer marshal posts.",
+            completed=False, category="Safety"
         )
     ]
 
     schedule = [
         ScheduleItem(
-            id="s1", time="07:00 AM", activity="Logistics Team Arrival & Rental Tents Setup",
-            location="Park Main Field", coordinator="Operations Lead", notes="Direct rental truck delivery"
+            id="s1", time="04:00 PM", activity="Food Stalls & Artisan Booths Setup",
+            location="Society Ground Perimeter", coordinator="Vendor Coordinator", notes="Inspect fire extinguishers at stalls"
         ),
         ScheduleItem(
-            id="s2", time="08:30 AM", activity="Food Trucks & Artisan Stalls Load-In",
-            location="Vendor Lane", coordinator="Vendor Coordinator", notes="Inspect fire safety certificates"
+            id="s2", time="05:00 PM", activity="Inter-Society Rangoli Competition Kickoff",
+            location="Central Pathway", coordinator="Cultural Committee", notes="Participants create vibrant Rangolis"
         ),
         ScheduleItem(
-            id="s3", time="09:30 AM", activity="Volunteer Briefing & Gear Distribution",
-            location="Info Tent", coordinator="Volunteer Lead", notes="Hand out high-vis shirts and maps"
+            id="s3", time="06:30 PM", activity="Official Welcome & Grand Deepotsav Maha Aarti",
+            location="Main Stage & Temple Area", coordinator="President & Elders", notes="108 brass lamps lit with Vedic chants"
         ),
         ScheduleItem(
-            id="s4", time="10:00 AM", activity="Official Gates Open & Welcoming Acoustic Set",
-            location="Main Stage", coordinator="MC", notes="Welcome address and opening blessing"
+            id="s4", time="07:00 PM", activity="Children's Ramayana Fancy Dress Showcase",
+            location="Main Stage", coordinator="Youth Club", notes="Kids perform mythological characters"
         ),
         ScheduleItem(
-            id="s5", time="11:30 AM", activity="Kids Activity Tent & Craft Stations Launch",
-            location="Youth Pavilion", coordinator="Youth Director", notes="Chalk art and face painting"
+            id="s5", time="07:45 PM", activity="Round 1: Traditional Slow Garba (Taali Raas)",
+            location="Central Dance Circle", coordinator="Live Band & MC", notes="All families dance together"
         ),
         ScheduleItem(
-            id="s6", time="01:00 PM", activity="Community Leaders Address & Honor Roll",
-            location="Main Stage", coordinator="Committee Chair", notes="Acknowledge local volunteers"
+            id="s6", time="08:45 PM", activity="Round 2: High-Energy Dandiya Raas with Dhol",
+            location="Central Dance Circle", coordinator="Live Band", notes="Dandiya sticks clicking to fast beats"
         ),
         ScheduleItem(
-            id="s7", time="02:30 PM", activity="Community Games, Pie Contest & Raffle Draw",
-            location="Center Lawn", coordinator="Activities Host", notes="High crowd engagement"
+            id="s7", time="09:40 PM", activity="Prize Distribution & Bumper Raffle Draw",
+            location="Main Stage", coordinator="RWA Committee", notes="Awards for Best Dancers, Rangoli, and Raffle"
         ),
         ScheduleItem(
-            id="s8", time="04:00 PM", activity="Headline Musical Ensemble Performance",
-            location="Main Stage", coordinator="Stage Manager", notes="Crowd gathers on picnic blankets"
+            id="s8", time="10:00 PM", activity="Sound Curfew Compliance & Silent Music Transition",
+            location="Main Stage", coordinator="Sound Operator", notes="Strict 10:00 PM loudspeaker cutoff compliance"
         ),
         ScheduleItem(
-            id="s9", time="06:00 PM", activity="Closing Remarks & Lantern Walk",
-            location="Park Perimeter", coordinator="All Staff", notes="Announce funds raised"
-        ),
-        ScheduleItem(
-            id="s10", time="07:00 PM", activity="Grounds Cleanup & Waste Sorting",
-            location="Entire Park", coordinator="Cleanup Crew", notes="Leave the park in pristine condition"
+            id="s9", time="10:30 PM", activity="Community Cleanup & Eco-Waste Sorting",
+            location="Entire Grounds", coordinator="Green Volunteer Team", notes="Ensure clean grounds by midnight"
         )
     ]
 
     vendors = [
         VendorItem(
-            id="v1", category="City Department", vendorName="Municipal Parks & Recreation",
-            contact="parks@city.gov", estimatedCost=round(budget * 0.18, 2), status="booked",
+            id="v1", category="Police & Permissions", vendorName="Local Municipal & Police Authorities",
+            contact="support@delhipolice.gov.in", estimatedCost=round(budget * 0.15, 2), status="booked",
             checklist=[
-                ChecklistTask(id="c1", task="Pay park security deposit", completed=True),
-                ChecklistTask(id="c2", task="Review amplified sound curfew (strictly 07:00 PM)", completed=True)
+                ChecklistTask(id="c1", task="Submit sound permit application for outdoor public event", completed=True),
+                ChecklistTask(id="c2", task="Strict 10:00 PM loudspeaker curfew enforcement protocol", completed=True)
             ]
         ),
         VendorItem(
-            id="v2", category="Audio / Visual", vendorName="Community Sound & Stage Pro",
-            contact="production@communitysound.org", estimatedCost=round(budget * 0.22, 2), status="contacted",
+            id="v2", category="Sound & Lighting", vendorName="Utsav Sound & Stage Production",
+            contact="sound@utsavproduction.in | +91 98101 23456", estimatedCost=round(budget * 0.25, 2), status="booked",
             checklist=[
-                ChecklistTask(id="c3", task="Verify microphone count for choir", completed=False),
-                ChecklistTask(id="c4", task="Confirm generator fuel supply for 10 hours", completed=False)
+                ChecklistTask(id="c3", task="Set up dual Line Array speakers and stage monitoring", completed=True),
+                ChecklistTask(id="c4", task="String 10,000 warm LED fairy lights along perimeter", completed=False)
             ]
         ),
         VendorItem(
-            id="v3", category="Equipment Rentals", vendorName="Citywide Tents & Event Rentals",
-            contact="sales@citywiderentals.com", estimatedCost=round(budget * 0.24, 2), status="researching",
+            id="v3", category="Live Band", vendorName="Sur Tarang Folk Garba Ensemble",
+            contact="booking@surtarang.in | +91 99200 11223", estimatedCost=round(budget * 0.18, 2), status="contacted",
             checklist=[
-                ChecklistTask(id="c5", task="Confirm delivery window at 07:00 AM", completed=False),
-                ChecklistTask(id="c6", task="Ensure all tent weights are certified for high winds", completed=False)
+                ChecklistTask(id="c5", task="Confirm 8-member orchestra with live dhol and dholak", completed=False),
+                ChecklistTask(id="c6", task="Submit playlist of classic Gujarati Garba and Bollywood hits", completed=False)
             ]
         )
     ]
 
     return EventPlan(
-        id=plan_id, title=title, eventType="community",
-        date=req.date or "2026-10-15", location=req.location or "Oakwood Town Park & Pavilion",
+        id=plan_id, title=effective_title, eventType="community",
+        date=req.date or "2026-10-31", location=req.location or "Gokuldham Central Society Grounds, Mumbai",
         guestCount=guests, currency=curr, totalBudget=budget,
-        vibeAndStyle=req.vibeAndStyle or "Welcoming, energetic, community-driven, and fun",
+        vibeAndStyle=req.vibeAndStyle or "Dandiya Raas, Rangoli competition, 10 PM sound curfew compliance, home-chef stalls",
         specialRequests=req.specialRequests or "",
         ideas=ideas, budgetBreakdown=budget_breakdown,
         timeline=timeline, dayOfSchedule=schedule, vendorChecklist=vendors
@@ -821,73 +844,73 @@ def _generate_heuristic_chat_reply(message: str, context: Optional[dict]) -> str
     event_title = context.get("title", "your event") if context else "your event"
     event_type = context.get("eventType", "event") if context else "event"
     budget = context.get("totalBudget", "the budget") if context else "the budget"
-    currency = context.get("currency", "$") if context else "$"
+    currency = context.get("currency", "₹") if context else "₹"
 
     if any(k in msg for k in ["budget", "cost", "expensive", "cut", "save"]):
         return f"""### 💡 Strategic Budget Advice for {event_title}
 
-When managing your budget ({currency}{budget}):
+When managing your budget ({currency} {budget}):
 
 1. **The 50/30/20 Rule for Events**:
-   - **50%**: Guest experience core (Venue, Food & Beverage).
-   - **30%**: Atmosphere & Memory keepers (Photo/Video, Music/DJ, Florals/Lighting).
-   - **20%**: Logistics, Contingency & Attire/Favors.
+   - **50%**: Guest experience core (Venue, Catering, Live Chaat & Mithai counters).
+   - **30%**: Atmosphere & Memory keepers (Candid Photography/Drone, Sangeet/DJ, Mandap & Floral Decor).
+   - **20%**: Logistics, Contingency, Shagun Envelopes & Gifts/Safas.
 
 2. **High-Impact Ways to Cut Costs Without Compromise**:
-   - **Curate the Signature Bar**: Rather than a full open liquor bar, offer 2 signature cocktails + wine and beer.
-   - **Repurpose Ceremony Florals**: Move ceremony arch florals to behind the sweetheart table.
-   - **Digital-First Stationery**: Send digital Save-The-Dates with online RSVP tracking.
-   - **Buffet or Family-Style vs. Plated**: Requires fewer service staff than formal courses.
+   - **Repurpose Floral Decor**: Repurpose Haldi yellow marigolds and brass urlis into the evening Pheras Mandap or dining entrance.
+   - **Digital-First WhatsApp Box Invites**: Send bespoke motion video invites with RSVP tracking instead of heavy printed paper boxes.
+   - **Composite Vendor Packages**: Bundle Pre-wedding shoot, Drone, and 4K Cinematic film under one production crew.
+   - **Curate Live Counters**: Select 4 high-energy specialty live stalls (e.g. Purani Dilli Chaat, Live Dosa, Matka Kulfi) rather than endless buffet duplicates.
 
 Would you like me to suggest specific adjustments to any item in your budget breakdown?
 """
-    elif any(k in msg for k in ["timeline", "schedule", "time", "delay", "hour"]):
+    elif any(k in msg for k in ["timeline", "schedule", "time", "delay", "hour", "curfew", "police"]):
         return f"""### ⏱️ Timeline & Run-of-Show Expert Tips
 
 For a smooth flow during {event_title}:
 
 1. **Build in 15-Minute Ghost Buffers**:
-   - Never schedule speeches or dances back-to-back without a buffer.
-2. **Day-of Coordinator Designation**:
-   - Designate one person as the Keeper of the Clock.
-3. **Golden Hour Golden Rule**:
-   - Schedule portraits 45 minutes before actual sunset for optimal lighting.
-4. **Vendor Arrival Check**:
-   - Venue access should precede caterer arrival by at least 1 hour.
+   - Indian Baraats and Varmala ceremonies notoriously run 30-45 minutes late. Always schedule the Baraat arrival 45 minutes before the actual Varmala muhurat.
+2. **Supreme Court 10:00 PM Sound Curfew Compliance**:
+   - Transition amplified outdoor Punjabi Dhol and lawn DJ music into an acoustically insulated indoor banquet hall by 10:00 PM to comply with local police regulations.
+3. **Day-of Coordinator Designation**:
+   - Designate a trusted cousin or coordinator as the "Keeper of the Clock" to manage Panditji samagri and Muhurat timing.
+4. **Golden Hour Twilight Portraits**:
+   - Schedule bride and groom royal portraits 45 minutes before sunset for ethereal lighting.
 
 Do you want to adjust any specific milestone or time slot in your Day-of Schedule?
 """
-    elif any(k in msg for k in ["vendor", "contract", "hire", "caterer", "photographer"]):
+    elif any(k in msg for k in ["vendor", "contract", "hire", "caterer", "photographer", "pandit"]):
         return f"""### 📋 Essential Vendor Vetting Checklist
 
 Key questions you must ask vendors before signing for {event_title}:
 
-1. **For Caterers**:
-   - Are tableware, napkins, glassware, and cleanup staff included in the quote?
-   - What is your policy on vendor meals during the reception?
+1. **For Caterers & Live Stalls**:
+   - Are live stall gas cylinders, chafing dishes, pure-veg separation, and cleanup staff included in the per-plate quote?
+   - What is your policy on midnight Masala Chai and hot snacks for late-night Pheras?
 2. **For Photographers & Videographers**:
-   - Do you have backup cameras, dual-card recording, and liability insurance?
-   - What is your exact turnaround time for sneak peek photos?
-3. **For DJs / Entertainment**:
-   - Do you provide wireless lapel and handheld microphones for speeches?
-4. **Contracts & Payments**:
-   - Never pay 100% upfront. Standard industry milestone is 25-50% deposit.
+   - Do you have dual-slot memory backup, drone flight clearances, and backup camera bodies?
+   - What is the turnaround timeline for the 60-second Instagram teaser reel and 4K full wedding film?
+3. **For DJs, Dhol & Entertainment**:
+   - Do you provide wireless microphones for the Panditji and family Sangeet performances?
+4. **Contracts & Dakshina/Shagun Envelopes**:
+   - Never pay 100% upfront. Standard industry milestone is 25-50% booking advance, balance after the main event.
 
 Let me know which vendor you are vetting next, and I can generate custom questions for them!
 """
-    elif any(k in msg for k in ["idea", "theme", "decor", "game", "activity"]):
+    elif any(k in msg for k in ["idea", "theme", "decor", "game", "activity", "chaat"]):
         return f"""### ✨ Personalized Creative Concepts for {event_title}
 
-Here are some fresh, memorable ideas to elevate the guest experience:
+Here are some fresh, culturally vibrant ideas to elevate the guest experience:
 
-1. **Interactive Audio Guestbook**:
-   - Rent a vintage rotary phone where guests leave spontaneous voice messages.
-2. **Signature Flavor Story**:
-   - Pick two signature drinks or dessert items that represent meaningful memories.
-3. **Unexpected Wow Factor**:
-   - A surprise midnight snack delivery (like warm gourmet donuts or tacos).
-4. **Custom Color-Coordinated Photo Lounge**:
-   - Combine a textured backdrop with a warm script neon sign and polaroid cameras.
+1. **Interactive Purani Dilli Chaat Gali**:
+   - Set up live Banarasi Tamatar Chaat, Palak Patta Chaat, and 5-flavored water Golgappe with personalized spice levels.
+2. **Personalized Shahi Ittar Bar**:
+   - A master perfumer blends organic Indian rose and sandalwood ittars live into personalized glass flacons for guest souvenirs.
+3. **Family Sangeet Face-Off & Flash-Mob**:
+   - A choreographed dance face-off between Bride and Groom teams with cold-spark fireworks on the hook step!
+4. **Royal Lotus Floating Mandap**:
+   - Twilight Vedic Pheras on a water-stage surrounded by 10,000 marigolds, scented mogra strings, and floating brass diyas.
 
 Would you like more ideas tailored to a specific vibe or guest age range?
 """
@@ -897,10 +920,10 @@ Would you like more ideas tailored to a specific vibe or guest age range?
 I am here to help you coordinate every detail of **{event_title}**.
 
 Here is what we can do together:
-- **Refine your Budget**: Reallocate funds, calculate per-guest costs, or find smart savings.
-- **Perfect your Timeline**: Build a seamless day-of schedule and long-term milestone checklist.
-- **Vendor CRM & Checklists**: Draft email inquiry templates, contract clauses, and instructions.
-- **Creative Ideation**: Suggest personalized themes, signature cocktails, and decor styling.
+- **Refine your Budget**: Reallocate funds in INR (₹), calculate per-guest costs, and optimize vendor quotes.
+- **Perfect your Timeline**: Build a seamless day-of schedule, Shubh Muhurat alignment, and 10 PM sound curfew management.
+- **Vendor CRM & Checklists**: Track caterers, decorators, photographers, Panditji, and dhol troupes.
+- **Creative Ideation**: Suggest royal themes, live Chaat Gali setups, Sangeet concepts, and personalized return gifts.
 
 What specific aspect of your {event_type} would you like to explore next?
 """

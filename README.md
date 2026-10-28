@@ -69,11 +69,11 @@ Open your browser at:
 http://localhost:8000
 ```
 
-### 3. Quick Demo Presets
-CelebrateAI includes 3 realistic sample blueprints:
-- **💍 Elena & Lucas's Coastal Mediterranean Wedding** ($38,000 | 110 guests)
-- **🎂 Maya's 'Neon Oasis' 30th Milestone Birthday** ($5,500 | 45 guests)
-- **🎪 Oakwood Community Harvest Fair & Charity Gala** ($14,000 | 450 attendees)
+### 3. Quick Demo Presets (India Utsav Edition)
+CelebrateAI includes 3 richly authentic blueprints tailored in INR (₹) with Lakhs/Crores formatting:
+- **💍 Aarav & Ananya's Royal Jaipur Heritage Wedding** (₹28,00,000 | 250 guests | Haldi, Sangeet, Baraat, Lotus Mandap Pheras, Purani Dilli Chaat Gali)
+- **🎂 Kabir's Royal 1st Birthday & Annaprashan Utsav** (₹2,00,000 | 80 guests | Vedic Annaprashan puja, jungle safari backdrop, live dosa & kulfi counters)
+- **🎪 Gokuldham Grand Diwali Mela & Dandiya Raas Utsav** (₹4,50,000 | 600 attendees | Dandiya Raas, Garba orchestra, Rangoli competition, 10 PM sound curfew compliance)
 
 ---
 

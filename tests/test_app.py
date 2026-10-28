@@ -212,8 +212,38 @@ def test_export_markdown():
     res = client.post("/api/export/markdown", json=SAMPLE_EVENTS["wedding"])
     assert res.status_code == 200
     md = res.json()["markdown"]
-    assert "# Elena & Lucas" in md
+    assert "Aarav & Ananya" in md
     assert "Budget Breakdown" in md
     assert "Milestone Timeline" in md
     assert "Day-of Schedule" in md
     assert "Vendor Checklist" in md
+
+
+# -------------------------------------------------------------
+# 7. Indian Edition Cultural & Currency Specific Tests
+# -------------------------------------------------------------
+def test_indian_wedding_blueprint_features():
+    wedding = SAMPLE_EVENTS["wedding"]
+    assert wedding["currency"] == "INR"
+    assert wedding["totalBudget"] == 2800000.0
+    assert "Jaipur" in wedding["location"]
+    # Verify Indian cultural elements
+    assert any("Chaat" in item for item in wedding["ideas"]["signatureFoodAndDrinks"])
+    assert any("Baraat" in item for item in wedding["ideas"]["activitiesAndEntertainment"])
+    assert any("Mandap" in b["category"] or "Decor" in b["category"] for b in wedding["budgetBreakdown"])
+
+
+def test_indian_birthday_blueprint_features():
+    birthday = SAMPLE_EVENTS["birthday"]
+    assert birthday["currency"] == "INR"
+    assert "Kabir" in birthday["title"]
+    assert any("Annaprashan" in item for item in birthday["ideas"]["activitiesAndEntertainment"])
+    assert any("Chaat" in item or "Kheer" in item for item in birthday["ideas"]["signatureFoodAndDrinks"])
+
+
+def test_indian_community_blueprint_features():
+    community = SAMPLE_EVENTS["community"]
+    assert community["currency"] == "INR"
+    assert "Diwali" in community["title"]
+    assert any("Dandiya" in item for item in community["ideas"]["activitiesAndEntertainment"])
+    assert any("sound" in task["task"].lower() or "shutdown" in task["task"].lower() for v in community["vendorChecklist"] for task in v["checklist"])

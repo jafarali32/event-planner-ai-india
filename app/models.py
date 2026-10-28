@@ -87,9 +87,9 @@ class EventPlan(BaseModel):
     eventType: Literal['wedding', 'birthday', 'community', 'other']
     date: Optional[str] = Field(default="", max_length=30)
     location: Optional[str] = Field(default="", max_length=150)
-    guestCount: int = Field(default=50, ge=1, le=50000)
-    currency: str = Field(default="USD", pattern=r"^[A-Z]{3}$")
-    totalBudget: float = Field(default=5000.0, ge=1.0, le=100_000_000.0)
+    guestCount: int = Field(default=150, ge=1, le=50000)
+    currency: str = Field(default="INR", pattern=r"^[A-Z]{3}$")
+    totalBudget: float = Field(default=500000.0, ge=1.0, le=100_000_000.0)
     vibeAndStyle: str = Field(default="", max_length=500)
     specialRequests: Optional[str] = Field(default="", max_length=2000)
     ideas: EventIdeas
@@ -103,9 +103,9 @@ class GeneratePlanRequest(BaseModel):
     """Validated request body for AI event plan synthesis."""
     eventType: Literal['wedding', 'birthday', 'community', 'other']
     title: Optional[str] = Field(default="", max_length=150)
-    guestCount: int = Field(default=75, ge=1, le=50000)
-    totalBudget: float = Field(default=10000.0, ge=1.0, le=100_000_000.0)
-    currency: str = Field(default="USD", pattern=r"^[A-Z]{3}$")
+    guestCount: int = Field(default=150, ge=1, le=50000)
+    totalBudget: float = Field(default=500000.0, ge=1.0, le=100_000_000.0)
+    currency: str = Field(default="INR", pattern=r"^[A-Z]{3}$")
     date: Optional[str] = Field(default="", max_length=30)
     location: Optional[str] = Field(default="", max_length=150)
     vibeAndStyle: str = Field(default="Chic, memorable, and well-organized", max_length=500)
