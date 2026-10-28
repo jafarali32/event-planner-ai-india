@@ -29,3 +29,5 @@ Thumbs.db
 *.webm
 video_recording/
 generate_demo_video.py
+
+reel_assets/
