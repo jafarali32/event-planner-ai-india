@@ -75,7 +75,9 @@ class VendorItem(BaseModel):
     contact: Optional[str] = Field(default="", max_length=200)
     estimatedCost: float = Field(default=0.0, ge=0.0, le=100_000_000.0)
     contractedCost: float = Field(default=0.0, ge=0.0, le=100_000_000.0)
-    status: Literal['researching', 'contacted', 'quoted', 'booked', 'completed'] = Field(default='researching')
+    status: Literal[
+        'researching', 'contacted', 'quoted', 'booked', 'completed'
+    ] = Field(default='researching')
     checklist: List[ChecklistTask] = Field(default_factory=list, max_length=30)
     notes: Optional[str] = Field(default="", max_length=1000)
 
@@ -115,6 +117,7 @@ class GeneratePlanRequest(BaseModel):
     @field_validator('title', 'location', 'vibeAndStyle', 'specialRequests')
     @classmethod
     def sanitize_strings(cls, v: Optional[str]) -> Optional[str]:
+        """Sanitizes user string inputs against XSS and excessive whitespace."""
         if v:
             return html.escape(v.strip())
         return v
@@ -136,4 +139,5 @@ class ChatRequest(BaseModel):
     @field_validator('message')
     @classmethod
     def sanitize_message(cls, v: str) -> str:
+        """Sanitizes user chat message against XSS and excessive whitespace."""
         return html.escape(v.strip())

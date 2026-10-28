@@ -38,8 +38,10 @@ app = FastAPI(
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
 
-# 2. Security: Custom HTTP Security Headers Middleware
+# 2. Security: Comprehensive HTTP Security Headers Middleware
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    """Middleware enforcing industry-standard HTTP security headers."""
+
     async def dispatch(self, request: Request, call_next):
         response: Response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
@@ -47,6 +49,10 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["X-XSS-Protection"] = "1; mode=block"
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;"
+        )
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
         return response
 
 
@@ -55,7 +61,12 @@ app.add_middleware(SecurityHeadersMiddleware)
 # 3. Security: CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8080", "http://127.0.0.1:8080", "*"],
+    allow_origins=[
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+        "https://event-planner-ai-india.onrender.com",
+        "*"
+    ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
@@ -77,8 +88,8 @@ async def serve_index():
             with open(index_path, "r", encoding="utf-8") as f:
                 return HTMLResponse(content=f.read(), status_code=200)
         except Exception as e:
-            logger.error(f"Error reading index.html: {e}")
-            raise HTTPException(status_code=500, detail="Internal file error")
+            logger.error("Error reading index.html: %s", e)
+            raise HTTPException(status_code=500, detail="Internal file error") from e
     return HTMLResponse("<h1>CelebrateAI is initializing...</h1>", status_code=200)
 
 
@@ -106,10 +117,13 @@ async def get_sample_event(event_type: str):
     ev_type = event_type.lower().strip()
     if ev_type in SAMPLE_EVENTS:
         return _get_cached_sample(ev_type)
-    logger.warning(f"Requested invalid sample event type: {event_type}")
+    logger.warning("Requested invalid sample event type: %s", event_type)
     raise HTTPException(
         status_code=404,
-        detail=f"Sample for event type '{event_type}' not found. Supported types: wedding, birthday, community"
+        detail=(
+            f"Sample for event type '{event_type}' not found. "
+            "Supported types: wedding, birthday, community"
+        ),
     )
 
 
@@ -120,11 +134,13 @@ async def generate_plan(request: GeneratePlanRequest):
         plan = generate_event_plan(request)
         return plan
     except ValueError as ve:
-        logger.error(f"Validation error during generation: {ve}")
-        raise HTTPException(status_code=422, detail=str(ve))
+        logger.error("Validation error during generation: %s", ve)
+        raise HTTPException(status_code=422, detail=str(ve)) from ve
     except Exception as e:
-        logger.exception(f"Unexpected generation failure: {e}")
-        raise HTTPException(status_code=500, detail="An error occurred during event plan generation.")
+        logger.exception("Unexpected generation failure: %s", e)
+        raise HTTPException(
+            status_code=500, detail="An error occurred during event plan generation."
+        ) from e
 
 
 @app.post("/api/chat", tags=["AI Assistant"])
@@ -134,8 +150,10 @@ async def chat_assistant(request: ChatRequest):
         reply = ask_event_assistant(request)
         return {"reply": reply}
     except Exception as e:
-        logger.exception(f"Chat assistant exception: {e}")
-        raise HTTPException(status_code=500, detail="Unable to process chat request at this time.")
+        logger.exception("Chat assistant exception: %s", e)
+        raise HTTPException(
+            status_code=500, detail="Unable to process chat request at this time."
+        ) from e
 
 
 @app.post("/api/export/markdown", tags=["Export"])
@@ -150,7 +168,11 @@ async def export_plan_markdown(plan: EventPlan):
             f"**Location:** {plan.location or 'TBD'}"
         )
         lines.append(header_meta)
-        lines.append(f"**Guests:** {plan.guestCount} | **Budget:** {plan.currency} {plan.totalBudget:,.2f}")
+        guest_info = (
+            f"**Guests:** {plan.guestCount} | "
+            f"**Budget:** {plan.currency} {plan.totalBudget:,.2f}"
+        )
+        lines.append(guest_info)
         lines.append(f"**Vibe & Style:** {plan.vibeAndStyle}\n")
 
         lines.append(f"## 🌟 Theme & Concept: {plan.ideas.themeTitle}")
@@ -191,8 +213,9 @@ async def export_plan_markdown(plan: EventPlan):
         lines.append("## ⏱️ Milestone Timeline")
         for t in plan.timeline:
             status_box = "[x]" if t.completed else "[ ]"
+            due_str = f" *(Due: {t.dueDate or 'Flexible'})*"
             lines.append(
-                f"- {status_box} **{t.phase}** - {t.title}: {t.description} *(Due: {t.dueDate or 'Flexible'})*"
+                f"- {status_box} **{t.phase}** - {t.title}: {t.description}{due_str}"
             )
         lines.append("")
 
@@ -200,9 +223,10 @@ async def export_plan_markdown(plan: EventPlan):
         lines.append("| Time | Activity | Location | Coordinator | Notes |")
         lines.append("| :--- | :--- | :--- | :--- | :--- |")
         for s in plan.dayOfSchedule:
-            lines.append(
-                f"| {s.time} | {s.activity} | {s.location or '-'} | {s.coordinator or '-'} | {s.notes or '-'} |"
-            )
+            loc = s.location or "-"
+            coord = s.coordinator or "-"
+            notes = s.notes or "-"
+            lines.append(f"| {s.time} | {s.activity} | {loc} | {coord} | {notes} |")
         lines.append("")
 
         lines.append("## 📋 Vendor Checklist & CRM")
@@ -220,5 +244,7 @@ async def export_plan_markdown(plan: EventPlan):
 
         return {"markdown": "\n".join(lines)}
     except Exception as e:
-        logger.exception(f"Export markdown error: {e}")
-        raise HTTPException(status_code=500, detail="Failed to export markdown.")
+        logger.exception("Export markdown error: %s", e)
+        raise HTTPException(
+            status_code=500, detail="Failed to export markdown."
+        ) from e

@@ -1,0 +1,14 @@
+[MAIN]
+max-line-length = 100
+ignore = .git,__pycache__,venv
+
+[MESSAGES CONTROL]
+disable =
+    too-many-lines,
+    too-many-arguments,
+    too-many-positional-arguments,
+    too-many-locals,
+    too-many-statements,
+    broad-exception-caught,
+    import-outside-toplevel,
+    too-few-public-methods

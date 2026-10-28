@@ -166,7 +166,7 @@ function renderSimpleList(elementId, items, iconName) {
   const container = document.getElementById(elementId);
   container.innerHTML = '';
   if (!items || items.length === 0) {
-    container.innerHTML = `<li class="text-xs text-slate-500 italic">No items listed yet.</li>`;
+    container.innerHTML = `<li class="text-xs text-slate-400 font-medium italic">No items listed yet.</li>`;
     return;
   }
   items.forEach(text => {
@@ -249,7 +249,7 @@ function renderBudgetTab() {
       <span class="w-2 h-2 rounded-full bg-rose-400"></span>
       <span class="font-medium">${cat}:</span>
       <span class="text-white font-semibold">${formatCurrency(catTotal, ev.currency)}</span>
-      <span class="text-[10px] text-slate-500">(${catPct}%)</span>
+      <span class="text-[10px] text-slate-400 font-medium">(${catPct}%)</span>
     `;
     chipsContainer.appendChild(chip);
   });
@@ -281,12 +281,12 @@ function renderBudgetTab() {
       </td>
       <td class="py-3 px-4 text-right text-xs text-emerald-400 font-semibold">${formatCurrency(item.paidAmount, ev.currency)}</td>
       <td class="py-3 px-4 text-center">
-        <button onclick="toggleBudgetItemStatus(${index})" title="Click to cycle status: Planned -> Booked -> Paid">
+        <button onclick="toggleBudgetItemStatus(${index})" aria-label="Cycle status for ${item.item}" title="Click to cycle status: Planned -> Booked -> Paid">
           ${statusBadges[item.status] || statusBadges['planned']}
         </button>
       </td>
       <td class="py-3 px-4 text-center">
-        <button onclick="deleteBudgetItem(${index})" class="text-slate-500 hover:text-rose-400 transition p-1">
+        <button onclick="deleteBudgetItem(${index})" aria-label="Delete budget item ${item.item}" class="text-slate-400 hover:text-rose-400 transition p-1">
           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
         </button>
       </td>
@@ -401,15 +401,15 @@ function renderTimelineTab() {
               <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-slate-800 text-rose-300 border border-slate-700">
                 ${m.phase}
               </span>
-              <span class="text-[10px] text-slate-500">${m.category || 'General'}</span>
+              <span class="text-[10px] text-slate-400 font-medium">${m.category || 'General'}</span>
               ${m.dueDate ? `<span class="text-[10px] text-amber-400/90 font-mono">Due: ${m.dueDate}</span>` : ''}
             </div>
             <h4 class="text-sm font-bold ${m.completed ? 'line-through text-slate-400' : 'text-white'}">${m.title}</h4>
             <p class="text-xs text-slate-400 leading-relaxed">${m.description}</p>
           </div>
           <div class="flex items-center gap-2">
-            <input type="checkbox" ${m.completed ? 'checked' : ''} onchange="toggleMilestone(${idx})" class="w-4 h-4 rounded border-slate-700 text-rose-500 focus:ring-rose-500 cursor-pointer">
-            <button onclick="deleteMilestone(${idx})" class="text-slate-500 hover:text-rose-400 p-1 opacity-0 group-hover:opacity-100 transition">
+            <input type="checkbox" ${m.completed ? 'checked' : ''} onchange="toggleMilestone(${idx})" aria-label="Mark milestone complete: ${m.title}" class="w-4 h-4 rounded border-slate-700 text-rose-500 focus:ring-rose-500 cursor-pointer">
+            <button onclick="deleteMilestone(${idx})" aria-label="Delete milestone ${m.title}" class="text-slate-400 hover:text-rose-400 p-1 opacity-0 group-hover:opacity-100 transition">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             </button>
           </div>
@@ -444,12 +444,12 @@ function renderTimelineTab() {
       </div>
 
       <div class="flex items-center gap-2 self-end sm:self-center">
-        <select onchange="updateScheduleStatus(${idx}, this.value)" class="bg-slate-900 border border-slate-800 text-[11px] rounded-lg px-2 py-1 text-slate-300 outline-none">
+        <select onchange="updateScheduleStatus(${idx}, this.value)" aria-label="Update schedule status for ${s.activity}" class="bg-slate-900 border border-slate-800 text-[11px] rounded-lg px-2 py-1 text-slate-300 outline-none">
           <option value="upcoming" ${s.status === 'upcoming' ? 'selected' : ''}>Upcoming</option>
           <option value="ongoing" ${s.status === 'ongoing' ? 'selected' : ''}>Ongoing</option>
           <option value="done" ${s.status === 'done' ? 'selected' : ''}>Completed</option>
         </select>
-        <button onclick="deleteScheduleItem(${idx})" class="text-slate-500 hover:text-rose-400 p-1">
+        <button onclick="deleteScheduleItem(${idx})" aria-label="Delete schedule cue ${s.activity}" class="text-slate-400 hover:text-rose-400 p-1">
           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
         </button>
       </div>
@@ -545,9 +545,9 @@ function renderVendorsTab() {
         <li class="flex items-center justify-between text-xs py-1 text-slate-300">
           <label class="flex items-center gap-2 cursor-pointer select-none">
             <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleVendorTask(${vIndex}, ${tIndex})" class="w-3.5 h-3.5 rounded border-slate-700 text-rose-500 focus:ring-rose-500">
-            <span class="${t.completed ? 'line-through text-slate-500' : 'text-slate-300'}">${t.task}</span>
+            <span class="${t.completed ? 'line-through text-slate-400 font-medium' : 'text-slate-300'}">${t.task}</span>
           </label>
-          <button onclick="deleteVendorTask(${vIndex}, ${tIndex})" class="text-slate-600 hover:text-rose-400">
+          <button onclick="deleteVendorTask(${vIndex}, ${tIndex})" aria-label="Delete vendor task: ${t.task}" class="text-slate-400 hover:text-rose-400">
             <i data-lucide="x" class="w-3 h-3"></i>
           </button>
         </li>
@@ -561,13 +561,13 @@ function renderVendorsTab() {
             <span class="text-[10px] uppercase font-bold text-rose-400 tracking-wider block">${v.category}</span>
             <h3 class="text-base font-bold text-white">${v.vendorName}</h3>
           </div>
-          <button onclick="cycleVendorStatus(${vIndex})" title="Click to cycle status">
+          <button onclick="cycleVendorStatus(${vIndex})" aria-label="Cycle vendor status for ${v.vendorName}" title="Click to cycle status">
             ${statusPills[v.status] || statusPills['researching']}
           </button>
         </div>
 
         <div class="text-xs text-slate-400 space-y-1">
-          ${v.contact ? `<p class="flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5 text-slate-500"></i> ${v.contact}</p>` : ''}
+          ${v.contact ? `<p class="flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400"></i> ${v.contact}</p>` : ''}
           <p class="flex items-center gap-1.5 font-medium text-slate-200">
             <i data-lucide="tag" class="w-3.5 h-3.5 text-emerald-400"></i>
             Estimated: ${formatCurrency(v.estimatedCost, ev.currency)}
@@ -586,16 +586,16 @@ function renderVendorsTab() {
             <div class="bg-rose-500 h-full rounded-full transition-all duration-300" style="width: ${taskPct}%;"></div>
           </div>
           <ul class="space-y-1 divide-y divide-slate-800/40">
-            ${tasksHtml || '<li class="text-[11px] text-slate-500 italic py-1">No tasks yet.</li>'}
+            ${tasksHtml || '<li class="text-[11px] text-slate-400 italic py-1">No tasks yet.</li>'}
           </ul>
         </div>
       </div>
 
       <div class="flex items-center justify-between pt-3 border-t border-slate-800/60 text-xs mt-3">
-        <button onclick="openAddTaskToVendorModal(${vIndex})" class="text-xs text-rose-400 hover:text-rose-300 font-medium flex items-center gap-1">
+        <button onclick="openAddTaskToVendorModal(${vIndex})" aria-label="Add task for ${v.vendorName}" class="text-xs text-rose-400 hover:text-rose-300 font-medium flex items-center gap-1">
           <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Task
         </button>
-        <button onclick="deleteVendor(${vIndex})" class="text-slate-500 hover:text-rose-400 p-1">
+        <button onclick="deleteVendor(${vIndex})" aria-label="Delete vendor ${v.vendorName}" class="text-slate-400 hover:text-rose-400 p-1">
           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
         </button>
       </div>
@@ -936,8 +936,8 @@ function openAddBudgetModal() {
         <input type="text" id="add-b-notes" placeholder="e.g. Deposit required by next Friday" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div class="flex justify-end gap-2 pt-2">
-        <button type="button" onclick="closeItemModal()" class="px-3 py-2 text-xs text-slate-400 hover:text-white">Cancel</button>
-        <button type="submit" class="gradient-btn-celebrate px-4 py-2 rounded-lg text-xs font-semibold text-white">Add Expense</button>
+        <button type="button" onclick="closeItemModal()" aria-label="Cancel and close dialog" class="px-3 py-2 text-xs text-slate-400 hover:text-white">Cancel</button>
+        <button type="submit" aria-label="Add expense to budget" class="gradient-btn-celebrate px-4 py-2 rounded-lg text-xs font-semibold text-white">Add Expense</button>
       </div>
     </form>
   `;
@@ -982,8 +982,8 @@ function openAddTimelineModal() {
         <input type="date" id="add-t-date" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div class="flex justify-end gap-2 pt-2">
-        <button type="button" onclick="closeItemModal()" class="px-3 py-2 text-xs text-slate-400 hover:text-white">Cancel</button>
-        <button type="submit" class="gradient-btn-celebrate px-4 py-2 rounded-lg text-xs font-semibold text-white">Add Milestone</button>
+        <button type="button" onclick="closeItemModal()" aria-label="Cancel and close dialog" class="px-3 py-2 text-xs text-slate-400 hover:text-white">Cancel</button>
+        <button type="submit" aria-label="Add planning milestone" class="gradient-btn-celebrate px-4 py-2 rounded-lg text-xs font-semibold text-white">Add Milestone</button>
       </div>
     </form>
   `;
@@ -1033,8 +1033,8 @@ function openAddScheduleModal() {
         <input type="text" id="add-s-notes" placeholder="e.g. Dim chandeliers to 30%" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div class="flex justify-end gap-2 pt-2">
-        <button type="button" onclick="closeItemModal()" class="px-3 py-2 text-xs text-slate-400 hover:text-white">Cancel</button>
-        <button type="submit" class="gradient-btn-celebrate px-4 py-2 rounded-lg text-xs font-semibold text-white">Add Schedule Cue</button>
+        <button type="button" onclick="closeItemModal()" aria-label="Cancel and close dialog" class="px-3 py-2 text-xs text-slate-400 hover:text-white">Cancel</button>
+        <button type="submit" aria-label="Add day of schedule cue" class="gradient-btn-celebrate px-4 py-2 rounded-lg text-xs font-semibold text-white">Add Schedule Cue</button>
       </div>
     </form>
   `;
@@ -1090,8 +1090,8 @@ function openAddVendorModal() {
         </div>
       </div>
       <div class="flex justify-end gap-2 pt-2">
-        <button type="button" onclick="closeItemModal()" class="px-3 py-2 text-xs text-slate-400 hover:text-white">Cancel</button>
-        <button type="submit" class="gradient-btn-celebrate px-4 py-2 rounded-lg text-xs font-semibold text-white">Add Vendor</button>
+        <button type="button" onclick="closeItemModal()" aria-label="Cancel and close dialog" class="px-3 py-2 text-xs text-slate-400 hover:text-white">Cancel</button>
+        <button type="submit" aria-label="Add vendor profile" class="gradient-btn-celebrate px-4 py-2 rounded-lg text-xs font-semibold text-white">Add Vendor</button>
       </div>
     </form>
   `;
@@ -1127,8 +1127,8 @@ function openAddTaskToVendorModal(vIndex) {
         <input type="text" id="add-vt-desc" placeholder="e.g. Schedule final tasting, sign insurance waiver" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none">
       </div>
       <div class="flex justify-end gap-2 pt-2">
-        <button type="button" onclick="closeItemModal()" class="px-3 py-2 text-xs text-slate-400 hover:text-white">Cancel</button>
-        <button type="submit" class="gradient-btn-celebrate px-4 py-2 rounded-lg text-xs font-semibold text-white">Save Task</button>
+        <button type="button" onclick="closeItemModal()" aria-label="Cancel and close dialog" class="px-3 py-2 text-xs text-slate-400 hover:text-white">Cancel</button>
+        <button type="submit" aria-label="Save deliverable task" class="gradient-btn-celebrate px-4 py-2 rounded-lg text-xs font-semibold text-white">Save Task</button>
       </div>
     </form>
   `;
